@@ -1,0 +1,220 @@
+# Strange way of testing for vortex...
+# #ifdef NON_VORTEX
+TITLE: Overview of course material: Computational Physics
+
+TOC: off
+# #else
+TITLE: Overview of course material: Data Analysis and Machine Learning
+AUTHOR: "Morten Hjorth-Jensen":"http://mhjgit.github.io/info/doc/web/" at Department of Physics and Astronomy and National Superconducting Cyclotron Laboratory, Michigan State University, USA &  Department of Physics (office FV308), University of Oslo, Norway
+# #endif
+
+
+<%
+pub_url = 'https://compphysics.github.io/MLErasmus/doc/pub'
+published = ['Intro2Course', 'Introduction', 'How2ReadData', 'Linalg', 'Statistics',  'Regression', 'Splines', 'LogReg', 'NeuralNet', 'DimRed', 'DecisionTrees', 'svm',  'odenn', 'Bayesian',]
+chapters = {
+ 'Intro2Course': 'Basic introduction to the course with schedule etc',
+ 'Introduction': 'Introduction to Data Analysis and Machine Learning',
+ 'How2ReadData': 'Getting started with Machine Learning',
+ 'Linalg': 'Review of central linear algebra elements',
+ 'Statistics': 'Monte Carlo methods and elements of probability theory',
+ 'Regression': 'Regression Methods',
+ 'Splines': 'Gradient methods',
+ 'LogReg': 'Logistic Regression',
+ 'NeuralNet': 'Neural Networks',
+ 'DimRed': 'Reduction of dimensionality',
+ 'DecisionTrees': 'Decision trees, from simple to random ones',
+ 'svm': 'Support Vector Machines',
+ 'odenn': 'Solving ordinary and partial differential equations with Neural Networks',
+ 'Bayesian': 'Elements of Bayesian theory',
+}
+%>
+
+
+
+
+
+<%def name="text_types(name)">
+
+ * LaTeX PDF:
+   * For printing:
+     * "Standard one-page format": "${pub_url}/${name}/pdf/${name}-minted.pdf"
+ * HTML:
+   * "Plain html": "${pub_url}/${name}/html/${name}.html"
+   * "Reveal format": "${pub_url}/${name}/html/${name}-reveal.html"
+   * "Bootstrap  slide style, easy for reading on mobile devices": "${pub_url}/${name}/html/${name}-bs.html"
+ * Jupyter notebook:
+   * "ipynb file": "${pub_url}/${name}/ipynb/${name}.ipynb"
+</%def>
+
+<%def name="slide_types(name)">
+</%def>
+
+The teaching material is produced in various formats for printing and on-screen reading.
+
+!split
+!bwarning
+The PDF files are based on LaTeX and have seldom technical
+failures that cannot be easily corrected.
+The HTML-based files, called ``HTML'' and ``ipynb'' below, apply MathJax
+for rendering LaTeX formulas and sometimes this technology gives rise
+to unexpected failures (e.g.,
+incorrect rendering in a web page despite correct LaTeX syntax in the
+formula). Consult the corresponding PDF
+files if you find missing or incorrectly rendered
+formulas in HTML or ipython notebook files.
+!ewarning
+
+
+
+
+% for ch in published:
+===== ${chapters[ch]} =====
+
+${text_types(ch)}
+
+% endfor
+
+
+!split
+===== Python and Scikit Learn, a short guide  =====
+ * HTML format only:
+   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/ComputationalPhysics/doc/pub/learningpython/html/learningpython-bs.html"
+
+!split
+===== Teach yourself C++ =====
+ * HTML format only:
+   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/ComputationalPhysics/doc/pub/learningcpp/html/learningcpp-bs.html"
+
+
+!split
+===== Projects and Exercises =====
+
+=== First exercise set ===
+ * LaTeX and PDF:
+     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw1/pdf/hw1.tex"
+     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw1/pdf/hw1.pdf"
+ * HTML:
+   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw1/html/hw1.html"
+   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw1/html/hw1-bs.html"
+
+=== Second exercise set ===
+ * LaTeX and PDF:
+     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw2/pdf/hw2.tex"
+     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw2/pdf/hw2.pdf"
+ * HTML:
+   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw2/html/hw2.html"
+   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2019/hw2/html/hw2-bs.html"
+
+=== Project 1  ===
+ * LaTeX and PDF:
+     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project1/pdf/Project1.tex"
+     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project1/pdf/Project1.pdf"
+ * HTML:
+   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project1/html/Project1.html"
+   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project1/html/Project1-bs.html"
+
+
+=== Project 2  ===
+ * LaTeX and PDF:
+     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project2/pdf/Project2.tex"
+     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project2/pdf/Project2.pdf"
+ * HTML:
+   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project2/html/Project2.html"
+   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2019/Project2/html/Project2-bs.html"
+
+
+!split
+===== Course content =====
+
+Probability theory and statistical methods play a central role in science. Nowadays we are
+surrounded by huge amounts of data. For example, there are about one trillion web pages; more than one
+hour of video is uploaded to YouTube every second, amounting to 10 years of content every
+day; the genomes of 1000s of people, each of which has a length of $3.8\times 10^9$ base pairs, have
+been sequenced by various labs and so on.
+This deluge of data calls for automated methods of data analysis,
+which is exactly what machine
+learning provides. In this course the approach is to define machine learning as a set of methods that can
+automatically detect patterns in data, and then use the uncovered patterns to predict future
+data, or to perform other kinds of decision making under uncertainty. Since many of these problems can be studied using
+tools of probability theory, the aim of this course is to expose you to central methods in probability theory linked with machine learning.
+
+This course covers thus topics like Monte Carlo methods and Markov chains, Bayesian statistics, error estimates, various linear methods, optimization of data and error analysis and central algorithms in machine learning.
+The course has several numerical projects and numerical exercises that are meant to illustrate the theory.
+
+
+
+===== Learning outcomes =====
+
+The course introduces a variety of central algorithms and methods
+essential for studies of data analysis and machine learning. The course is project based and through the various projects, normally three, the students will be exposed to fundamental research problems in these fields, with the aim to reproduce state of the art scientific results. The students will learn to develop and structure large codes for studying these systems, get acquainted with computing facilities and learn to handle large scientific projects. A good scientific and ethical conduct is emphasized throughout the course. More specifically, after this course you will
+
+* Learn about basic data analysis, Bayesian statistics, Monte Carlo methods, data optimization and machine learning;
+* Be capable of extending the acquired knowledge to other systems and cases;
+* Have an understanding of central algorithms used in data analysis and machine learning;
+* Have a basic knowledge of Bayesian statistics  and learning and common distributions;
+* Gain knowledge of central aspects of Monte Carlo methods, Markov chains, Gibbs samplers and their possible applications, from numerical integration to simulation of stock markets;
+* Understand linear methods for regression and classification;
+* Learn about neural network, genetic algorithms and Boltzmann machines;
+* Work on numerical projects to illustrate the theory. The projects play a central role and students are expected to know modern programming languages like Python or C++. 
+
+
+
+===== Prerequisites =====
+
+Basic knowledge in programming and numerics. 
+
+===== The course has two central parts =====
+
+o Statistical analysis and optimization of data
+o Machine learning
+
+=== Statistical analysis and optimization of data ===
+
+The following topics will be covered
+* Basic concepts, expectation values, variance, covariance, correlation functions and errors;
+* Review of linear algebra methods;
+* Splines and conjugate gradient methods for data optimization;
+* Simpler models, binomial distribution, the Poisson distribution, simple and multivariate normal distributions;
+* Central elements of Bayesian statistics and modeling;
+* Monte Carlo methods, Markov chains, Metropolis-Hastings algorithm, ergodicity;
+* Linear methods for regression and classification;
+* Estimation of errors using blocking, bootstrapping and jackknife methods;
+* Practical optimization using Singular-value decomposition and least squares for parameterizing data.
+
+===  Machine learning ===
+
+The following topics will be covered
+
+* Linear and Logistic regression
+* Decision trees and nearest neighbors;
+* Support vector machines;
+* Boltzmann machines;
+* Neural networks;
+
+All the above topics will be supported by examples, hands-on exercises and project work.
+
+===== Recommended textbooks =====
+
+* "Trevor Hastie, Robert Tibshirani, Jerome H. Friedman, The Elements of Statistical Learning, Springer":"https://www.springer.com/gp/book/9780387848570"
+
+* "Aurelien Geron, Hands‑On Machine Learning with Scikit‑Learn and TensorFlow, O'Reilly":"http://shop.oreilly.com/product/0636920052289.do"
+
+
+===== "Other textbooks":"https://github.com/CompPhysics/MLErasmus/tree/master/doc/Textbooks" =====
+
+
+_General learning book on statistical analysis_:
+* Christian Robert and George Casella, Monte Carlo Statistical Methods, Springer
+* Peter Hoff, A first course in Bayesian statistical models, Springer
+
+_General Machine Learning Books_:
+* Kevin Murphy, Machine Learning: A Probabilistic Perspective, MIT Press
+* Christopher M. Bishop, Pattern Recognition and Machine Learning, Springer
+* David J.C. MacKay, Information Theory, Inference, and Learning Algorithms, Cambridge University Press
+* Trevor Hastie, Robert Tibshirani, and Jerome Friedman, The Elements of Statistical Learning, Springer
+* David Barber, Bayesian Reasoning and Machine Learning, Cambridge University Press
+
+
+
+

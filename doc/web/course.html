@@ -1,0 +1,587 @@
+<!--
+Automatically generated HTML file from DocOnce source
+(https://github.com/doconce/doconce/)
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="DocOnce: https://github.com/doconce/doconce/" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Overview of course material: Data Analysis and Machine Learning">
+
+<title>Overview of course material: Data Analysis and Machine Learning</title>
+
+
+<style type="text/css">
+/* blueish style */
+
+/* Color definitions:  https://www.december.com/html/spec/color0.html
+   CSS examples:       https://www.w3schools.com/css/css_examples.asp */
+
+body {
+  margin-top: 1.0em;
+  background-color: #ffffff;
+  font-family: Helvetica, Arial, FreeSans, san-serif;
+  color: #000000;
+}
+h1 { font-size: 1.8em; color: #1e36ce; }
+h2 { font-size: 1.6em; color: #1e36ce; }
+h3 { font-size: 1.4em; color: #1e36ce; }
+a { color: #1e36ce; text-decoration:none; }
+tt { font-family: "Courier New", Courier; }
+/* pre style removed because it will interfer with pygments */
+p { text-indent: 0px; }
+hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+p.caption { width: 80%; font-style: normal; text-align: left; }
+hr.figure { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+.alert-text-small   { font-size: 80%;  }
+.alert-text-large   { font-size: 130%; }
+.alert-text-normal  { font-size: 90%;  }
+.alert {
+  padding:8px 35px 8px 14px; margin-bottom:18px;
+  text-shadow:0 1px 0 rgba(255,255,255,0.5);
+  border:1px solid #bababa;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  color: #555;
+  background-color: #f8f8f8;
+  background-position: 10px 5px;
+  background-repeat: no-repeat;
+  background-size: 38px;
+  padding-left: 55px;
+  width: 75%;
+ }
+.alert-block {padding-top:14px; padding-bottom:14px}
+.alert-block > p, .alert-block > ul {margin-bottom:1em}
+.alert li {margin-top: 1em}
+.alert-block p+p {margin-top:5px}
+.alert-notice { background-image: url(https://cdn.rawgit.com/doconce/doconce/master/bundled/html_images/small_gray_notice.png); }
+.alert-summary  { background-image:url(https://cdn.rawgit.com/doconce/doconce/master/bundled/html_images/small_gray_summary.png); }
+.alert-warning { background-image: url(https://cdn.rawgit.com/doconce/doconce/master/bundled/html_images/small_gray_warning.png); }
+.alert-question {background-image:url(https://cdn.rawgit.com/doconce/doconce/master/bundled/html_images/small_gray_question.png); }
+
+div { text-align: justify; text-justify: inter-word; }
+</style>
+
+
+</head>
+
+<!-- tocinfo
+{'highest level': 2,
+ 'sections': [('Day 1: Introduction to Data Analysis and Machine Learning',
+               2,
+               None,
+               'day-1-introduction-to-data-analysis-and-machine-learning'),
+              ('Day 2: Linear Regression, from ordinary Least Squares to Ridge '
+               'and Lasso Regression',
+               2,
+               None,
+               'day-2-linear-regression-from-ordinary-least-squares-to-ridge-and-lasso-regression'),
+              ('Day 3: Linear Regression and Bias-Variance Tradeoff',
+               2,
+               None,
+               'day-3-linear-regression-and-bias-variance-tradeoff'),
+              ('Day 4: Logistic Regression and Optimization',
+               2,
+               None,
+               'day-4-logistic-regression-and-optimization'),
+              ('Day 5: Logistic Regression and begin Neural Networks',
+               2,
+               None,
+               'day-5-logistic-regression-and-begin-neural-networks'),
+              ('Day 6: Neural Networks and Deep Learning',
+               2,
+               None,
+               'day-6-neural-networks-and-deep-learning'),
+              ('Day 7: Neural Networks, back propagation and examples of '
+               'classification and regression problems',
+               2,
+               None,
+               'day-7-neural-networks-back-propagation-and-examples-of-classification-and-regression-problems'),
+              ('Day 8: Deep Learning, Covoluntional and Recurrence Neural '
+               'Networks',
+               2,
+               None,
+               'day-8-deep-learning-covoluntional-and-recurrence-neural-networks'),
+              ('Day 9: Decision trees, Random Forests and Boosting',
+               2,
+               None,
+               'day-9-decision-trees-random-forests-and-boosting'),
+              ('Day 10:  Boosting and XGBoost and Summary of course',
+               2,
+               None,
+               'day-10-boosting-and-xgboost-and-summary-of-course'),
+              ('Projects and Exercises', 2, None, 'projects-and-exercises'),
+              ('First exercise set (Day 1 and Day 2)',
+               3,
+               None,
+               'first-exercise-set-day-1-and-day-2'),
+              ('Second exercise set (Day 3)',
+               3,
+               None,
+               'second-exercise-set-day-3'),
+              ('Third  exercise set (Day 4 and 5)',
+               3,
+               None,
+               'third-exercise-set-day-4-and-5'),
+              ('Project 1, deadline February 20',
+               3,
+               None,
+               'project-1-deadline-february-20'),
+              ('Project 2, deadline February 20',
+               3,
+               None,
+               'project-2-deadline-february-20')]}
+end of tocinfo -->
+
+<body>
+
+    
+<!-- ------------------- main content ---------------------- -->
+
+
+
+<center><h1>Overview of course material: Data Analysis and Machine Learning</h1></center>  <!-- document title -->
+
+<p>
+<!-- author(s): <a href="http://mhjgit.github.io/info/doc/web/" target="_self">Morten Hjorth-Jensen</a> -->
+
+<center>
+<b><a href="http://mhjgit.github.io/info/doc/web/" target="_self">Morten Hjorth-Jensen</a></b> [1, 2]
+</center>
+
+<p>
+<!-- institution(s) -->
+
+<center>[1] <b>Department of Physics and Facility for Rare Ion Beams, Michigan State University, USA</b></center>
+<center>[2] <b>Department of Physics, University of Oslo, Norway</b></center>
+<br>
+
+<p>
+The teaching material is produced in various formats for printing and on-screen reading.
+
+<p>
+<!-- !split -->
+<div class="alert alert-block alert-warning alert-text-normal">
+<b>Warning</b>
+<p>
+The PDF files are based on LaTeX and have seldom technical
+failures that cannot be easily corrected.
+The HTML-based files, called &quot;HTML&quot; and &quot;ipynb&quot; below, apply MathJax
+for rendering LaTeX formulas and sometimes this technology gives rise
+to unexpected failures (e.g.,
+incorrect rendering in a web page despite correct LaTeX syntax in the
+formula). Consult the corresponding PDF
+files if you find missing or incorrectly rendered
+formulas in HTML or ipython notebook files.
+</div>
+
+
+<h2 id="day-1-introduction-to-data-analysis-and-machine-learning">Day 1: Introduction to Data Analysis and Machine Learning </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/Introduction/pdf/Introduction.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/Introduction/html/Introduction.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/Introduction/html/Introduction-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/Introduction/html/Introduction-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/Introduction/ipynb/Introduction.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-2-linear-regression-from-ordinary-least-squares-to-ridge-and-lasso-regression">Day 2: Linear Regression, from ordinary Least Squares to Ridge and Lasso Regression </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day1/pdf/day1.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day1/html/day1.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day1/html/day1-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day1/html/day1-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day1/ipynb/day1.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-3-linear-regression-and-bias-variance-tradeoff">Day 3: Linear Regression and Bias-Variance Tradeoff </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day3/pdf/day3.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day3/html/day3.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day3/html/day3-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day3/html/day3-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day3/ipynb/day3.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-4-logistic-regression-and-optimization">Day 4: Logistic Regression and Optimization </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day4/pdf/day4.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day4/html/day4.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day4/html/day4-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day4/html/day4-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day4/ipynb/day4.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-5-logistic-regression-and-begin-neural-networks">Day 5: Logistic Regression and begin Neural Networks </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day5/pdf/day5.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day5/html/day5.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day5/html/day5-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day5/html/day5-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day5/ipynb/day5.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-6-neural-networks-and-deep-learning">Day 6: Neural Networks and Deep Learning </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day6/pdf/day6.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day6/html/day6.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day6/html/day6-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day6/html/day6-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day6/ipynb/day6.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-7-neural-networks-back-propagation-and-examples-of-classification-and-regression-problems">Day 7: Neural Networks, back propagation and examples of classification and regression problems </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day7/pdf/day7.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day7/html/day7.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day7/html/day7-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day7/html/day7-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day7/ipynb/day7.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-8-deep-learning-covoluntional-and-recurrence-neural-networks">Day 8: Deep Learning, Covoluntional and Recurrence Neural Networks </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day8/pdf/day8.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day8/html/day8.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day8/html/day8-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day8/html/day8-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day8/ipynb/day8.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-9-decision-trees-random-forests-and-boosting">Day 9: Decision trees, Random Forests and Boosting </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day9/pdf/day9.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day9/html/day9.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day9/html/day9-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day9/html/day9-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day9/ipynb/day9.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<h2 id="day-10-boosting-and-xgboost-and-summary-of-course">Day 10:  Boosting and XGBoost and Summary of course  </h2>
+
+<ul>
+ <li> LaTeX PDF:</li>
+
+<ul>
+   <li> For printing:</li>
+
+<ul>
+     <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day10/pdf/day10.pdf" target="_self">Standard one-page format</a></li>
+</ul>
+
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day10/html/day10.html" target="_self">Plain html</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day10/html/day10-reveal.html" target="_self">Reveal format</a></li>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day10/html/day10-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+ <li> Jupyter notebook:</li>
+
+<ul>
+   <li> <a href="https://compphysics.github.io/MLErasmus/doc/pub/day10/ipynb/day10.ipynb" target="_self">ipynb file</a></li>
+</ul>
+
+</ul>
+
+<!-- !split -->
+
+<h2 id="projects-and-exercises">Projects and Exercises </h2>
+
+<h3 id="first-exercise-set-day-1-and-day-2">First exercise set (Day 1 and Day 2) </h3>
+
+<ul>
+ <li> LaTeX and PDF:</li>
+
+<ul>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/pdf/hw1.tex" target="_self">LaTex file</a></li>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/pdf/hw1.pdf" target="_self">PDF file</a></li>
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/html/hw1.html" target="_self">Plain html</a></li>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/html/hw1-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+</ul>
+
+<h3 id="second-exercise-set-day-3">Second exercise set (Day 3) </h3>
+
+<ul>
+ <li> LaTeX and PDF:</li>
+
+<ul>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/pdf/hw2.tex" target="_self">LaTex file</a></li>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/pdf/hw2.pdf" target="_self">PDF file</a></li>
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/html/hw2.html" target="_self">Plain html</a></li>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/html/hw2-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+</ul>
+
+<h3 id="third-exercise-set-day-4-and-5">Third  exercise set (Day 4 and 5)  </h3>
+
+<ul>
+ <li> LaTeX and PDF:</li>
+
+<ul>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/pdf/hw3.tex" target="_self">LaTex file</a></li>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/pdf/hw3.pdf" target="_self">PDF file</a></li>
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/html/hw3.html" target="_self">Plain html</a></li>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/html/hw3-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+</ul>
+
+<h3 id="project-1-deadline-february-20">Project 1, deadline February 20  </h3>
+
+<ul>
+ <li> LaTeX and PDF:</li>
+
+<ul>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/pdf/Project1.tex" target="_self">LaTex file</a></li>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/pdf/Project1.pdf" target="_self">PDF file</a></li>
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/html/Project1.html" target="_self">Plain html</a></li>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/html/Project1-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+</ul>
+
+<h3 id="project-2-deadline-february-20">Project 2, deadline February 20  </h3>
+
+<ul>
+ <li> LaTeX and PDF:</li>
+
+<ul>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/pdf/Project2.tex" target="_self">LaTex file</a></li>
+     <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/pdf/Project2.pdf" target="_self">PDF file</a></li>
+</ul>
+
+ <li> HTML:</li>
+
+<ul>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/html/Project2.html" target="_self">Plain html</a></li>
+   <li> <a href="http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/html/Project2-bs.html" target="_self">Bootstrap  slide style, easy for reading on mobile devices</a></li>
+</ul>
+
+</ul>
+
+
+<!-- ------------------- end of main content --------------- -->
+
+
+</body>
+</html>
+    
+
