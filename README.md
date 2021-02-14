@@ -1,4 +1,4 @@
-# Machine Learning and Data Analysis
+# CHPC NITheP Summer School 2021: Machine Learning as a Tool for Theoretical and Computational Science
 
 ## Why Machine Learning?
 
