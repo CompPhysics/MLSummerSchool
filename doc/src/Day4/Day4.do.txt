@@ -7,8 +7,7 @@ DATE: today
 !split
 ===== Reading Suggestions and Videos to Watch =====
 
-Reading suggestions: "Aurelien Geron's chapters 10-11":"https://github.com/CompPhysics/MachineLearning/blob/master/doc/T\
-extbooks/TensorflowML.pdf" and Hastie et al chapter 11.
+Reading suggestions: "Aurelien Geron's chapters 10-11":"https://github.com/CompPhysics/MachineLearning/blob/master/doc/Textbooks/TensorflowML.pdf" and Hastie et al chapter 11.
 See also Bishop chapter 5.
 
 "Video on Neural Networks":"https://www.youtube.com/watch?v=CqOfi41LfDw"
