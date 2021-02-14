@@ -1,4 +1,4 @@
-TITLE: Decision trees, Bagging and Boosting
+TITLE: Decision trees, Random Forests, Bagging and Boosting
 AUTHOR: Morten Hjorth-Jensen {copyright, 1999-present|CC BY-NC} at Department of Physics, University of Oslo & Department of Physics and Astronomy and National Superconducting Cyclotron Laboratory, Michigan State University
 DATE: today
 
