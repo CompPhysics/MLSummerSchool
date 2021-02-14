@@ -1,21 +1,12 @@
-TITLE: Week 36: Resampling techniques and Ordinary Least Square
-AUTHOR: Morten Hjorth-Jensen {copyright, 1999-present|CC BY-NC} at Department of Physics, University of Oslo & Department of Physics and Astronomy and National Superconducting Cyclotron Laboratory, Michigan State University
+TITLE: Data Analysis and Machine Learning: Day 2, Ridge and Lasso Regression and Resampling Methods
+AUTHOR: Morten Hjorth-Jensen {copyright, 1999-present|CC BY-NC} at Department of Physics and Center for Computing in Science Education, University of Oslo, Norway & Department of Physics and Astronomy and Facility for Rare Ion Beams and National Superconducting Cyclotron Laboratory, Michigan State University, USA
 DATE: today
 
-
 !split
-===== Plans for week 36 =====
+===== Plans for Day 2 =====
 
-* Thursday: Statistics, probability theory and resampling methods
-* Friday: Resampling methods and motivation for Ridge Regression
-
-
-!split
-===== Thursday September 3  =====
-
-"Video of Lecture":"https://www.uio.no/studier/emner/matnat/fys/FYS-STK4155/h20/forelesningsvideoer/LectureSept3.mp4?vrtx=view-as-webpage" and "handwritten notes":"https://github.com/CompPhysics/MachineLearning/blob/master/doc/HandWrittenNotes/NotesSeptember3.pdf"
-
-More material will be added here, see handwritten notes also.
+* Statistics, probability theory and resampling methods
+* Shrinkage methods: Ridge and Lasso Regression
 
 
 !split
@@ -231,8 +222,7 @@ where we have used  that $\mathbb{E} (\mathbf{Y} \mathbf{Y}^{T}) =
 \sigma^2 \, \mathbf{I}_{nn}$. From $\mbox{Var}(\bm{\beta}) = \sigma^2
 \, (\mathbf{X}^{T} \mathbf{X})^{-1}$, one obtains an estimate of the
 variance of the estimate of the $j$-th regression coefficient:
-$\bm{\sigma}^2 (\bm{\beta}_j ) = \bm{\sigma}^2 \sqrt{
-[(\mathbf{X}^{T} \mathbf{X})^{-1}]_{jj} }$. This may be used to
+$\bm{\sigma}^2 (\bm{\beta}_j ) = \bm{\sigma}^2 [(\mathbf{X}^{T} \mathbf{X})^{-1}]_{jj}$. This may be used to
 construct a confidence interval for the estimates.
 
 
@@ -529,32 +519,6 @@ involves a degree of randomness. This may be fully excluded when
 choosing $k=n$. This particular case is referred to as leave-one-out
 cross-validation (LOOCV). 
 
-!split 
-===== How to set up the cross-validation for Ridge and/or Lasso =====
-
-* Define a range of interest for the penalty parameter.
-
-* Divide the data set into training and test set comprising samples $\{1, \ldots, n\} \setminus i$ and $\{ i \}$, respectively.
-
-* Fit the linear regression model by means of ridge estimation  for each $\lambda$ in the grid using the training set, and the corresponding estimate of the error variance $\bm{\sigma}_{-i}^2(\lambda)$, as
-!bt
-\begin{align*}
-\bm{\beta}_{-i}(\lambda) & =  ( \bm{X}_{-i, \ast}^{T}
-\bm{X}_{-i, \ast} + \lambda \bm{I}_{pp})^{-1}
-\bm{X}_{-i, \ast}^{T} \bm{y}_{-i}
-\end{align*}
-!et 
-
-* Evaluate the prediction performance of these models on the test set by $\log\{L[y_i, \bm{X}_{i, \ast}; \bm{\beta}_{-i}(\lambda), \bm{\sigma}_{-i}^2(\lambda)]\}$. Or, by the prediction error $|y_i - \bm{X}_{i, \ast} \bm{\beta}_{-i}(\lambda)|$, the relative error, the error squared or the R2 score function.
-
-* Repeat the first three steps  such that each sample plays the role of the test set once.
-
-* Average the prediction performances of the test sets at each grid point of the penalty bias/parameter. It is an estimate of the prediction performance of the model corresponding to this value of the penalty parameter on novel data. It is defined as
-!bt
-\begin{align*}
-\frac{1}{n} \sum_{i = 1}^n \log\{L[y_i, \mathbf{X}_{i, \ast}; \bm{\beta}_{-i}(\lambda), \bm{\sigma}_{-i}^2(\lambda)]\}.
-\end{align*}
-!et
 
 !split
 ===== Cross-validation in brief =====
@@ -1174,12 +1138,555 @@ plt.show()
 !ec
 
 
+
 !split
-===== Friday September 4  =====
+===== Ridge and LASSO Regression =====
 
-"Video of Lecture":"https://www.uio.no/studier/emner/matnat/fys/FYS-STK4155/h20/forelesningsvideoer/LectureSeptember4.mp4?vrtx=view-as-webpage" and "handwritten notes":"https://github.com/CompPhysics/MachineLearning/blob/master/doc/HandWrittenNotes/NotesSeptember4.pdf"
+Let us remind ourselves about the expression for the standard Mean Squared Error (MSE) which we used to define our cost function and the equations for the ordinary least squares (OLS) method, that is 
+our optimization problem is
+!bt
+\[
+{\displaystyle \min_{\bm{\beta}\in {\mathbb{R}}^{p}}}\frac{1}{n}\left\{\left(\bm{y}-\bm{X}\bm{\beta}\right)^T\left(\bm{y}-\bm{X}\bm{\beta}\right)\right\}.
+\]
+!et
+or we can state it as
+!bt
+\[
+{\displaystyle \min_{\bm{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2=\frac{1}{n}\vert\vert \bm{y}-\bm{X}\bm{\beta}\vert\vert_2^2,
+\]
+!et
+where we have used the definition of  a norm-2 vector, that is
+!bt
+\[
+\vert\vert \bm{x}\vert\vert_2 = \sqrt{\sum_i x_i^2}. 
+\]
+!et
 
-More material will be added here, see handwritten notes also.
+By minimizing the above equation with respect to the parameters
+$\bm{\beta}$ we could then obtain an analytical expression for the
+parameters $\bm{\beta}$.  We can add a regularization parameter $\lambda$ by
+defining a new cost function to be optimized, that is
+
+!bt
+\[
+{\displaystyle \min_{\bm{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \bm{y}-\bm{X}\bm{\beta}\vert\vert_2^2+\lambda\vert\vert \bm{\beta}\vert\vert_2^2
+\]
+!et
+
+which leads to the Ridge regression minimization problem where we
+require that $\vert\vert \bm{\beta}\vert\vert_2^2\le t$, where $t$ is
+a finite number larger than zero. By defining
+
+!bt
+\[
+C(\bm{X},\bm{\beta})=\frac{1}{n}\vert\vert \bm{y}-\bm{X}\bm{\beta}\vert\vert_2^2+\lambda\vert\vert \bm{\beta}\vert\vert_1,
+\]
+!et
+
+we have a new optimization equation
+!bt
+\[
+{\displaystyle \min_{\bm{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \bm{y}-\bm{X}\bm{\beta}\vert\vert_2^2+\lambda\vert\vert \bm{\beta}\vert\vert_1
+\]
+!et
+which leads to Lasso regression. Lasso stands for least absolute shrinkage and selection operator. 
+
+Here we have defined the norm-1 as 
+!bt
+\[
+\vert\vert \bm{x}\vert\vert_1 = \sum_i \vert x_i\vert. 
+\]
+!et
+
+
+!split
+===== More on Ridge Regression =====
+
+Using the matrix-vector expression for Ridge regression,
+
+!bt
+\[
+C(\bm{X},\bm{\beta})=\frac{1}{n}\left\{(\bm{y}-\bm{X}\bm{\beta})^T(\bm{y}-\bm{X}\bm{\beta})\right\}+\lambda\bm{\beta}^T\bm{\beta},
+\]
+!et
+
+by taking the derivatives with respect to $\bm{\beta}$ we obtain then
+a slightly modified matrix inversion problem which for finite values
+of $\lambda$ does not suffer from singularity problems. We obtain
+
+!bt
+\[
+\bm{\beta}^{\mathrm{Ridge}} = \left(\bm{X}^T\bm{X}+\lambda\bm{I}\right)^{-1}\bm{X}^T\bm{y},
+\]
+!et
+
+with $\bm{I}$ being a $p\times p$ identity matrix with the constraint that
+
+!bt
+\[
+\sum_{i=0}^{p-1} \beta_i^2 \leq t,
+\]
+!et
+
+with $t$ a finite positive number. 
+
+
+
+!split 
+===== A better understanding of regularization =====
+
+The parameter $\lambda$ that we have introduced in the Ridge (and
+Lasso as well) regression is often called a regularization parameter
+or shrinkage parameter. It is common to call it a hyperparameter. What does it mean mathemtically?
+
+Here we will first look at how to analyze the difference between the
+standard OLS equations and the Ridge expressions in terms of a linear
+algebra analysis using the SVD algorithm. Thereafter, we will link
+(see the material on the bias-variance tradeoff below) these
+observation to the statisical analysis of the results. In particular
+we consider how the variance of the parameters $\bm{\beta}$ is
+affected by changing the parameter $\lambda$.
+
+!split
+===== Decomposing the OLS and Ridge expressions =====
+
+We have our design matrix
+ $\bm{X}\in {\mathbb{R}}^{n\times p}$. With the SVD we decompose it as 
+
+!bt 
+\[
+\bm{X} = \bm{U\Sigma V^T},
+\]
+!et
+
+with $\bm{U}\in {\mathbb{R}}^{n\times n}$, $\bm{\Sigma}\in {\mathbb{R}}^{n\times p}$
+and $\bm{V}\in {\mathbb{R}}^{p\times p}$.
+
+The matrices $\bm{U}$ and $\bm{V}$ are unitary/orthonormal matrices, that is in case the matrices are real we have $\bm{U}^T\bm{U}=\bm{U}\bm{U}^T=\bm{I}$ and $\bm{V}^T\bm{V}=\bm{V}\bm{V}^T=\bm{I}$.
+
+Below we discuss some of the mathematics of the SVD decompostion.
+
+!split
+===== The singular value decomposition  =====
+
+!bblock
+
+The examples we have looked at so far are cases where we normally can
+invert the matrix $\bm{X}^T\bm{X}$. Using a polynomial expansion as we
+did both for the masses and the fitting of the equation of state,
+leads to row vectors of the design matrix which are essentially
+orthogonal due to the polynomial character of our model. Obtaining the inverse of the design matrix is then often done via a so-called LU, QR or Cholesky decomposition. 
+
+
+
+This may
+however not the be case in general and a standard matrix inversion
+algorithm based on say LU, QR or Cholesky decomposition may lead to singularities. We will see examples of this below.
+
+There is however a way to partially circumvent this problem and also gain some insights about the ordinary least squares approach, and later shrinkage methods like Ridge and Lasso regressions. 
+
+This is given by the _Singular Value Decomposition_ algorithm, perhaps
+the most powerful linear algebra algorithm.  Let us look at a
+different example where we may have problems with the standard matrix
+inversion algorithm. Thereafter we dive into the math of the SVD.
+
+!eblock
+
+
+
+!split
+===== Linear Regression Problems =====
+
+One of the typical problems we encounter with linear regression, in particular 
+when the matrix $\bm{X}$ (our so-called design matrix) is high-dimensional, 
+are problems with near singular or singular matrices. The column vectors of $\bm{X}$ 
+may be linearly dependent, normally referred to as super-collinearity.  
+This means that the matrix may be rank deficient and it is basically impossible to 
+to model the data using linear regression. As an example, consider the matrix
+!bt
+\begin{align*}
+\mathbf{X} & =  \left[
+\begin{array}{rrr}
+1 & -1 & 2
+\\
+1 & 0 & 1
+\\
+1 & 2  & -1
+\\
+1 & 1  & 0
+\end{array} \right]
+\end{align*}
+!et
+
+The columns of $\bm{X}$ are linearly dependent. We see this easily since the 
+the first column is the row-wise sum of the other two columns. The rank (more correct,
+the column rank) of a matrix is the dimension of the space spanned by the
+column vectors. Hence, the rank of $\mathbf{X}$ is equal to the number
+of linearly independent columns. In this particular case the matrix has rank 2.
+
+Super-collinearity of an $(n \times p)$-dimensional design matrix $\mathbf{X}$ implies
+that the inverse of the matrix $\bm{X}^T\bm{X}$ (the matrix we need to invert to solve the linear regression equations) is non-invertible. If we have a square matrix that does not have an inverse, we say this matrix singular. The example here demonstrates this
+!bt
+\begin{align*}
+\bm{X} & =  \left[
+\begin{array}{rr}
+1 & -1
+\\
+1 & -1
+\end{array} \right].
+\end{align*}
+!et
+We see easily that  $\mbox{det}(\bm{X}) = x_{11} x_{22} - x_{12} x_{21} = 1 \times (-1) - 1 \times (-1) = 0$. Hence, $\mathbf{X}$ is singular and its inverse is undefined.
+This is equivalent to saying that the matrix $\bm{X}$ has at least an eigenvalue which is zero.
+
+
+!split
+===== Fixing the singularity =====
+
+If our design matrix $\bm{X}$ which enters the linear regression problem
+!bt
+\begin{align}
+\bm{\beta} & =  (\bm{X}^{T} \bm{X})^{-1} \bm{X}^{T} \bm{y},
+\end{align}
+!et
+has linearly dependent column vectors, we will not be able to compute the inverse
+of $\bm{X}^T\bm{X}$ and we cannot find the parameters (estimators) $\beta_i$. 
+The estimators are only well-defined if $(\bm{X}^{T}\bm{X})^{-1}$ exits. 
+This is more likely to happen when the matrix $\bm{X}$ is high-dimensional. In this case it is likely to encounter a situation where 
+the regression parameters $\beta_i$ cannot be estimated.
+
+A cheap  *ad hoc* approach is  simply to add a small diagonal component to the matrix to invert, that is we change
+!bt
+\[
+\bm{X}^{T} \bm{X} \rightarrow \bm{X}^{T} \bm{X}+\lambda \bm{I},
+\]
+!et 
+where $\bm{I}$ is the identity matrix.  When we discuss _Ridge_ regression this is actually what we end up evaluating. The parameter $\lambda$ is called a hyperparameter. More about this later. 
+
+
+
+!split
+===== Basic math of the SVD =====
+
+
+From standard linear algebra we know that a square matrix $\bm{X}$ can be diagonalized if and only it is 
+a so-called "normal matrix":"https://en.wikipedia.org/wiki/Normal_matrix", that is if $\bm{X}\in {\mathbb{R}}^{n\times n}$
+we have $\bm{X}\bm{X}^T=\bm{X}^T\bm{X}$ or if $\bm{X}\in {\mathbb{C}}^{n\times n}$ we have $\bm{X}\bm{X}^{\dagger}=\bm{X}^{\dagger}\bm{X}$.
+The matrix has then a set of eigenpairs 
+
+!bt
+\[
+(\lambda_1,\bm{u}_1),\dots, (\lambda_n,\bm{u}_n),
+!et
+and the eigenvalues are given by the diagonal matrix
+!bt
+\[
+\bm{\Sigma}=\mathrm{Diag}(\lambda_1, \dots,\lambda_n).
+\]
+!et
+The matrix $\bm{X}$ can be written in terms of an orthogonal/unitary transformation $\bm{U}$
+!bt
+\[
+\bm{X} = \bm{U}\bm{\Sigma}\bm{V}^T,
+\]
+!et
+with $\bm{U}\bm{U}^T=\bm{I}$ or $\bm{U}\bm{U}^{\dagger}=\bm{I}$.
+
+Not all square matrices are diagonalizable. A matrix like the one discussed above
+!bt
+\[
+\bm{X} = \begin{bmatrix} 
+1&  -1 \\
+1& -1\\
+\end{bmatrix} 
+\]
+!et
+is not diagonalizable, it is a so-called "defective matrix":"https://en.wikipedia.org/wiki/Defective_matrix". It is easy to see that the condition
+$\bm{X}\bm{X}^T=\bm{X}^T\bm{X}$ is not fulfilled. 
+
+
+!split
+===== The SVD, a Fantastic Algorithm =====
+
+
+However, and this is the strength of the SVD algorithm, any general
+matrix $\bm{X}$ can be decomposed in terms of a diagonal matrix and
+two orthogonal/unitary matrices.  The "Singular Value Decompostion
+(SVD) theorem":"https://en.wikipedia.org/wiki/Singular_value_decomposition"
+states that a general $m\times n$ matrix $\bm{X}$ can be written in
+terms of a diagonal matrix $\bm{\Sigma}$ of dimensionality $m\times n$
+and two orthognal matrices $\bm{U}$ and $\bm{V}$, where the first has
+dimensionality $m \times m$ and the last dimensionality $n\times n$.
+We have then
+
+!bt
+\[ 
+\bm{X} = \bm{U}\bm{\Sigma}\bm{V}^T 
+\] 
+!et 
+
+As an example, the above defective matrix can be decomposed as
+
+!bt
+\[
+\bm{X} = \frac{1}{\sqrt{2}}\begin{bmatrix}  1&  1 \\ 1& -1\\ \end{bmatrix} \begin{bmatrix}  2&  0 \\ 0& 0\\ \end{bmatrix}    \frac{1}{\sqrt{2}}\begin{bmatrix}  1&  -1 \\ 1& 1\\ \end{bmatrix}=\bm{U}\bm{\Sigma}\bm{V}^T, 
+\]
+!et
+
+with eigenvalues $\sigma_1=2$ and $\sigma_2=0$. 
+The SVD exits always! 
+
+The SVD
+decomposition (singular values) gives eigenvalues 
+$\sigma_i\geq\sigma_{i+1}$ for all $i$ and for dimensions larger than $i=p$, the
+eigenvalues (singular values) are zero.
+
+In the general case, where our design matrix $\bm{X}$ has dimension
+$n\times p$, the matrix is thus decomposed into an $n\times n$
+orthogonal matrix $\bm{U}$, a $p\times p$ orthogonal matrix $\bm{V}$
+and a diagonal matrix $\bm{\Sigma}$ with $r=\mathrm{min}(n,p)$
+singular values $\sigma_i\geq 0$ on the main diagonal and zeros filling
+the rest of the matrix.  There are at most $p$ singular values
+assuming that $n > p$. In our regression examples for the nuclear
+masses and the equation of state this is indeed the case, while for
+the Ising model we have $p > n$. These are often cases that lead to
+near singular or singular matrices.
+
+The columns of $\bm{U}$ are called the left singular vectors while the columns of $\bm{V}$ are the right singular vectors.
+
+!split
+===== Economy-size SVD =====
+
+If we assume that $n > p$, then our matrix $\bm{U}$ has dimension $n
+\times n$. The last $n-p$ columns of $\bm{U}$ become however
+irrelevant in our calculations since they are multiplied with the
+zeros in $\bm{\Sigma}$.
+
+The economy-size decomposition removes extra rows or columns of zeros
+from the diagonal matrix of singular values, $\bm{\Sigma}$, along with the columns
+in either $\bm{U}$ or $\bm{V}$ that multiply those zeros in the expression. 
+Removing these zeros and columns can improve execution time
+and reduce storage requirements without compromising the accuracy of
+the decomposition.
+
+If $n > p$, we keep only the first $p$ columns of $\bm{U}$ and $\bm{\Sigma}$ has dimension $p\times p$. 
+If $p > n$, then only the first $n$ columns of $\bm{V}$ are computed and $\bm{\Sigma}$ has dimension $n\times n$.
+The $n=p$ case is obvious, we retain the full SVD. 
+In general the economy-size SVD leads to less FLOPS and still conserving the desired accuracy.
+
+!split
+=====  Codes for the SVD =====
+
+!bc pycod
+import numpy as np
+# SVD inversion
+def SVDinv(A):
+    ''' Takes as input a numpy matrix A and returns inv(A) based on singular value decomposition (SVD).
+    SVD is numerically more stable than the inversion algorithms provided by
+    numpy and scipy.linalg at the cost of being slower.
+    '''
+    U, s, VT = np.linalg.svd(A)
+#    print('test U')
+#    print( (np.transpose(U) @ U - U @np.transpose(U)))
+#    print('test VT')
+#    print( (np.transpose(VT) @ VT - VT @np.transpose(VT)))
+    print(U)
+    print(s)
+    print(VT)
+
+    D = np.zeros((len(U),len(VT)))
+    for i in range(0,len(VT)):
+        D[i,i]=s[i]
+    UT = np.transpose(U); V = np.transpose(VT); invD = np.linalg.inv(D)
+    return np.matmul(V,np.matmul(invD,UT))
+
+
+X = np.array([ [1.0, -1.0, 2.0], [1.0, 0.0, 1.0], [1.0, 2.0, -1.0], [1.0, 1.0, 0.0] ])
+print(X)
+A = np.transpose(X) @ X
+print(A)
+# Brute force inversion of super-collinear matrix
+#B = np.linalg.inv(A)
+#print(B)
+C = SVDinv(A)
+print(C)
+
+!ec
+
+The matrix $\bm{X}$ has columns that are linearly dependent. The first
+column is the row-wise sum of the other two columns. The rank of a
+matrix (the column rank) is the dimension of space spanned by the
+column vectors. The rank of the matrix is the number of linearly
+independent columns, in this case just $2$. We see this from the
+singular values when running the above code. Running the standard
+inversion algorithm for matrix inversion with $\bm{X}^T\bm{X}$ results
+in the program terminating due to a singular matrix.
+
+
+
+!split
+===== Mathematical Properties =====
+
+There are several interesting mathematical properties which will be
+relevant when we are going to discuss the differences between say
+ordinary least squares (OLS) and _Ridge_ regression.
+
+We have from OLS that the parameters of the linear approximation are given by
+!bt
+\[
+\bm{\tilde{y}} = \bm{X}\bm{\beta} = \bm{X}\left(\bm{X}^T\bm{X}\right)^{-1}\bm{X}^T\bm{y}. 
+\]
+!et
+
+The matrix to invert can be rewritten in terms of our SVD decomposition as
+
+!bt
+\[
+\bm{X}^T\bm{X} = \bm{V}\bm{\Sigma}^T\bm{U}^T\bm{U}\bm{\Sigma}\bm{V}^T.
+\]
+!et
+Using the orthogonality properties of $\bm{U}$ we have
+
+!bt
+\[
+\bm{X}^T\bm{X} = \bm{V}\bm{\Sigma}^T\bm{\Sigma}\bm{V}^T =  \bm{V}\bm{D}\bm{V}^T,
+\]
+!et
+with $\bm{D}$ being a diagonal matrix with values along the diagonal given by the singular values squared. 
+
+This means that
+!bt
+\[
+(\bm{X}^T\bm{X})\bm{V} = \bm{V}\bm{D},
+\]
+!et
+that is the eigenvectors of $(\bm{X}^T\bm{X})$ are given by the columns of the right singular matrix of $\bm{X}$ and the eigenvalues are the squared singular values.  It is easy to show (show this) that
+!bt
+\[
+(\bm{X}\bm{X}^T)\bm{U} = \bm{U}\bm{D},
+\]
+!et
+that is, the eigenvectors of $(\bm{X}\bm{X})^T$ are the columns of the left singular matrix and the eigenvalues are the same. 
+
+Going back to our OLS equation we have
+!bt
+\[
+\bm{X}\bm{\beta} = \bm{X}\left(\bm{V}\bm{D}\bm{V}^T \right)^{-1}\bm{X}^T\bm{y}=\bm{U\Sigma V^T}\left(\bm{V}\bm{D}\bm{V}^T \right)^{-1}(\bm{U\Sigma V^T})^T\bm{y}=\bm{U}\bm{U}^T\bm{y}.
+\]
+!et
+
+!split
+===== OLS and Ridge in terms of an SVD Decomposition =====
+
+We have then
+!bt
+\[
+\tilde{y}^{OLS}={\bf X}\hat{\beta}^{OLS}=\sum_{j=1}^p {\bf u}_j{\bf u}_j^T{\bf y},
+\]
+!et
+for ordinary least squares (OLS) 
+and for Ridge we have
+!bt
+\[
+\tilde{y}^{Ridge}={\bf X}\hat{\beta}^{Ridge}=\sum_{j=1}^p {\bf u}_j\frac{\sigma_j^2}{\sigma_j^2+\lambda}{\bf u}_j^T{\bf y}.
+\]
+!et
+
+Note that the summation runs up tp $p$ only and not $n$.
+
+Here we have that ${\bf X} = {\bf U}{\bf \Sigma}{\bf V}^T$, with $\Sigma$ being an $n\times p$ matrix and
+${\bf V}$ being a $p\times p$ matrix. We also have assumed here that $ n > p$.
+
+
+!split
+===== Ridge and SVD =====
+We see that Ridge regression is nothing but the standard
+OLS with a modified diagonal term added to $\bm{X}^T\bm{X}$. The
+consequences, in particular for our discussion of the bias-variance tradeoff 
+are rather interesting.
+
+Furthermore, if we use the result below in terms of the SVD decomposition, we have
+!bt
+\[
+(\bm{X}\bm{X}^T)\bm{U} = \bm{U}\bm{D}.
+\]
+!et
+
+We can  analyse the OLS solutions in terms of the eigenvectors (the columns) of the right singular value matrix $\bm{U}$ as
+!bt
+\[
+\bm{X}\bm{\beta} = \bm{X}\left(\bm{V}\bm{D}\bm{V}^T \right)^{-1}\bm{X}^T\bm{y}=\bm{U\Sigma V^T}\left(\bm{V}\bm{D}\bm{V}^T \right)^{-1}(\bm{U\Sigma V^T})^T\bm{y}=\bm{U}\bm{U}^T\bm{y}
+\]
+!et
+
+
+For Ridge regression this becomes
+
+!bt
+\[
+\bm{X}\bm{\beta}^{\mathrm{Ridge}} = \bm{U\Sigma V^T}\left(\bm{V}\bm{D}\bm{V}^T+\lambda\bm{I} \right)^{-1}(\bm{U\Sigma V^T})^T\bm{y}=\sum_{j=0}^{p-1}\bm{u}_j\bm{u}_j^T\frac{\sigma_j^2}{\sigma_j^2+\lambda}\bm{y},
+\]
+!et
+
+with the vectors $\bm{u}_j$ being the columns of $\bm{U}$. 
+
+!split
+===== Interpreting the Ridge results =====
+
+Since $\lambda \geq 0$, it means that compared to OLS, we have 
+
+!bt
+\[
+\frac{\sigma_j^2}{\sigma_j^2+\lambda} \leq 1. 
+\]
+!et
+
+Ridge regression finds the coordinates of $\bm{y}$ with respect to the
+orthonormal basis $\bm{U}$, it then shrinks the coordinates by
+$\frac{\sigma_j^2}{\sigma_j^2+\lambda}$. Recall that the SVD has
+eigenvalues ordered in a descending way, that is $\sigma_i \geq
+\sigma_{i+1}$.
+
+For small eigenvalues $\sigma_i$ it means that their contributions become less important, a fact which can be used to reduce the number of degrees of freedom.
+Actually, calculating the variance of $\bm{X}\bm{v}_j$ shows that this quantity is equal to $\sigma_j^2/n$.
+With a parameter $\lambda$ we can thus shrink the role of specific parameters.  
+
+
+!split
+===== More interpretations =====
+
+For the sake of simplicity, let us assume that the design matrix is orthonormal, that is 
+
+!bt
+\[
+\bm{X}^T\bm{X}=(\bm{X}^T\bm{X})^{-1} =\bm{I}. 
+\]
+!et
+
+In this case the standard OLS results in 
+!bt
+\[
+\bm{\beta}^{\mathrm{OLS}} = \bm{X}^T\bm{y}=\sum_{i=0}^{p-1}\bm{u}_j\bm{u}_j^T\bm{y},
+\]
+!et
+
+and
+
+!bt
+\[
+\bm{\beta}^{\mathrm{Ridge}} = \left(\bm{I}+\lambda\bm{I}\right)^{-1}\bm{X}^T\bm{y}=\left(1+\lambda\right)^{-1}\bm{\beta}^{\mathrm{OLS}},
+\]
+!et
+
+that is the Ridge estimator scales the OLS estimator by the inverse of a factor $1+\lambda$, and
+the Ridge estimator converges to zero when the hyperparameter goes to
+infinity.
+
+For more discussions of Ridge and Lasso regression, "Wessel van Wieringen's":"https://arxiv.org/abs/1509.09169" article is highly recommended.
+Similarly, "Mehta et al's article":"https://arxiv.org/abs/1803.08823" is also recommended.
 
 
 

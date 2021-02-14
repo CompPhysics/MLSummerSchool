@@ -1,9 +1,9 @@
-TITLE: Data Analysis and Machine Learning: Day 3, Ridge and Lasso Regression and Resampling Methods
+TITLE: Data Analysis and Machine Learning: Day 2, Ridge and Lasso Regression and Resampling Methods
 AUTHOR: Morten Hjorth-Jensen {copyright, 1999-present|CC BY-NC} at Department of Physics and Center for Computing in Science Education, University of Oslo, Norway & Department of Physics and Astronomy and Facility for Rare Ion Beams and National Superconducting Cyclotron Laboratory, Michigan State University, USA
 DATE: today
 
 !split
-===== Plans for Day 3 =====
+===== Plans for Day 2 =====
 
 * Statistics, probability theory and resampling methods
 * Shrinkage methods: Ridge and Lasso Regression
