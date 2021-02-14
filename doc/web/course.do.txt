@@ -5,7 +5,7 @@ AUTHOR: "Morten Hjorth-Jensen":"http://mhjgit.github.io/info/doc/web/" at Depart
 pub_url = 'https://compphysics.github.io/MLSummerSchool/doc/pub'
 published = ['Day1', 'Day2', 'Day3',  'Day4', 'Day5', ]
 chapters = {
- 'Day1': 'Day 1: Introduction to Data Analysis and Machine Learning',
+ 'Day1': 'Day 1: Introduction to Data Analysis and Machine Learning and Linear Regression',
  'Day2': 'Day 2: Linear Regression and Bias-Variance Tradeoff',
  'Day3': 'Day 3: Logistic Regression and Optimization',
  'Day4': 'Day 4: Neural Networks and Deep Learning',

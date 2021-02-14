@@ -29,7 +29,7 @@ formulas in HTML or ipython notebook files.
 
 
 
-===== Day 1: Introduction to Data Analysis and Machine Learning =====
+===== Day 1: Introduction to Data Analysis and Machine Learning and Linear Regression =====
 
 
 
