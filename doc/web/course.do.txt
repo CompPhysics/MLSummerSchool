@@ -2,19 +2,14 @@ TITLE: Overview of course material: Data Analysis and Machine Learning
 AUTHOR: "Morten Hjorth-Jensen":"http://mhjgit.github.io/info/doc/web/" at Department of Physics and Facility for Rare Ion Beams, Michigan State University, USA &  Department of Physics, University of Oslo, Norway
 
 <%
-pub_url = 'https://compphysics.github.io/MLErasmus/doc/pub'
-published = ['Introduction', 'day1', 'day3', 'day4',  'day5', 'day6', 'day7', 'day8', 'day9', 'day10', ]
+pub_url = 'https://compphysics.github.io/MLSummerSchool/doc/pub'
+published = ['Day1', 'Day2', 'Day3',  'Day4', 'Day5', ]
 chapters = {
- 'Introduction': 'Day 1: Introduction to Data Analysis and Machine Learning',
- 'day1': 'Day 2: Linear Regression, from ordinary Least Squares to Ridge and Lasso Regression', 
- 'day3': 'Day 3: Linear Regression and Bias-Variance Tradeoff',
- 'day4': 'Day 4: Logistic Regression and Optimization',
- 'day5': 'Day 5: Logistic Regression and begin Neural Networks',
- 'day6': 'Day 6: Neural Networks and Deep Learning',
- 'day7': 'Day 7: Neural Networks, back propagation and examples of classification and regression problems',
- 'day8': 'Day 8: Deep Learning, Covoluntional and Recurrence Neural Networks', 
- 'day9': 'Day 9: Decision trees, Random Forests and Boosting', 
- 'day10': 'Day 10:  Boosting and XGBoost and Summary of course ',
+ 'Day1': 'Day 1: Introduction to Data Analysis and Machine Learning',
+ 'Day2': 'Day 2: Linear Regression and Bias-Variance Tradeoff',
+ 'Day3': 'Day 3: Logistic Regression and Optimization',
+ 'Day4': 'Day 4: Neural Networks and Deep Learning',
+ 'Day5': 'Day 5: Decision trees, Random Forests and Boosting', 
 }
 %>
 
@@ -63,51 +58,4 @@ ${text_types(ch)}
 
 % endfor
 
-
-!split
-===== Projects and Exercises =====
-
-=== First exercise set (Day 1 and Day 2) ===
- * LaTeX and PDF:
-     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/pdf/hw1.tex"
-     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/pdf/hw1.pdf"
- * HTML:
-   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/html/hw1.html"
-   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw1/html/hw1-bs.html"
-
-=== Second exercise set (Day 3) ===
- * LaTeX and PDF:
-     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/pdf/hw2.tex"
-     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/pdf/hw2.pdf"
- * HTML:
-   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/html/hw2.html"
-   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw2/html/hw2-bs.html"
-
-
-=== Third  exercise set (Day 4 and 5)  ===
- * LaTeX and PDF:
-     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/pdf/hw3.tex"
-     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/pdf/hw3.pdf"
- * HTML:
-   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/html/hw3.html"
-   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2021/hw3/html/hw3-bs.html"
-
-
-
-=== Project 1, deadline February 20  ===
- * LaTeX and PDF:
-     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/pdf/Project1.tex"
-     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/pdf/Project1.pdf"
- * HTML:
-   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/html/Project1.html"
-   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project1/html/Project1-bs.html"
-
-
-=== Project 2, deadline February 20  ===
- * LaTeX and PDF:
-     * "LaTex file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/pdf/Project2.tex"
-     * "PDF file":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/pdf/Project2.pdf"
- * HTML:
-   * "Plain html":"http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/html/Project2.html"
-   * "Bootstrap  slide style, easy for reading on mobile devices": "http://compphysics.github.io/MLErasmus/doc/Projects/2021/Project2/html/Project2-bs.html"
 
