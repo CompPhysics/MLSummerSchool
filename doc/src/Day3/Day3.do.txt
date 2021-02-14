@@ -1032,11 +1032,6 @@ o A norm is any function that satisfy the following properties
 Using the definition of convexity, try to show that a function satisfying the properties above is convex (the third condition is not needed to show this).
 
 
-!split
-===== Friday September 25 =====
-
-"Video of Lecture":"https://www.uio.no/studier/emner/matnat/fys/FYS-STK4155/h20/forelesningsvideoer/LectureSeptember25.mp4?vrtx=view-as-webpage" and "link to handwritten notes":"https://github.com/CompPhysics/MachineLearning/blob/master/doc/HandWrittenNotes/NotesSeptember25.pdf".
-
 
 !split
 ===== Standard steepest descent =====
