@@ -1,6 +1,6 @@
-Machine Learning and Data Analysis
+# Machine Learning and Data Analysis
 
-## Why a course on Machine Learning?
+## Why Machine Learning?
 
 Probability theory and statistical methods play a central role in
 science. Nowadays we are surrounded by huge amounts of data. For
@@ -10,7 +10,7 @@ content every day; the genomes of 1000s of people, each of which has a
 length of more than a billion base pairs, have been sequenced by
 various labs and so on. This deluge of data calls for automated
 methods of data analysis, which is exactly what machine learning
-provides. The purpose of thiscourse is to provide an
+provides. The purpose of thislectures is to provide an
 introduction to the core concepts and tools of machine learning in a
 manner easily understood and intuitive to physicists and nuclear
 physicists in particular. We will start with some of the basic methods
@@ -30,26 +30,27 @@ many-body systems.
 
 
 
-The goals of this course on Machine Learning and Data Analysis are to give the participants a deeper understanding and critical view of several widely popular Machine Learning algorithms, covering both supervised and unsupervised learning. The learning outcomes involve an understanding of the following central methods:
+The goals of these lectures on Machine Learning and Data Analysis are
+to give the participants a deeper understanding and critical view of
+several widely popular Machine Learning algorithms, covering both
+supervised and unsupervised learning. The learning outcomes involve an
+understanding of the following central methods:
 
 - Basic concepts of machine learning and data analysis and statistical concepts like expectation values, variance, covariance, correlation functions and errors;
 - Estimation of errors using cross-validation, blocking, bootstrapping and jackknife methods;
 - Optimization of functions
 - Linear Regression and Logistic Regression;
-- Dimensionality reductions, from PCA to clustering
 - Neural networks and deep learning;
-- Convolutional Neural Networks
-- Recurrent Neureal Networks and Autoencoders
 - Decisions trees and random forests
 
 
 
-## The course has two central parts
+## The lectures have two central parts
 
 1. Statistical analysis and optimization of data
 2. Machine learning
 
-These topics will be scattered thorughout the course and may not  necessarily be taught separately. Rather, we will often take an approach (during the lectures and project/exercise sessions) where say elements from statistical data analysis are mixed with specific Machine Learning algorithms. 
+These topics will be scattered thorughout the lectures and may not  necessarily be taught separately. Rather, we will often take an approach (during the lectures and project/exercise sessions) where say elements from statistical data analysis are mixed with specific Machine Learning algorithms. 
 
 ### Statistical analysis and optimization of data
 
@@ -65,12 +66,9 @@ The following topics will be covered:
 - Neural networks and deep learning, including convolutional and recurrent neural networks
 - Decisions trees, Random Forests, Bagging and Boosting
 
-Hands-on demonstrations, exercises and projects aim at deepening your understanding of these topics.
+Hands-on demonstrations and exercises aim at deepening your understanding of these topics.
 
-Computational aspects play a central role and you are expected to work
-on numerical examples and projects which illustrate the theory and
-varous algorithms discussed during the lectures. We recommend strongly
-to form small project groups of 2-3 participants, if possible.
+
 
 ## Prerequisites
 
@@ -82,7 +80,7 @@ is recommended.
 
 
 ## Lecture material
-_The link_ https://compphysics.github.io/MLSummerSchool/doc/web/course.html gives you direct access to the learning material with lectures slides and jupyter notebooks. Videos of the lectures will be added. 
+_The link_ https://compphysics.github.io/MLSummerSchool/doc/web/lectures.html gives you direct access to the learning material with lectures slides and jupyter notebooks. Videos of the lectures will be added. 
 
 
 ##  Teaching schedule,
@@ -91,82 +89,30 @@ _The link_ https://compphysics.github.io/MLSummerSchool/doc/web/course.html give
 
 | | |
 |-|-|
-| First Week  | January 18-22, 2021 | 
-| Monday | - _Lecture 9am-1130am_: Introduction to Machine Learning and linear regression (MHJ) |
-| Recommended readings |  Before the course starts: Bishop Sections 1.1, 1.2 and 1.3 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 1 |
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan18.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan18.pdf  |
-| | - _Laboratory 2pm-5pm_: Getting familiar with Git, GitHub, installing Python packages and exercise 1 (PDBS and KW) |
-| | Video on using Git and GitHub https://mediaspace.msu.edu/media/t/1_8mgx3cyf |
-| Tuesday | - _Lecture 9am-1130am_: Linear Regression, from ordinary least squares to Lasso and Ridge (MHJ) |
-| Recommended readings |  Bishop Sections 3.1 and Hastie et al chapter 3 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 2 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan19.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan19.pdf  |
-| | - _Tuesday Laboratory 2pm-5pm:_ Computational Exercises (PDBS and KW), exercise set 2 |
-| Wednesday | - _Lecture 9am-1130am_: Linear Regression and Bias-Variance Tradeoff (MHJ) |
+| First Week  | February 15-19, 2021 | 
+| Monday | - _Lecture 9am-1030am_: Introduction to Machine Learning and linear regression (MHJ) |
+| Recommended readings |  Before the lectures starts: Bishop Sections 1.1, 1.2 and 1.3 |
+| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/lectures.html  day 1 |
+| Wednesday | - _Lecture 1pm-230pm_: Linear Regression and Bias-Variance Tradeoff (MHJ) |
 | Recommended readings |  Bishop Section 3.2 and Hastie et al chapter 3 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 3 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan20.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan20.pdf  |
-| | - _Laboratory 2pm-5pm_: Computational Exercises (PDBS and KW), exercise sets 2 and 3 |
-| Thursday | - _Lecture 9am-1130am_: Bias-Variance tradeoff, Logistic Regression and Optimization (MHJ) |
-| Recommended readings | Bishop Sections 4.1-4.3, Hastie et al Chapter 4 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 4 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan21.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan21.pdf  |
-| | - _Laboratory 2pm-5pm_: Computational Exercises (PDBS and KW), exercise sets 2 and 3 |
-| Friday | - _Lecture 9am-1130am_:  Logistic Regression and begin Neural Networks (MHJ) |
+| Friday | - _Lecture 9am-1130am_:  Logistic Regression and Neural Networks (MHJ) |
 | Recommended readings |  Bishop Sections 5.1-5.5 and Hastie et al chapter 11 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 5 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan22.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan22.pdf  |
-| | - _Laboratory 2pm-5pm_: Computational Exercises and project 1(PDBS and KW), exercise sets 2 and 3 and first project |
 
 ---
 
 | | |
 |-|-|
-| Second Week | January 25-29, 2021 |
-| Monday | - _Lecture 9am-1130am_:  Neural Networks  (MHJ) |
-| Recommended readings | Bishop Sections 5.1-5.5 and Hastie et al chapter 11  |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 6 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan25.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan25.pdf  |
-| | - _Laboratory 2pm-5pm_: Using and installing TensorFlow and Computational Exercises (PDBS and KW) and work on project 1 |
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/ExerciseSessionJan25.mp4?vrtx=view-as-webpage |
-| Tuesday | - _Lecture 10am-2pm_:  Neural Networks, back propagation and examples of classification and CNNs (MHJ) |
+| Second Week | February 22-26, 2021 |
+| Tuesday | - _Lecture 1pm-230pm_:  Neural Networks, back propagation and examples of classification and CNNs |
 | Recommended readings |  Bishop Sections 5.1-5.5 and Hastie et al chapter 11 |
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan26.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan26.pdf  |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 7 | 
-| | - _Laboratory 2pm-5pm:_ Computational Exercises (PDBS and KW) and work on project 1 and discussion of TensorFlow |
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/ExerciseSessionJan26.mp4?vrtx=view-as-webpage |
-| Wednesday | - _Lecture 9am-1130am_: CNNs and Recurrent neural networks, start decision trees (MHJ) |
-| Recommended readings |  Hastie et al chapter 9.3 |
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan27.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan27.pdf  |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 8 | 
-| | - _Laboratory 2pm-5pm_: Computational Exercises (PDBS and KW), work on project 1 |
-| Thursday | - _Lecture 9am-1130am_:  Decision trees, Random Forests and Boosting (MHJ) |
+| Thursday | - _Lecture 9am-1030am_:  Decision trees, Random Forests and Boosting (MHJ) |
 | Recommended readings |  Hastie et al chapter 10 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 9 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan28.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan28.pdf  |
-| | - _Laboratory 2pm-5pm_: Computational Exercises (PDBS and KW), work on project 1 |
-| Friday | - _Lecture 9am-1130am_:  Boosting and XGBoost and Summary of course (MHJ), presentation of project 2 |
-| Recommended readings |  Hastie et al chapter 10 |
-| | Lecture material at https://compphysics.github.io/MLErasmus/doc/web/course.html  day 10 | 
-| | Video at https://www.uio.no/studier/emner/matnat/fys/FYS4411/v21/forelesningsvideoer/LectureJan29.mp4?vrtx=view-as-webpage |
-| | Handwritten notes at https://github.com/CompPhysics/MLErasmus/blob/master/doc/HandwrittenNotes/NotesJan29.pdf  |
-| | - _Laboratory 2pm-5pm_: Computational Exercises (PDBS and KW), work on projects 1 and 2 |
 
 ---
 
 ## Required Technologies
 
-Course participants are expected to have their own laptops/PCs. We use _Git_ as version control software and the usage of providers like _GitHub_, _GitLab_ or similar are strongly recommended.
+Lectures participants are expected to have their own laptops/PCs. We use _Git_ as version control software and the usage of providers like _GitHub_, _GitLab_ or similar are strongly recommended.
 
 We will make extensive use of Python as programming language and its
 myriad of available libraries.  You will find
@@ -239,7 +185,7 @@ Here we list several useful Python libraries we strongly recommend (if you use a
 | | |
 |-|-|
 |_Recommended textbooks_:| |
-| | - Christopher M. Bishop, Pattern Recognition and Machine Learning, Springer, https://www.springer.com/gp/book/9780387310732. This is the main textbook and this course covers chapters 1-7, 11 and 12. |
+| | - Christopher M. Bishop, Pattern Recognition and Machine Learning, Springer, https://www.springer.com/gp/book/9780387310732. This is the main textbook and this lectures covers chapters 1-7, 11 and 12. |
 | | - Trevor Hastie, Robert Tibshirani, Jerome H. Friedman, The Elements of Statistical Learning, Springer, https://www.springer.com/gp/book/9780387848570. This is a well-known text and serves as additional text.|
 | | - Aurelien Geron, Hands‑On Machine Learning with Scikit‑Learn and TensorFlow, O'Reilly, https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/. This text is very useful since it contains many code examples.|
 
