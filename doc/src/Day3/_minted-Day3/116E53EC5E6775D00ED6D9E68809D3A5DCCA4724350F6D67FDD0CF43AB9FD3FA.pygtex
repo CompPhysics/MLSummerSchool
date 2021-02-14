@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{a} \PYG{o}{+=} \PYG{n}{b}
+\PYG{n}{a} \PYG{o}{\PYGZhy{}=} \PYG{n}{b}
+\PYG{n}{a}\PYG{o}{*=} \PYG{n}{b}
+\PYG{n}{a} \PYG{o}{/=}\PYG{n}{b}
+\end{Verbatim}

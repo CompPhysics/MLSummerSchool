@@ -1,0 +1,66 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{} Importing various packages}
+\PYG{k+kn}{from} \PYG{n+nn}{math} \PYG{k+kn}{import} \PYG{n}{exp}\PYG{p}{,} \PYG{n}{sqrt}
+\PYG{k+kn}{from} \PYG{n+nn}{random} \PYG{k+kn}{import} \PYG{n}{random}\PYG{p}{,} \PYG{n}{seed}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{SGDRegressor}
+
+\PYG{n}{m} \PYG{o}{=} \PYG{l+m+mi}{100}
+\PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{m}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{4}\PYG{o}{+}\PYG{l+m+mi}{3}\PYG{o}{*}\PYG{n}{x}\PYG{o}{+}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{m}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{X} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{c\PYGZus{}}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{ones}\PYG{p}{((}\PYG{n}{m}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)),} \PYG{n}{x}\PYG{p}{]}
+\PYG{n}{theta\PYGZus{}linreg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{inv}\PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{X}\PYG{p}{)} \PYG{o}{@} \PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{y}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Own inversion\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{theta\PYGZus{}linreg}\PYG{p}{)}
+\PYG{n}{sgdreg} \PYG{o}{=} \PYG{n}{SGDRegressor}\PYG{p}{(}\PYG{n}{max\PYGZus{}iter} \PYG{o}{=} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{n}{penalty}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{eta0}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{)}
+\PYG{n}{sgdreg}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{o}{.}\PYG{n}{ravel}\PYG{p}{())}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}sgdreg from scikit\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{sgdreg}\PYG{o}{.}\PYG{n}{intercept\PYGZus{}}\PYG{p}{,} \PYG{n}{sgdreg}\PYG{o}{.}\PYG{n}{coef\PYGZus{}}\PYG{p}{)}
+
+
+\PYG{n}{theta} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{eta} \PYG{o}{=} \PYG{l+m+mf}{0.1}
+\PYG{n}{Niterations} \PYG{o}{=} \PYG{l+m+mi}{1000}
+
+
+\PYG{k}{for} \PYG{n+nb}{iter} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{Niterations}\PYG{p}{):}
+    \PYG{n}{gradients} \PYG{o}{=} \PYG{l+m+mf}{2.0}\PYG{o}{/}\PYG{n}{m}\PYG{o}{*}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{p}{((}\PYG{n}{X} \PYG{o}{@} \PYG{n}{theta}\PYG{p}{)}\PYG{o}{\PYGZhy{}}\PYG{n}{y}\PYG{p}{)}
+    \PYG{n}{theta} \PYG{o}{\PYGZhy{}=} \PYG{n}{eta}\PYG{o}{*}\PYG{n}{gradients}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}theta from own gd\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)}
+
+\PYG{n}{xnew} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([[}\PYG{l+m+mi}{0}\PYG{p}{],[}\PYG{l+m+mi}{2}\PYG{p}{]])}
+\PYG{n}{Xnew} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{c\PYGZus{}}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{ones}\PYG{p}{((}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)),} \PYG{n}{xnew}\PYG{p}{]}
+\PYG{n}{ypredict} \PYG{o}{=} \PYG{n}{Xnew}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)}
+\PYG{n}{ypredict2} \PYG{o}{=} \PYG{n}{Xnew}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{theta\PYGZus{}linreg}\PYG{p}{)}
+
+
+\PYG{n}{n\PYGZus{}epochs} \PYG{o}{=} \PYG{l+m+mi}{50}
+\PYG{n}{t0}\PYG{p}{,} \PYG{n}{t1} \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{50}
+\PYG{k}{def} \PYG{n+nf}{learning\PYGZus{}schedule}\PYG{p}{(}\PYG{n}{t}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{t0}\PYG{o}{/}\PYG{p}{(}\PYG{n}{t}\PYG{o}{+}\PYG{n}{t1}\PYG{p}{)}
+
+\PYG{n}{theta} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{n\PYGZus{}epochs}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{m}\PYG{p}{):}
+        \PYG{n}{random\PYGZus{}index} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{m}\PYG{p}{)}
+        \PYG{n}{xi} \PYG{o}{=} \PYG{n}{X}\PYG{p}{[}\PYG{n}{random\PYGZus{}index}\PYG{p}{:}\PYG{n}{random\PYGZus{}index}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{yi} \PYG{o}{=} \PYG{n}{y}\PYG{p}{[}\PYG{n}{random\PYGZus{}index}\PYG{p}{:}\PYG{n}{random\PYGZus{}index}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{gradients} \PYG{o}{=} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{xi}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{p}{((}\PYG{n}{xi} \PYG{o}{@} \PYG{n}{theta}\PYG{p}{)}\PYG{o}{\PYGZhy{}}\PYG{n}{yi}\PYG{p}{)}
+        \PYG{n}{eta} \PYG{o}{=} \PYG{n}{learning\PYGZus{}schedule}\PYG{p}{(}\PYG{n}{epoch}\PYG{o}{*}\PYG{n}{m}\PYG{o}{+}\PYG{n}{i}\PYG{p}{)}
+        \PYG{n}{theta} \PYG{o}{=} \PYG{n}{theta} \PYG{o}{\PYGZhy{}} \PYG{n}{eta}\PYG{o}{*}\PYG{n}{gradients}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}theta from own sdg\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{theta}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xnew}\PYG{p}{,} \PYG{n}{ypredict}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{xnew}\PYG{p}{,} \PYG{n}{ypredict2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}b\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}ro\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mf}{2.0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{15.0}\PYG{p}{])}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}x\PYGZdl{}\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}y\PYGZdl{}\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}Random numbers \PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\end{Verbatim}

@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{autograd.numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{autograd} \PYG{k+kn}{import} \PYG{n}{grad}
+\PYG{k}{def} \PYG{n+nf}{f6\PYGZus{}for}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+    \PYG{n}{val} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{):}
+        \PYG{n}{val} \PYG{o}{=} \PYG{n}{val} \PYG{o}{+} \PYG{n}{x}\PYG{o}{**}\PYG{n}{i}
+    \PYG{k}{return} \PYG{n}{val}
+
+\PYG{k}{def} \PYG{n+nf}{f6\PYGZus{}while}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+    \PYG{n}{val} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{while} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{:}
+        \PYG{n}{val} \PYG{o}{=} \PYG{n}{val} \PYG{o}{+} \PYG{n}{x}\PYG{o}{**}\PYG{n}{i}
+        \PYG{n}{i} \PYG{o}{=} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{val}
+
+\PYG{n}{f6\PYGZus{}for\PYGZus{}grad} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{f6\PYGZus{}for}\PYG{p}{)}
+\PYG{n}{f6\PYGZus{}while\PYGZus{}grad} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{f6\PYGZus{}while}\PYG{p}{)}
+
+\PYG{n}{x} \PYG{o}{=} \PYG{l+m+mf}{0.5}
+
+\PYG{c+c1}{\PYGZsh{} Print the computed derivaties of f6\PYGZus{}for and f6\PYGZus{}while}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The computed derivative of f6\PYGZus{}for at x = }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{ is: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{f6\PYGZus{}for\PYGZus{}grad}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)))}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The computed derivative of f6\PYGZus{}while at x = }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{ is: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{f6\PYGZus{}while\PYGZus{}grad}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)))}
+\end{Verbatim}

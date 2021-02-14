@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{pt}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}equal\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{pt}\PYG{o}{.}\PYG{n}{contour}\PYG{p}{(}\PYG{n}{xmesh}\PYG{p}{,} \PYG{n}{ymesh}\PYG{p}{,} \PYG{n}{fmesh}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{)}
+\PYG{n}{it\PYGZus{}array} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{guesses}\PYG{p}{)}
+\PYG{n}{pt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{it\PYGZus{}array}\PYG{o}{.}\PYG{n}{T}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{it\PYGZus{}array}\PYG{o}{.}\PYG{n}{T}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{],} \PYG{l+s+s2}{\PYGZdq{}x\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

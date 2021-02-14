@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{autograd.numpy} \PYG{k}{as} \PYG{n+nn}{np}
+
+\PYG{c+c1}{\PYGZsh{} To do elementwise differentiation:}
+\PYG{k+kn}{from} \PYG{n+nn}{autograd} \PYG{k+kn}{import} \PYG{n}{elementwise\PYGZus{}grad} \PYG{k}{as} \PYG{n}{egrad}
+
+\PYG{c+c1}{\PYGZsh{} To plot:}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+
+
+\PYG{k}{def} \PYG{n+nf}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{sin}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{n}{x} \PYG{o}{+} \PYG{n}{x}\PYG{o}{**}\PYG{l+m+mi}{2}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{f\PYGZus{}grad\PYGZus{}analytic}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{cos}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi}\PYG{o}{*}\PYG{n}{x} \PYG{o}{+} \PYG{n}{x}\PYG{o}{**}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{o}{*}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{pi} \PYG{o}{+} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{x}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Do the comparison:}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1000}\PYG{p}{)}
+
+\PYG{n}{f\PYGZus{}grad} \PYG{o}{=} \PYG{n}{egrad}\PYG{p}{(}\PYG{n}{f}\PYG{p}{)}
+
+\PYG{n}{computed} \PYG{o}{=} \PYG{n}{f\PYGZus{}grad}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+\PYG{n}{analytic} \PYG{o}{=} \PYG{n}{f\PYGZus{}grad\PYGZus{}analytic}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Derivative computed from Autograd compared with the analytical derivative\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{computed}\PYG{p}{,}\PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}autograd\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{analytic}\PYG{p}{,}\PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}analytic\PYGZsq{}}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}y\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{()}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The max absolute difference is: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{computed} \PYG{o}{\PYGZhy{}} \PYG{n}{analytic}\PYG{p}{))))}
+\end{Verbatim}

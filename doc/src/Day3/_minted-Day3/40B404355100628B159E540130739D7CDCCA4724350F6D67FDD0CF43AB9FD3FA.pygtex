@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.model\PYGZus{}selection} \PYG{k+kn}{import}  \PYG{n}{train\PYGZus{}test\PYGZus{}split}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.datasets} \PYG{k+kn}{import} \PYG{n}{load\PYGZus{}breast\PYGZus{}cancer}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{LogisticRegression}
+\PYG{n}{cancer} \PYG{o}{=} \PYG{n}{load\PYGZus{}breast\PYGZus{}cancer}\PYG{p}{()}
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}
+\PYG{c+c1}{\PYGZsh{} Making a data frame}
+\PYG{n}{cancerpd} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{data}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{feature\PYGZus{}names}\PYG{p}{)}
+
+\PYG{n}{fig}\PYG{p}{,} \PYG{n}{axes} \PYG{o}{=} \PYG{n}{plt}\PYG{o}{.}\PYG{n}{subplots}\PYG{p}{(}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{l+m+mi}{20}\PYG{p}{))}
+\PYG{n}{malignant} \PYG{o}{=} \PYG{n}{cancer}\PYG{o}{.}\PYG{n}{data}\PYG{p}{[}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{target} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{]}
+\PYG{n}{benign} \PYG{o}{=} \PYG{n}{cancer}\PYG{o}{.}\PYG{n}{data}\PYG{p}{[}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{target} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{]}
+\PYG{n}{ax} \PYG{o}{=} \PYG{n}{axes}\PYG{o}{.}\PYG{n}{ravel}\PYG{p}{()}
+
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{30}\PYG{p}{):}
+    \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{bins} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{histogram}\PYG{p}{(}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{data}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{bins} \PYG{o}{=}\PYG{l+m+mi}{50}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{malignant}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{bins} \PYG{o}{=} \PYG{n}{bins}\PYG{p}{,} \PYG{n}{alpha} \PYG{o}{=} \PYG{l+m+mf}{0.5}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{hist}\PYG{p}{(}\PYG{n}{benign}\PYG{p}{[:,}\PYG{n}{i}\PYG{p}{],} \PYG{n}{bins} \PYG{o}{=} \PYG{n}{bins}\PYG{p}{,} \PYG{n}{alpha} \PYG{o}{=} \PYG{l+m+mf}{0.5}\PYG{p}{)}
+    \PYG{n}{ax}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}title}\PYG{p}{(}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{feature\PYGZus{}names}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+    \PYG{n}{ax}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}yticks}\PYG{p}{(())}
+\PYG{n}{ax}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}xlabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Feature magnitude\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{set\PYGZus{}ylabel}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Frequency\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{ax}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}Malignant\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}Benign\PYGZdq{}}\PYG{p}{],} \PYG{n}{loc} \PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}best\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{fig}\PYG{o}{.}\PYG{n}{tight\PYGZus{}layout}\PYG{p}{()}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+
+\PYG{k+kn}{import} \PYG{n+nn}{seaborn} \PYG{k}{as} \PYG{n+nn}{sns}
+\PYG{n}{correlation\PYGZus{}matrix} \PYG{o}{=} \PYG{n}{cancerpd}\PYG{o}{.}\PYG{n}{corr}\PYG{p}{()}\PYG{o}{.}\PYG{n}{round}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} use the heatmap function from seaborn to plot the correlation matrix}
+\PYG{c+c1}{\PYGZsh{} annot = True to print the values inside the square}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{15}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{))}
+\PYG{n}{sns}\PYG{o}{.}\PYG{n}{heatmap}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{n}{correlation\PYGZus{}matrix}\PYG{p}{,} \PYG{n}{annot}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\end{Verbatim}

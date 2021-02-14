@@ -1,0 +1,56 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{} Common imports}
+\PYG{k+kn}{import} \PYG{n+nn}{os}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{LinearRegression}\PYG{p}{,} \PYG{n}{Ridge}\PYG{p}{,} \PYG{n}{Lasso}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.model\PYGZus{}selection} \PYG{k+kn}{import} \PYG{n}{train\PYGZus{}test\PYGZus{}split}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.utils} \PYG{k+kn}{import} \PYG{n}{resample}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.metrics} \PYG{k+kn}{import} \PYG{n}{mean\PYGZus{}squared\PYGZus{}error}
+\PYG{k+kn}{from} \PYG{n+nn}{IPython.display} \PYG{k+kn}{import} \PYG{n}{display}
+\PYG{k+kn}{from} \PYG{n+nn}{pylab} \PYG{k+kn}{import} \PYG{n}{plt}\PYG{p}{,} \PYG{n}{mpl}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{style}\PYG{o}{.}\PYG{n}{use}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}seaborn\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{mpl}\PYG{o}{.}\PYG{n}{rcParams}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}font.family\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}serif\PYGZsq{}}
+
+\PYG{c+c1}{\PYGZsh{} Where to save the figures and data files}
+\PYG{n}{PROJECT\PYGZus{}ROOT\PYGZus{}DIR} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Results\PYGZdq{}}
+\PYG{n}{FIGURE\PYGZus{}ID} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Results/FigureFiles\PYGZdq{}}
+\PYG{n}{DATA\PYGZus{}ID} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}DataFiles/\PYGZdq{}}
+
+\PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{PROJECT\PYGZus{}ROOT\PYGZus{}DIR}\PYG{p}{):}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{mkdir}\PYG{p}{(}\PYG{n}{PROJECT\PYGZus{}ROOT\PYGZus{}DIR}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{FIGURE\PYGZus{}ID}\PYG{p}{):}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{FIGURE\PYGZus{}ID}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{DATA\PYGZus{}ID}\PYG{p}{):}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{DATA\PYGZus{}ID}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{image\PYGZus{}path}\PYG{p}{(}\PYG{n}{fig\PYGZus{}id}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{FIGURE\PYGZus{}ID}\PYG{p}{,} \PYG{n}{fig\PYGZus{}id}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{data\PYGZus{}path}\PYG{p}{(}\PYG{n}{dat\PYGZus{}id}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{DATA\PYGZus{}ID}\PYG{p}{,} \PYG{n}{dat\PYGZus{}id}\PYG{p}{)}
+
+\PYG{k}{def} \PYG{n+nf}{save\PYGZus{}fig}\PYG{p}{(}\PYG{n}{fig\PYGZus{}id}\PYG{p}{):}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{n}{image\PYGZus{}path}\PYG{p}{(}\PYG{n}{fig\PYGZus{}id}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}.png\PYGZdq{}}\PYG{p}{,} \PYG{n+nb}{format}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}png\PYGZsq{}}\PYG{p}{)}
+
+\PYG{n}{infile} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{data\PYGZus{}path}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}chddata.csv\PYGZdq{}}\PYG{p}{),}\PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Read the chd data as  csv file and organize the data into arrays with age group, age, and chd}
+\PYG{n}{chd} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{n}{infile}\PYG{p}{,} \PYG{n}{names}\PYG{o}{=}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}ID\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Age\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Agegroup\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}CHD\PYGZsq{}}\PYG{p}{))}
+\PYG{n}{chd}\PYG{o}{.}\PYG{n}{columns} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ID\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Age\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Agegroup\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}CHD\PYGZsq{}}\PYG{p}{]}
+\PYG{n}{output} \PYG{o}{=} \PYG{n}{chd}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}CHD\PYGZsq{}}\PYG{p}{]}
+\PYG{n}{age} \PYG{o}{=} \PYG{n}{chd}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Age\PYGZsq{}}\PYG{p}{]}
+\PYG{n}{agegroup} \PYG{o}{=} \PYG{n}{chd}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}Agegroup\PYGZsq{}}\PYG{p}{]}
+\PYG{n}{numberID}  \PYG{o}{=} \PYG{n}{chd}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ID\PYGZsq{}}\PYG{p}{]}
+\PYG{n}{display}\PYG{p}{(}\PYG{n}{chd}\PYG{p}{)}
+
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{scatter}\PYG{p}{(}\PYG{n}{age}\PYG{p}{,} \PYG{n}{output}\PYG{p}{,} \PYG{n}{marker}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}o\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{([}\PYG{l+m+mi}{18}\PYG{p}{,}\PYG{l+m+mf}{70.0}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{0.1}\PYG{p}{,} \PYG{l+m+mf}{1.2}\PYG{p}{])}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}Age\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}CHD\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}Age distribution and Coronary heart disease\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\end{Verbatim}

@@ -1,0 +1,46 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.model\PYGZus{}selection} \PYG{k+kn}{import}  \PYG{n}{train\PYGZus{}test\PYGZus{}split}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.datasets} \PYG{k+kn}{import} \PYG{n}{load\PYGZus{}breast\PYGZus{}cancer}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{LogisticRegression}
+
+\PYG{c+c1}{\PYGZsh{} Load the data}
+\PYG{n}{cancer} \PYG{o}{=} \PYG{n}{load\PYGZus{}breast\PYGZus{}cancer}\PYG{p}{()}
+
+\PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{X\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{,} \PYG{n}{y\PYGZus{}test} \PYG{o}{=} \PYG{n}{train\PYGZus{}test\PYGZus{}split}\PYG{p}{(}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{data}\PYG{p}{,}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{target}\PYG{p}{,}\PYG{n}{random\PYGZus{}state}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} Logistic Regression}
+\PYG{n}{logreg} \PYG{o}{=} \PYG{n}{LogisticRegression}\PYG{p}{(}\PYG{n}{solver}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}lbfgs\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{logreg}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Test set accuracy with Logistic Regression: }\PYG{l+s+si}{\PYGZob{}:.2f\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{logreg}\PYG{o}{.}\PYG{n}{score}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{p}{,}\PYG{n}{y\PYGZus{}test}\PYG{p}{)))}
+\PYG{c+c1}{\PYGZsh{}now scale the data}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.preprocessing} \PYG{k+kn}{import} \PYG{n}{StandardScaler}
+\PYG{n}{scaler} \PYG{o}{=} \PYG{n}{StandardScaler}\PYG{p}{()}
+\PYG{n}{scaler}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{)}
+\PYG{n}{X\PYGZus{}train\PYGZus{}scaled} \PYG{o}{=} \PYG{n}{scaler}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X\PYGZus{}train}\PYG{p}{)}
+\PYG{n}{X\PYGZus{}test\PYGZus{}scaled} \PYG{o}{=} \PYG{n}{scaler}\PYG{o}{.}\PYG{n}{transform}\PYG{p}{(}\PYG{n}{X\PYGZus{}test}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} Logistic Regression}
+\PYG{n}{logreg}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{X\PYGZus{}train\PYGZus{}scaled}\PYG{p}{,} \PYG{n}{y\PYGZus{}train}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Test set accuracy Logistic Regression with scaled data: }\PYG{l+s+si}{\PYGZob{}:.2f\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{logreg}\PYG{o}{.}\PYG{n}{score}\PYG{p}{(}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{,}\PYG{n}{y\PYGZus{}test}\PYG{p}{)))}
+
+
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.preprocessing} \PYG{k+kn}{import} \PYG{n}{LabelEncoder}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.model\PYGZus{}selection} \PYG{k+kn}{import} \PYG{n}{cross\PYGZus{}validate}
+\PYG{c+c1}{\PYGZsh{}Cross validation}
+\PYG{n}{accuracy} \PYG{o}{=} \PYG{n}{cross\PYGZus{}validate}\PYG{p}{(}\PYG{n}{logreg}\PYG{p}{,}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{,}\PYG{n}{y\PYGZus{}test}\PYG{p}{,}\PYG{n}{cv}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)[}\PYG{l+s+s1}{\PYGZsq{}test\PYGZus{}score\PYGZsq{}}\PYG{p}{]}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{accuracy}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Test set accuracy with Logistic Regression  and scaled data: }\PYG{l+s+si}{\PYGZob{}:.2f\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{logreg}\PYG{o}{.}\PYG{n}{score}\PYG{p}{(}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{,}\PYG{n}{y\PYGZus{}test}\PYG{p}{)))}
+
+
+\PYG{k+kn}{import} \PYG{n+nn}{scikitplot} \PYG{k}{as} \PYG{n+nn}{skplt}
+\PYG{n}{y\PYGZus{}pred} \PYG{o}{=} \PYG{n}{logreg}\PYG{o}{.}\PYG{n}{predict}\PYG{p}{(}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{)}
+\PYG{n}{skplt}\PYG{o}{.}\PYG{n}{metrics}\PYG{o}{.}\PYG{n}{plot\PYGZus{}confusion\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{y\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}pred}\PYG{p}{,} \PYG{n}{normalize}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\PYG{n}{y\PYGZus{}probas} \PYG{o}{=} \PYG{n}{logreg}\PYG{o}{.}\PYG{n}{predict\PYGZus{}proba}\PYG{p}{(}\PYG{n}{X\PYGZus{}test\PYGZus{}scaled}\PYG{p}{)}
+\PYG{n}{skplt}\PYG{o}{.}\PYG{n}{metrics}\PYG{o}{.}\PYG{n}{plot\PYGZus{}roc}\PYG{p}{(}\PYG{n}{y\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}probas}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\PYG{n}{skplt}\PYG{o}{.}\PYG{n}{metrics}\PYG{o}{.}\PYG{n}{plot\PYGZus{}cumulative\PYGZus{}gain}\PYG{p}{(}\PYG{n}{y\PYGZus{}test}\PYG{p}{,} \PYG{n}{y\PYGZus{}probas}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\end{Verbatim}

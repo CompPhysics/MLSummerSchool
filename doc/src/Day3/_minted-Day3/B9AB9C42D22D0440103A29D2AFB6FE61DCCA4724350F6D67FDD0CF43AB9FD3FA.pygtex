@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{autograd.numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{autograd} \PYG{k+kn}{import} \PYG{n}{grad}
+\PYG{k}{def} \PYG{n+nf}{f2}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{n}{x2}\PYG{p}{):}
+    \PYG{k}{return} \PYG{l+m+mi}{3}\PYG{o}{*}\PYG{n}{x1}\PYG{o}{**}\PYG{l+m+mi}{3} \PYG{o}{+} \PYG{n}{x2}\PYG{o}{*}\PYG{p}{(}\PYG{n}{x1} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{5}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}
+
+\PYG{c+c1}{\PYGZsh{} By sending the argument 0, Autograd will compute the derivative w.r.t the first variable, in this case x1}
+\PYG{n}{f2\PYGZus{}grad\PYGZus{}x1} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{f2}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} ... and differentiate w.r.t x2 by sending 1 as an additional arugment to grad}
+\PYG{n}{f2\PYGZus{}grad\PYGZus{}x2} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{f2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{x1} \PYG{o}{=} \PYG{l+m+mf}{1.0}
+\PYG{n}{x2} \PYG{o}{=} \PYG{l+m+mf}{3.0}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Evaluating at x1 = }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{, x2 = }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{n}{x2}\PYG{p}{))}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZdq{}}\PYG{o}{*}\PYG{l+m+mi}{30}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Compare with the analytical derivatives:}
+
+\PYG{c+c1}{\PYGZsh{} Derivative of f2 w.r.t x1 is: 9*x1**2 + x2:}
+\PYG{n}{f2\PYGZus{}grad\PYGZus{}x1\PYGZus{}analytical} \PYG{o}{=} \PYG{l+m+mi}{9}\PYG{o}{*}\PYG{n}{x1}\PYG{o}{**}\PYG{l+m+mi}{2} \PYG{o}{+} \PYG{n}{x2}
+
+\PYG{c+c1}{\PYGZsh{} Derivative of f2 w.r.t x2 is: x1 \PYGZhy{} 5:}
+\PYG{n}{f2\PYGZus{}grad\PYGZus{}x2\PYGZus{}analytical} \PYG{o}{=} \PYG{n}{x1} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{5}
+
+\PYG{c+c1}{\PYGZsh{} See the evaluated derivations:}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The derivative of f2 w.r.t x1: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(} \PYG{n}{f2\PYGZus{}grad\PYGZus{}x1}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{n}{x2}\PYG{p}{)} \PYG{p}{))}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The analytical derivative of f2 w.r.t x1: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(} \PYG{n}{f2\PYGZus{}grad\PYGZus{}x1}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{n}{x2}\PYG{p}{)} \PYG{p}{))}
+
+\PYG{n+nb}{print}\PYG{p}{()}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The derivative of f2 w.r.t x2: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(} \PYG{n}{f2\PYGZus{}grad\PYGZus{}x2}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{n}{x2}\PYG{p}{)} \PYG{p}{))}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The analytical derivative of f2 w.r.t x2: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(} \PYG{n}{f2\PYGZus{}grad\PYGZus{}x2}\PYG{p}{(}\PYG{n}{x1}\PYG{p}{,}\PYG{n}{x2}\PYG{p}{)} \PYG{p}{))}
+\end{Verbatim}

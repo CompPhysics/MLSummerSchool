@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{from} \PYG{n+nn}{random} \PYG{k+kn}{import} \PYG{n}{random}\PYG{p}{,} \PYG{n}{seed}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{from} \PYG{n+nn}{mpl\PYGZus{}toolkits.mplot3d} \PYG{k+kn}{import} \PYG{n}{Axes3D}
+\PYG{k+kn}{from} \PYG{n+nn}{matplotlib} \PYG{k+kn}{import} \PYG{n}{cm}
+\PYG{k+kn}{from} \PYG{n+nn}{matplotlib.ticker} \PYG{k+kn}{import} \PYG{n}{LinearLocator}\PYG{p}{,} \PYG{n}{FormatStrFormatter}
+\PYG{k+kn}{import} \PYG{n+nn}{sys}
+
+\PYG{c+c1}{\PYGZsh{} the number of datapoints}
+\PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{100}
+\PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{4}\PYG{o}{+}\PYG{l+m+mi}{3}\PYG{o}{*}\PYG{n}{x}\PYG{o}{+}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{X} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{c\PYGZus{}}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{ones}\PYG{p}{((}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)),} \PYG{n}{x}\PYG{p}{]}
+\PYG{n}{XT\PYGZus{}X} \PYG{o}{=} \PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{X}
+
+\PYG{c+c1}{\PYGZsh{}Ridge parameter lambda}
+\PYG{n}{lmbda}  \PYG{o}{=} \PYG{l+m+mf}{0.001}
+\PYG{n}{Id} \PYG{o}{=} \PYG{n}{lmbda}\PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{eye}\PYG{p}{(}\PYG{n}{XT\PYGZus{}X}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+
+\PYG{n}{beta\PYGZus{}linreg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{inv}\PYG{p}{(}\PYG{n}{XT\PYGZus{}X}\PYG{o}{+}\PYG{n}{Id}\PYG{p}{)} \PYG{o}{@} \PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{y}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{beta\PYGZus{}linreg}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{} Start plain gradient descent}
+\PYG{n}{beta} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{eta} \PYG{o}{=} \PYG{l+m+mf}{0.1}
+\PYG{n}{Niterations} \PYG{o}{=} \PYG{l+m+mi}{100}
+
+\PYG{k}{for} \PYG{n+nb}{iter} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{Niterations}\PYG{p}{):}
+    \PYG{n}{gradients} \PYG{o}{=} \PYG{l+m+mf}{2.0}\PYG{o}{/}\PYG{n}{n}\PYG{o}{*}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{p}{(}\PYG{n}{X} \PYG{o}{@} \PYG{p}{(}\PYG{n}{beta}\PYG{p}{)}\PYG{o}{\PYGZhy{}}\PYG{n}{y}\PYG{p}{)}\PYG{o}{+}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{lmbda}\PYG{o}{*}\PYG{n}{beta}
+    \PYG{n}{beta} \PYG{o}{\PYGZhy{}=} \PYG{n}{eta}\PYG{o}{*}\PYG{n}{gradients}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{beta}\PYG{p}{)}
+\PYG{n}{ypredict} \PYG{o}{=} \PYG{n}{X} \PYG{o}{@} \PYG{n}{beta}
+\PYG{n}{ypredict2} \PYG{o}{=} \PYG{n}{X} \PYG{o}{@} \PYG{n}{beta\PYGZus{}linreg}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{ypredict}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{ypredict2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}b\PYGZhy{}\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}ro\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{axis}\PYG{p}{([}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mf}{2.0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{15.0}\PYG{p}{])}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}x\PYGZdl{}\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}\PYGZdl{}y\PYGZdl{}\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s+sa}{r}\PYG{l+s+s1}{\PYGZsq{}Gradient descent example for Ridge\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{()}
+\end{Verbatim}

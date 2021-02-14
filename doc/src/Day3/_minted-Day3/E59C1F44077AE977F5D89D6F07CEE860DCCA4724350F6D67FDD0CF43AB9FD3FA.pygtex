@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{autograd.numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{autograd} \PYG{k+kn}{import} \PYG{n}{grad}
+\PYG{k}{def} \PYG{n+nf}{f9\PYGZus{}alternative}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Assume a is an array with 2 elements}
+    \PYG{n}{b} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([}\PYG{l+m+mf}{1.0}\PYG{p}{,}\PYG{l+m+mf}{2.0}\PYG{p}{])}
+    \PYG{k}{return} \PYG{n}{np}\PYG{o}{.}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{b}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} The same as x\PYGZus{}1*b\PYGZus{}1 + x\PYGZus{}2*b\PYGZus{}2}
+
+\PYG{n}{f9\PYGZus{}alternative\PYGZus{}grad} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{f9\PYGZus{}alternative}\PYG{p}{)}
+
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{([}\PYG{l+m+mf}{3.0}\PYG{p}{,}\PYG{l+m+mf}{0.0}\PYG{p}{])}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The gradient of f9 is:\PYGZdq{}}\PYG{p}{,}\PYG{n}{f9\PYGZus{}alternative\PYGZus{}grad}\PYG{p}{(}\PYG{n}{x}\PYG{p}{))}
+
+\PYG{c+c1}{\PYGZsh{} The analytical gradient of the dot product of vectors x and b with two elements (x\PYGZus{}1,x\PYGZus{}2) and (b\PYGZus{}1, b\PYGZus{}2) respectively}
+\PYG{c+c1}{\PYGZsh{} w.r.t x is (b\PYGZus{}1, b\PYGZus{}2).}
+\end{Verbatim}

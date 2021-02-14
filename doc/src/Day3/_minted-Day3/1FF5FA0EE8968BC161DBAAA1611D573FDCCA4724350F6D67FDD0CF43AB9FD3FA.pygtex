@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{autograd.numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{autograd} \PYG{k+kn}{import} \PYG{n}{grad}
+\PYG{c+c1}{\PYGZsh{} Both of the functions are implementation of the sum: sum(x**i) for i = 0, ..., 9}
+\PYG{c+c1}{\PYGZsh{} The analytical derivative is: sum(i*x**(i\PYGZhy{}1))}
+\PYG{n}{f6\PYGZus{}grad\PYGZus{}analytical} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{):}
+    \PYG{n}{f6\PYGZus{}grad\PYGZus{}analytical} \PYG{o}{+=} \PYG{n}{i}\PYG{o}{*}\PYG{n}{x}\PYG{o}{**}\PYG{p}{(}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The analytical derivative of f6 at x = }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{ is: }\PYG{l+s+si}{\PYGZpc{}g}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{\PYGZpc{}}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{f6\PYGZus{}grad\PYGZus{}analytical}\PYG{p}{))}
+\end{Verbatim}

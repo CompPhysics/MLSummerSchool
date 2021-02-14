@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+
+\PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{100} \PYG{c+c1}{\PYGZsh{}100 datapoints}
+\PYG{n}{M} \PYG{o}{=} \PYG{l+m+mi}{5}   \PYG{c+c1}{\PYGZsh{}size of each minibatch}
+\PYG{n}{m} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{n}\PYG{o}{/}\PYG{n}{M}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}number of minibatches}
+\PYG{n}{n\PYGZus{}epochs} \PYG{o}{=} \PYG{l+m+mi}{10} \PYG{c+c1}{\PYGZsh{}number of epochs}
+
+\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{n\PYGZus{}epochs}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{m}\PYG{p}{):}
+        \PYG{n}{k} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randint}\PYG{p}{(}\PYG{n}{m}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{}Pick the k\PYGZhy{}th minibatch at random}
+        \PYG{c+c1}{\PYGZsh{}Compute the gradient using the data in minibatch Bk}
+        \PYG{c+c1}{\PYGZsh{}Compute new suggestion for}
+        \PYG{n}{j} \PYG{o}{+=} \PYG{l+m+mi}{1}
+\end{Verbatim}

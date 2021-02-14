@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{autograd.numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{autograd} \PYG{k+kn}{import} \PYG{n}{grad}
+\PYG{k}{def} \PYG{n+nf}{f8}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):} \PYG{c+c1}{\PYGZsh{} Assume x is an array}
+    \PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{3}
+    \PYG{k}{return} \PYG{n}{x}\PYG{o}{*}\PYG{l+m+mi}{2}
+
+\PYG{n}{f8\PYGZus{}grad} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{(}\PYG{n}{f8}\PYG{p}{)}
+
+\PYG{n}{x} \PYG{o}{=} \PYG{l+m+mf}{8.4}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The derivative of f8 is:\PYGZdq{}}\PYG{p}{,}\PYG{n}{f8\PYGZus{}grad}\PYG{p}{(}\PYG{n}{x}\PYG{p}{))}
+\end{Verbatim}

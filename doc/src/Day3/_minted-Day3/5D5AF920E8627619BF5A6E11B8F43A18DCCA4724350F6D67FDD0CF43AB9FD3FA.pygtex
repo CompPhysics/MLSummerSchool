@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{cancerpd} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{data}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=}\PYG{n}{cancer}\PYG{o}{.}\PYG{n}{feature\PYGZus{}names}\PYG{p}{)}
+\end{Verbatim}

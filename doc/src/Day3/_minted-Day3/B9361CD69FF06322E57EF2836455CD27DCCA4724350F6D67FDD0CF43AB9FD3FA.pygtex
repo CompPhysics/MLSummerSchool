@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{} Importing various packages}
+\PYG{k+kn}{from} \PYG{n+nn}{random} \PYG{k+kn}{import} \PYG{n}{random}\PYG{p}{,} \PYG{n}{seed}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib.pyplot} \PYG{k}{as} \PYG{n+nn}{plt}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.linear\PYGZus{}model} \PYG{k+kn}{import} \PYG{n}{SGDRegressor}
+
+\PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{100}
+\PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{4}\PYG{o}{+}\PYG{l+m+mi}{3}\PYG{o}{*}\PYG{n}{x}\PYG{o}{+}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{randn}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{X} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{c\PYGZus{}}\PYG{p}{[}\PYG{n}{np}\PYG{o}{.}\PYG{n}{ones}\PYG{p}{((}\PYG{n}{n}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)),} \PYG{n}{x}\PYG{p}{]}
+\PYG{n}{beta\PYGZus{}linreg} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{inv}\PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{X}\PYG{p}{)} \PYG{o}{@} \PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{y}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{beta\PYGZus{}linreg}\PYG{p}{)}
+\PYG{n}{sgdreg} \PYG{o}{=} \PYG{n}{SGDRegressor}\PYG{p}{(}\PYG{n}{max\PYGZus{}iter} \PYG{o}{=} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{n}{penalty}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,} \PYG{n}{eta0}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{)}
+\PYG{n}{sgdreg}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{y}\PYG{o}{.}\PYG{n}{ravel}\PYG{p}{())}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{sgdreg}\PYG{o}{.}\PYG{n}{intercept\PYGZus{}}\PYG{p}{,} \PYG{n}{sgdreg}\PYG{o}{.}\PYG{n}{coef\PYGZus{}}\PYG{p}{)}
+\end{Verbatim}

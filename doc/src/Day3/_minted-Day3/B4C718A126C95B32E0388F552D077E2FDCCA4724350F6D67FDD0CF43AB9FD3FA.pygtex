@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k}{def} \PYG{n+nf}{f1d}\PYG{p}{(}\PYG{n}{alpha}\PYG{p}{):}
+    \PYG{k}{return} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x} \PYG{o}{+} \PYG{n}{alpha}\PYG{o}{*}\PYG{n}{s}\PYG{p}{)}
+
+\PYG{n}{alpha\PYGZus{}opt} \PYG{o}{=} \PYG{n}{sopt}\PYG{o}{.}\PYG{n}{golden}\PYG{p}{(}\PYG{n}{f1d}\PYG{p}{)}
+\PYG{n}{next\PYGZus{}guess} \PYG{o}{=} \PYG{n}{x} \PYG{o}{+} \PYG{n}{alpha\PYGZus{}opt} \PYG{o}{*} \PYG{n}{s}
+\PYG{n}{guesses}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{next\PYGZus{}guess}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{next\PYGZus{}guess}\PYG{p}{)}
+\end{Verbatim}
