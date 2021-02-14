@@ -80,7 +80,7 @@ is recommended.
 
 
 ## Lecture material
-_The link_ https://compphysics.github.io/MLSummerSchool/doc/web/lectures.html gives you direct access to the learning material with lectures slides and jupyter notebooks. Videos of the lectures will be added. 
+_The link_ https://compphysics.github.io/MLSummerSchool/doc/web/course.html gives you direct access to the learning material with lectures slides and jupyter notebooks. Videos of the lectures will be added. 
 
 
 ##  Teaching schedule,
@@ -92,10 +92,12 @@ _The link_ https://compphysics.github.io/MLSummerSchool/doc/web/lectures.html gi
 | First Week  | February 15-19, 2021 | 
 | Monday | - _Lecture 9am-1030am_: Introduction to Machine Learning and linear regression (MHJ) |
 | Recommended readings |  Before the lectures starts: Bishop Sections 1.1, 1.2 and 1.3 |
-| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/lectures.html  day 1 |
+| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/course.html  day 1 |
 | Wednesday | - _Lecture 1pm-230pm_: Linear Regression and Bias-Variance Tradeoff (MHJ) |
+| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/course.html  day 2 |
 | Recommended readings |  Bishop Section 3.2 and Hastie et al chapter 3 |
 | Friday | - _Lecture 9am-1130am_:  Logistic Regression and Neural Networks (MHJ) |
+| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/course.html  day 3 |
 | Recommended readings |  Bishop Sections 5.1-5.5 and Hastie et al chapter 11 |
 
 ---
@@ -104,8 +106,10 @@ _The link_ https://compphysics.github.io/MLSummerSchool/doc/web/lectures.html gi
 |-|-|
 | Second Week | February 22-26, 2021 |
 | Tuesday | - _Lecture 1pm-230pm_:  Neural Networks, back propagation and examples of classification and CNNs |
+| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/course.html  day 4 |
 | Recommended readings |  Bishop Sections 5.1-5.5 and Hastie et al chapter 11 |
 | Thursday | - _Lecture 9am-1030am_:  Decision trees, Random Forests and Boosting (MHJ) |
+| | Lecture material at https://compphysics.github.io/MLSummerSchool/doc/web/course.html  day 5 |
 | Recommended readings |  Hastie et al chapter 10 |
 
 ---
