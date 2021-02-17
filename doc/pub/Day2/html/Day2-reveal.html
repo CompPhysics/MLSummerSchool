@@ -148,7 +148,7 @@ MathJax.Hub.Config({
 <center>[2] <b>Department of Physics and Astronomy and Facility for Rare Ion Beams and National Superconducting Cyclotron Laboratory, Michigan State University, USA</b></center>
 <br>
 <p>&nbsp;<br>
-<center><h4>Feb 14, 2021</h4></center> <!-- date -->
+<center><h4>Feb 17, 2021</h4></center> <!-- date -->
 <br>
 <p>
 
@@ -162,9 +162,2002 @@ MathJax.Hub.Config({
 <h2 id="plans-for-day-2">Plans for Day 2 </h2>
 
 <ul>
+<p><li> Basics of linear regression</li>
 <p><li> Statistics, probability theory and resampling methods</li>
 <p><li> Shrinkage methods: Ridge and Lasso Regression</li>
 </ul>
+</section>
+
+
+<section>
+<h2 id="linear-regression-basic-overview">Linear Regression, basic overview </h2>
+
+<p>
+The aim of this set of lectures is to introduce basic aspects of linear regression, a widely applied set of methods used to fit continuous functions.
+
+<p>
+We will also use these widely popular methods to introduce resampling techniques like bootstrapping and cross-validation.
+
+<p>
+We will in particular focus on
+
+<ul>
+<p><li class="fragment"> Ordinary linear regression</li>
+<p><li class="fragment"> Ridge regression</li>
+<p><li class="fragment"> Lasso regression</li>
+<p><li class="fragment"> Resampling techniques</li>
+<p><li class="fragment"> Bias-variance tradeoff</li>
+</ul>
+</section>
+
+
+<section>
+<h2 id="why-linear-regression-aka-ordinary-least-squares-and-family">Why Linear Regression (aka Ordinary Least Squares and family)? </h2>
+
+<p>
+Fitting a continuous function with linear parameterization in terms of the parameters  \( \boldsymbol{\beta} \).
+
+
+<ul>
+<p><li class="fragment"> Method of choice for fitting a continuous function!</li>
+<p><li class="fragment"> Gives an excellent introduction to central Machine Learning features with <b>understandable pedagogical</b> links to other methods like <b>Neural Networks</b>, <b>Support Vector Machines</b> etc</li>
+<p><li class="fragment"> Analytical expression for the fitting parameters \( \boldsymbol{\beta} \)</li>
+<p><li class="fragment"> Analytical expressions for statistical propertiers like mean values, variances, confidence intervals and more</li>
+<p><li class="fragment"> Analytical relation with probabilistic interpretations</li> 
+<p><li class="fragment"> Easy to introduce basic concepts like bias-variance tradeoff, cross-validation, resampling and regularization techniques and many other ML topics</li>
+<p><li class="fragment"> Easy to code! And links well with classification problems and logistic regression and neural networks</li>
+<p><li class="fragment"> Allows for <b>easy</b> hands-on understanding of gradient descent methods. These methods are at the heart of all essentially all Machine Learning methods.</li>
+<p><li class="fragment"> and many more features</li>
+</ul>
+</section>
+
+
+<section>
+<h2 id="additional-reading">Additional Reading  </h2>
+
+<p>
+For more discussions of Ridge and Lasso regression, <a href="https://arxiv.org/abs/1509.09169" target="_blank">Wessel van Wieringen's</a> article is highly recommended.
+Similarly, <a href="https://arxiv.org/abs/1803.08823" target="_blank">Mehta et al's article</a> is also recommended. The textbook by <a href="https://link.springer.com/book/10.1007/978-0-387-84858-7" target="_blank">Hastie, Tibshirani, and Friedman on The Elements of Statistical Learning Data Mining</a>, chapter 3 is highly recommended.  
+Also <a href="https://www.springer.com/gp/book/9780387310732" target="_blank">Bishop's text</a>, chapter 3 is an excellent read.
+</section>
+
+
+<section>
+<h2 id="regression-analysis-definitions-and-aims">Regression Analysis, Definitions and Aims  </h2>
+</section>
+
+
+<section>
+<h2 id="regression-analysis-overarching-aims">Regression analysis, overarching aims  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+Regression modeling deals with the description of  the sampling distribution of a given random variable \( y \) and how it varies as function of another variable or a set of such variables \( \boldsymbol{x} =[x_0, x_1,\dots, x_{n-1}]^T \). 
+The first variable is called the <b>dependent</b>, the <b>outcome</b> or the <b>response</b> variable while the set of variables \( \boldsymbol{x} \) is called the independent variable, or the predictor variable or the explanatory variable.
+
+<p>
+A regression model aims at finding a likelihood function \( p(\boldsymbol{y}\vert \boldsymbol{x}) \), that is the conditional distribution for \( \boldsymbol{y} \) with a given \( \boldsymbol{x} \). The estimation of  \( p(\boldsymbol{y}\vert \boldsymbol{x}) \) is made using a data set with 
+
+<ul>
+<p><li> \( n \) cases \( i = 0, 1, 2, \dots, n-1 \)</li> 
+<p><li> Response (target, dependent or outcome) variable \( y_i \) with \( i = 0, 1, 2, \dots, n-1 \)</li> 
+<p><li> \( p \) so-called explanatory (independent or predictor) variables \( \boldsymbol{x}_i=[x_{i0}, x_{i1}, \dots, x_{ip-1}] \) with \( i = 0, 1, 2, \dots, n-1 \) and explanatory variables running from \( 0 \) to \( p-1 \). See below for more explicit examples.   These variables are also called features or predictors.</li>
+</ul>
+<p>
+
+ The goal of the regression analysis is to extract/exploit relationship between \( \boldsymbol{y} \) and \( \boldsymbol{x} \) in or to infer causal dependencies, approximations to the likelihood functions, functional relationships and to make predictions, making fits and many other things.
+</div>
+</section>
+
+
+<section>
+<h2 id="regression-analysis-overarching-aims-ii">Regression analysis, overarching aims II </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+Consider an experiment in which \( p \) characteristics of \( n \) samples are
+measured. The data from this experiment, for various explanatory variables \( p \) are normally represented by a matrix  
+\( \mathbf{X} \).
+
+<p>
+The matrix \( \mathbf{X} \) is called the <em>design
+matrix</em>. Additional information of the samples is available in the
+form of \( \boldsymbol{y} \) (also as above). The variable \( \boldsymbol{y} \) is
+generally referred to as the <em>response variable</em>. The aim of
+regression analysis is to explain \( \boldsymbol{y} \) in terms of
+\( \boldsymbol{X} \) through a functional relationship like \( y_i =
+f(\mathbf{X}_{i,\ast}) \). When no prior knowledge on the form of
+\( f(\cdot) \) is available, it is common to assume a linear relationship
+between \( \boldsymbol{X} \) and \( \boldsymbol{y} \). This assumption gives rise to
+the <em>linear regression model</em> where \( \boldsymbol{\beta} = [\beta_0, \ldots,
+\beta_{p-1}]^{T} \) are the <em>regression parameters</em>.
+
+<p>
+Linear regression gives us a set of analytical equations for the parameters \( \beta_j \).
+
+<p>
+<b>Note</b>: The optimal values of the parameters \( \boldsymbol{\beta} \) are obtained by minimizing a chosen <b>cost/risk/loss</b> function. We will label these
+as \( \boldsymbol{\hat{\beta}} \) or as \( \boldsymbol{\beta}^{\mathrm{opt}} \).
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="examples">Examples  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+In order to understand the relation among the predictors \( p \), the set of data \( n \) and the target (outcome, output etc) \( \boldsymbol{y} \),
+consider the model we discussed for describing nuclear binding energies.
+
+<p>
+There we assumed that we could parametrize the data using a polynomial approximation based on the liquid drop model.
+Assuming 
+<p>&nbsp;<br>
+$$
+BE(A) = a_0+a_1A+a_2A^{2/3}+a_3A^{-1/3}+a_4A^{-1},
+$$
+<p>&nbsp;<br>
+
+we have five predictors, that is the intercept, the \( A \) dependent term, the \( A^{2/3} \) term and the \( A^{-1/3} \) and \( A^{-1} \) terms.
+This gives \( p=0,1,2,3,4 \). Furthermore we have \( n \) entries for each predictor. It means that our design matrix is an 
+\( n\times p \) matrix \( \boldsymbol{X} \).
+
+<p>
+Here the predictors are based on a model we have made. A popular data set which is widely encountered in ML applications is the
+so-called <a href="https://www.sciencedirect.com/science/article/pii/S0957417407006719?via%3Dihub" target="_blank">credit card default data from Taiwan</a>. The data set contains data on \( n=30000 \) credit card holders with predictors like gender, marital status, age, profession, education, etc. In total there are \( 24 \) such predictors or attributes leading to a design matrix of dimensionality \( 24 \times 30000 \). This is however a classification problem and we will come back to it when we discuss Logistic Regression.
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="general-linear-models">General linear models  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+Before we proceed let us study a case from linear algebra where we aim at fitting a set of data \( \boldsymbol{y}=[y_0,y_1,\dots,y_{n-1}] \). We could think of these data as a result of an experiment or a complicated numerical experiment. These data are functions of a series of variables \( \boldsymbol{x}=[x_0,x_1,\dots,x_{n-1}] \), that is \( y_i = y(x_i) \) with \( i=0,1,2,\dots,n-1 \). The variables \( x_i \) could represent physical quantities like time, temperature, position etc. We assume that \( y(x) \) is a smooth function.
+
+<p>
+Since obtaining these data points may not be trivial, we want to use these data to fit a function which can allow us to make predictions for values of \( y \) which are not in the present set. The perhaps simplest approach is to assume we can parametrize our function in terms of a polynomial of degree \( n-1 \) with \( n \) points, that is
+<p>&nbsp;<br>
+$$
+y=y(x) \rightarrow y(x_i)=\tilde{y}_i+\epsilon_i=\sum_{j=0}^{n-1} \beta_j x_i^j+\epsilon_i,
+$$
+<p>&nbsp;<br>
+
+where \( \epsilon_i \) is the error in our approximation.
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="rewriting-the-fitting-procedure-as-a-linear-algebra-problem">Rewriting the fitting procedure as a linear algebra problem  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+For every set of values \( y_i,x_i \) we have thus the corresponding set of equations
+<p>&nbsp;<br>
+$$
+\begin{align*}
+y_0&=\beta_0+\beta_1x_0^1+\beta_2x_0^2+\dots+\beta_{n-1}x_0^{n-1}+\epsilon_0\\
+y_1&=\beta_0+\beta_1x_1^1+\beta_2x_1^2+\dots+\beta_{n-1}x_1^{n-1}+\epsilon_1\\
+y_2&=\beta_0+\beta_1x_2^1+\beta_2x_2^2+\dots+\beta_{n-1}x_2^{n-1}+\epsilon_2\\
+\dots & \dots \\
+y_{n-1}&=\beta_0+\beta_1x_{n-1}^1+\beta_2x_{n-1}^2+\dots+\beta_{n-1}x_{n-1}^{n-1}+\epsilon_{n-1}.\\
+\end{align*}
+$$
+<p>&nbsp;<br>
+</div>
+</section>
+
+
+<section>
+<h2 id="rewriting-the-fitting-procedure-as-a-linear-algebra-problem-more-details">Rewriting the fitting procedure as a linear algebra problem, more details  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+Defining the vectors
+<p>&nbsp;<br>
+$$
+\boldsymbol{y} = [y_0,y_1, y_2,\dots, y_{n-1}]^T,
+$$
+<p>&nbsp;<br>
+
+and
+<p>&nbsp;<br>
+$$
+\boldsymbol{\beta} = [\beta_0,\beta_1, \beta_2,\dots, \beta_{n-1}]^T,
+$$
+<p>&nbsp;<br>
+
+and
+<p>&nbsp;<br>
+$$
+\boldsymbol{\epsilon} = [\epsilon_0,\epsilon_1, \epsilon_2,\dots, \epsilon_{n-1}]^T,
+$$
+<p>&nbsp;<br>
+
+and the design matrix
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}=
+\begin{bmatrix} 
+1& x_{0}^1 &x_{0}^2& \dots & \dots &x_{0}^{n-1}\\
+1& x_{1}^1 &x_{1}^2& \dots & \dots &x_{1}^{n-1}\\
+1& x_{2}^1 &x_{2}^2& \dots & \dots &x_{2}^{n-1}\\                      
+\dots& \dots &\dots& \dots & \dots &\dots\\
+1& x_{n-1}^1 &x_{n-1}^2& \dots & \dots &x_{n-1}^{n-1}\\
+\end{bmatrix} 
+$$
+<p>&nbsp;<br>
+
+we can rewrite our equations as
+<p>&nbsp;<br>
+$$
+\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}.
+$$
+<p>&nbsp;<br>
+
+The above design matrix is called a <a href="https://en.wikipedia.org/wiki/Vandermonde_matrix" target="_blank">Vandermonde matrix</a>.
+</div>
+</section>
+
+
+<section>
+<h2 id="generalizing-the-fitting-procedure-as-a-linear-algebra-problem">Generalizing the fitting procedure as a linear algebra problem  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+We are obviously not limited to the above polynomial expansions.  We
+could replace the various powers of \( x \) with elements of Fourier
+series or instead of \( x_i^j \) we could have \( \cos{(j x_i)} \) or \( \sin{(j
+x_i)} \), or time series or other orthogonal functions.  For every set
+of values \( y_i,x_i \) we can then generalize the equations to
+
+<p>&nbsp;<br>
+$$
+\begin{align*}
+y_0&=\beta_0x_{00}+\beta_1x_{01}+\beta_2x_{02}+\dots+\beta_{n-1}x_{0n-1}+\epsilon_0\\
+y_1&=\beta_0x_{10}+\beta_1x_{11}+\beta_2x_{12}+\dots+\beta_{n-1}x_{1n-1}+\epsilon_1\\
+y_2&=\beta_0x_{20}+\beta_1x_{21}+\beta_2x_{22}+\dots+\beta_{n-1}x_{2n-1}+\epsilon_2\\
+\dots & \dots \\
+y_{i}&=\beta_0x_{i0}+\beta_1x_{i1}+\beta_2x_{i2}+\dots+\beta_{n-1}x_{in-1}+\epsilon_i\\
+\dots & \dots \\
+y_{n-1}&=\beta_0x_{n-1,0}+\beta_1x_{n-1,2}+\beta_2x_{n-1,2}+\dots+\beta_{n-1}x_{n-1,n-1}+\epsilon_{n-1}.\\
+\end{align*}
+$$
+<p>&nbsp;<br>
+
+<p>
+Note that we have used \( p=n \) here. The matrix is thus quadratic (it may be symmetric). This is generally not the case!
+</div>
+</section>
+
+
+<section>
+<h2 id="generalizing-the-fitting-procedure-as-a-linear-algebra-problem">Generalizing the fitting procedure as a linear algebra problem  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+We redefine in turn the matrix \( \boldsymbol{X} \) as
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}=
+\begin{bmatrix} 
+x_{00}& x_{01} &x_{02}& \dots & \dots &x_{0,n-1}\\
+x_{10}& x_{11} &x_{12}& \dots & \dots &x_{1,n-1}\\
+x_{20}& x_{21} &x_{22}& \dots & \dots &x_{2,n-1}\\                      
+\dots& \dots &\dots& \dots & \dots &\dots\\
+x_{n-1,0}& x_{n-1,1} &x_{n-1,2}& \dots & \dots &x_{n-1,n-1}\\
+\end{bmatrix} 
+$$
+<p>&nbsp;<br>
+
+and without loss of generality we rewrite again  our equations as
+<p>&nbsp;<br>
+$$
+\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta}+\boldsymbol{\epsilon}.
+$$
+<p>&nbsp;<br>
+
+The left-hand side of this equation is kwown. Our error vector \( \boldsymbol{\epsilon} \) and the parameter vector \( \boldsymbol{\beta} \) are our unknown quantities. How can we obtain the optimal set of \( \beta_i \) values?
+</div>
+</section>
+
+
+<section>
+<h2 id="optimizing-our-parameters">Optimizing our parameters  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+We have defined the matrix \( \boldsymbol{X} \) via the equations
+<p>&nbsp;<br>
+$$
+\begin{align*}
+y_0&=\beta_0x_{00}+\beta_1x_{01}+\beta_2x_{02}+\dots+\beta_{n-1}x_{0n-1}+\epsilon_0\\
+y_1&=\beta_0x_{10}+\beta_1x_{11}+\beta_2x_{12}+\dots+\beta_{n-1}x_{1n-1}+\epsilon_1\\
+y_2&=\beta_0x_{20}+\beta_1x_{21}+\beta_2x_{22}+\dots+\beta_{n-1}x_{2n-1}+\epsilon_1\\
+\dots & \dots \\
+y_{i}&=\beta_0x_{i0}+\beta_1x_{i1}+\beta_2x_{i2}+\dots+\beta_{n-1}x_{in-1}+\epsilon_1\\
+\dots & \dots \\
+y_{n-1}&=\beta_0x_{n-1,0}+\beta_1x_{n-1,2}+\beta_2x_{n-1,2}+\dots+\beta_{n-1}x_{n-1,n-1}+\epsilon_{n-1}.\\
+\end{align*}
+$$
+<p>&nbsp;<br>
+
+<p>
+As we noted above, we stayed with a system with the design matrix 
+ \( \boldsymbol{X}\in {\mathbb{R}}^{n\times n} \), that is we have \( p=n \). For reasons to come later (algorithmic arguments) we will hereafter define 
+our matrix as \( \boldsymbol{X}\in {\mathbb{R}}^{n\times p} \), with the predictors refering to the column numbers and the entries \( n \) being the row elements.
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="our-model-for-the-nuclear-binding-energies">Our model for the nuclear binding energies </h2>
+
+<p>
+In our <a href="https://compphysics.github.io/MachineLearning/doc/pub/How2ReadData/html/How2ReadData.html" target="_blank">introductory notes</a> we looked at the so-called <a href="https://en.wikipedia.org/wiki/Semi-empirical_mass_formula" target="_blank">liquid drop model</a>. Let us remind ourselves about what we did by looking at the code.
+
+<p>
+We restate the parts of the code we are most interested in.
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># Common imports</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span>
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">IPython.display</span> <span style="color: #8B008B; font-weight: bold">import</span> display
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">os</span>
+
+<span style="color: #228B22"># Where to save the figures and data files</span>
+PROJECT_ROOT_DIR = <span style="color: #CD5555">&quot;Results&quot;</span>
+FIGURE_ID = <span style="color: #CD5555">&quot;Results/FigureFiles&quot;</span>
+DATA_ID = <span style="color: #CD5555">&quot;DataFiles/&quot;</span>
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(PROJECT_ROOT_DIR):
+    os.mkdir(PROJECT_ROOT_DIR)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(FIGURE_ID):
+    os.makedirs(FIGURE_ID)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(DATA_ID):
+    os.makedirs(DATA_ID)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">image_path</span>(fig_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(FIGURE_ID, fig_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">data_path</span>(dat_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(DATA_ID, dat_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">save_fig</span>(fig_id):
+    plt.savefig(image_path(fig_id) + <span style="color: #CD5555">&quot;.png&quot;</span>, <span style="color: #658b00">format</span>=<span style="color: #CD5555">&#39;png&#39;</span>)
+
+infile = <span style="color: #658b00">open</span>(data_path(<span style="color: #CD5555">&quot;MassEval2016.dat&quot;</span>),<span style="color: #CD5555">&#39;r&#39;</span>)
+
+
+<span style="color: #228B22"># Read the experimental data with Pandas</span>
+Masses = pd.read_fwf(infile, usecols=(<span style="color: #B452CD">2</span>,<span style="color: #B452CD">3</span>,<span style="color: #B452CD">4</span>,<span style="color: #B452CD">6</span>,<span style="color: #B452CD">11</span>),
+              names=(<span style="color: #CD5555">&#39;N&#39;</span>, <span style="color: #CD5555">&#39;Z&#39;</span>, <span style="color: #CD5555">&#39;A&#39;</span>, <span style="color: #CD5555">&#39;Element&#39;</span>, <span style="color: #CD5555">&#39;Ebinding&#39;</span>),
+              widths=(<span style="color: #B452CD">1</span>,<span style="color: #B452CD">3</span>,<span style="color: #B452CD">5</span>,<span style="color: #B452CD">5</span>,<span style="color: #B452CD">5</span>,<span style="color: #B452CD">1</span>,<span style="color: #B452CD">3</span>,<span style="color: #B452CD">4</span>,<span style="color: #B452CD">1</span>,<span style="color: #B452CD">13</span>,<span style="color: #B452CD">11</span>,<span style="color: #B452CD">11</span>,<span style="color: #B452CD">9</span>,<span style="color: #B452CD">1</span>,<span style="color: #B452CD">2</span>,<span style="color: #B452CD">11</span>,<span style="color: #B452CD">9</span>,<span style="color: #B452CD">1</span>,<span style="color: #B452CD">3</span>,<span style="color: #B452CD">1</span>,<span style="color: #B452CD">12</span>,<span style="color: #B452CD">11</span>,<span style="color: #B452CD">1</span>),
+              header=<span style="color: #B452CD">39</span>,
+              index_col=<span style="color: #8B008B; font-weight: bold">False</span>)
+
+<span style="color: #228B22"># Extrapolated values are indicated by &#39;#&#39; in place of the decimal place, so</span>
+<span style="color: #228B22"># the Ebinding column won&#39;t be numeric. Coerce to float and drop these entries.</span>
+Masses[<span style="color: #CD5555">&#39;Ebinding&#39;</span>] = pd.to_numeric(Masses[<span style="color: #CD5555">&#39;Ebinding&#39;</span>], errors=<span style="color: #CD5555">&#39;coerce&#39;</span>)
+Masses = Masses.dropna()
+<span style="color: #228B22"># Convert from keV to MeV.</span>
+Masses[<span style="color: #CD5555">&#39;Ebinding&#39;</span>] /= <span style="color: #B452CD">1000</span>
+
+<span style="color: #228B22"># Group the DataFrame by nucleon number, A.</span>
+Masses = Masses.groupby(<span style="color: #CD5555">&#39;A&#39;</span>)
+<span style="color: #228B22"># Find the rows of the grouped DataFrame with the maximum binding energy.</span>
+Masses = Masses.apply(<span style="color: #8B008B; font-weight: bold">lambda</span> t: t[t.Ebinding==t.Ebinding.max()])
+A = Masses[<span style="color: #CD5555">&#39;A&#39;</span>]
+Z = Masses[<span style="color: #CD5555">&#39;Z&#39;</span>]
+N = Masses[<span style="color: #CD5555">&#39;N&#39;</span>]
+Element = Masses[<span style="color: #CD5555">&#39;Element&#39;</span>]
+Energies = Masses[<span style="color: #CD5555">&#39;Ebinding&#39;</span>]
+
+<span style="color: #228B22"># Now we set up the design matrix X</span>
+X = np.zeros((<span style="color: #658b00">len</span>(A),<span style="color: #B452CD">5</span>))
+X[:,<span style="color: #B452CD">0</span>] = <span style="color: #B452CD">1</span>
+X[:,<span style="color: #B452CD">1</span>] = A
+X[:,<span style="color: #B452CD">2</span>] = A**(<span style="color: #B452CD">2.0</span>/<span style="color: #B452CD">3.0</span>)
+X[:,<span style="color: #B452CD">3</span>] = A**(-<span style="color: #B452CD">1.0</span>/<span style="color: #B452CD">3.0</span>)
+X[:,<span style="color: #B452CD">4</span>] = A**(-<span style="color: #B452CD">1.0</span>)
+<span style="color: #228B22"># Then nice printout using pandas</span>
+DesignMatrix = pd.DataFrame(X)
+DesignMatrix.index = A
+DesignMatrix.columns = [<span style="color: #CD5555">&#39;1&#39;</span>, <span style="color: #CD5555">&#39;A&#39;</span>, <span style="color: #CD5555">&#39;A^(2/3)&#39;</span>, <span style="color: #CD5555">&#39;A^(-1/3)&#39;</span>, <span style="color: #CD5555">&#39;1/A&#39;</span>]
+display(DesignMatrix)
+</pre></div>
+<p>
+With \( \boldsymbol{\beta}\in {\mathbb{R}}^{p\times 1} \), it means that we will hereafter write our equations for the approximation as
+<p>&nbsp;<br>
+$$
+\boldsymbol{\tilde{y}}= \boldsymbol{X}\boldsymbol{\beta},
+$$
+<p>&nbsp;<br>
+
+throughout these lectures.
+</section>
+
+
+<section>
+<h2 id="optimizing-our-parameters-more-details">Optimizing our parameters, more details  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+With the above we use the design matrix to define the approximation \( \boldsymbol{\tilde{y}} \) via the unknown quantity \( \boldsymbol{\beta} \) as
+<p>&nbsp;<br>
+$$
+\boldsymbol{\tilde{y}}= \boldsymbol{X}\boldsymbol{\beta},
+$$
+<p>&nbsp;<br>
+
+and in order to find the optimal parameters \( \beta_i \) instead of solving the above linear algebra problem, we define a function which gives a measure of the spread between the values \( y_i \) (which represent hopefully the exact values) and the parameterized values \( \tilde{y}_i \), namely
+<p>&nbsp;<br>
+$$
+C(\boldsymbol{\beta})=\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2=\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{\tilde{y}}\right)^T\left(\boldsymbol{y}-\boldsymbol{\tilde{y}}\right)\right\},
+$$
+<p>&nbsp;<br>
+
+or using the matrix \( \boldsymbol{X} \) and in a more compact matrix-vector notation as
+<p>&nbsp;<br>
+$$
+C(\boldsymbol{\beta})=\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)^T\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)\right\}.
+$$
+<p>&nbsp;<br>
+
+This function is one possible way to define the so-called cost function.
+
+<p>
+It is also common to define
+the function \( C \) as
+
+<p>&nbsp;<br>
+$$
+C(\boldsymbol{\beta})=\frac{1}{2n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2,
+$$
+<p>&nbsp;<br>
+
+since when taking the first derivative with respect to the unknown parameters \( \beta \), the factor of \( 2 \) cancels out.
+</div>
+</section>
+
+
+<section>
+<h2 id="interpretations-and-optimizing-our-parameters">Interpretations and optimizing our parameters  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+The function 
+<p>&nbsp;<br>
+$$
+C(\boldsymbol{\beta})=\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)^T\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)\right\},
+$$
+<p>&nbsp;<br>
+
+can be linked to the variance of the quantity \( y_i \) if we interpret the latter as the mean value.
+Below we will show that
+<p>&nbsp;<br>
+$$
+y_{i}=\langle y_i \rangle = \beta_0x_{i,0}+\beta_1x_{i,1}+\beta_2x_{i,2}+\dots+\beta_{n-1}x_{i,n-1}+\epsilon_i,
+$$
+<p>&nbsp;<br>
+
+<p>
+where \( \langle y_i \rangle \) is the mean value. Keep in mind also that
+till now we have treated \( y_i \) as the exact value. Normally, the
+response (dependent or outcome) variable \( y_i \) the outcome of a
+numerical experiment or another type of experiment and is thus only an
+approximation to the true value. It is then always accompanied by an
+error estimate, often limited to a statistical error estimate given by
+the standard deviation discussed earlier. In the discussion here we
+will treat \( y_i \) as our exact value for the response variable.
+
+<p>
+In order to find the parameters \( \beta_i \) we will then minimize the spread of \( C(\boldsymbol{\beta}) \), that is we are going to solve the problem
+<p>&nbsp;<br>
+$$
+{\displaystyle \min_{\boldsymbol{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)^T\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)\right\}.
+$$
+<p>&nbsp;<br>
+
+In practical terms it means we will require
+<p>&nbsp;<br>
+$$
+\frac{\partial C(\boldsymbol{\beta})}{\partial \beta_j} = \frac{\partial }{\partial \beta_j}\left[ \frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\beta_0x_{i,0}-\beta_1x_{i,1}-\beta_2x_{i,2}-\dots-\beta_{n-1}x_{i,n-1}\right)^2\right]=0, 
+$$
+<p>&nbsp;<br>
+
+which results in
+<p>&nbsp;<br>
+$$
+\frac{\partial C(\boldsymbol{\beta})}{\partial \beta_j} = -\frac{2}{n}\left[ \sum_{i=0}^{n-1}x_{ij}\left(y_i-\beta_0x_{i,0}-\beta_1x_{i,1}-\beta_2x_{i,2}-\dots-\beta_{n-1}x_{i,n-1}\right)\right]=0, 
+$$
+<p>&nbsp;<br>
+
+or in a matrix-vector form as
+<p>&nbsp;<br>
+$$
+\frac{\partial C(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 0 = \boldsymbol{X}^T\left( \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right).  
+$$
+<p>&nbsp;<br>
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="interpretations-and-optimizing-our-parameters">Interpretations and optimizing our parameters  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+We can rewrite
+<p>&nbsp;<br>
+$$
+\frac{\partial C(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 0 = \boldsymbol{X}^T\left( \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right),  
+$$
+<p>&nbsp;<br>
+
+as
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}^T\boldsymbol{y} = \boldsymbol{X}^T\boldsymbol{X}\boldsymbol{\beta},  
+$$
+<p>&nbsp;<br>
+
+and if the matrix \( \boldsymbol{X}^T\boldsymbol{X} \) is invertible we have the solution
+<p>&nbsp;<br>
+$$
+\boldsymbol{\beta} =\left(\boldsymbol{X}^T\boldsymbol{X}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y}.
+$$
+<p>&nbsp;<br>
+
+<p>
+We note also that since our design matrix is defined as \( \boldsymbol{X}\in
+{\mathbb{R}}^{n\times p} \), the product \( \boldsymbol{X}^T\boldsymbol{X} \in
+{\mathbb{R}}^{p\times p} \).  In the above case we have that \( p \ll n \),
+in our case \( p=5 \) meaning that we end up with inverting a small
+\( 5\times 5 \) matrix. This is a rather common situation, in many cases we end up with low-dimensional
+matrices to invert. The methods discussed here and for many other
+supervised learning algorithms like classification with logistic
+regression or support vector machines, exhibit dimensionalities which
+allow for the usage of direct linear algebra methods such as <b>LU</b> decomposition or <b>Singular Value Decomposition</b> (SVD) for finding the inverse of the matrix
+\( \boldsymbol{X}^T\boldsymbol{X} \).
+</div>
+
+<p>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+<b>Small question</b>: Do you think the example we have at hand here (the nuclear binding energies) can lead to problems in inverting the matrix  \( \boldsymbol{X}^T\boldsymbol{X} \)? What kind of problems can we expect?
+</div>
+</section>
+
+
+<section>
+<h2 id="some-useful-matrix-and-vector-expressions">Some useful matrix and vector expressions </h2>
+
+<p>
+The following matrix and vector relation will be useful here and for the rest of the course. Vectors are always written as boldfaced lower case letters and 
+matrices as upper case boldfaced letters. Here we list some useful expressions
+<p>&nbsp;<br>
+$$
+\frac{\partial (\boldsymbol{b}^T\boldsymbol{a})}{\partial \boldsymbol{a}} = \boldsymbol{b},
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\frac{\partial (\boldsymbol{a}^T\boldsymbol{A}\boldsymbol{a})}{\partial \boldsymbol{a}} = (\boldsymbol{A}+\boldsymbol{A}^T)\boldsymbol{a},
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\frac{\partial tr(\boldsymbol{B}\boldsymbol{A})}{\partial \boldsymbol{A}} = \boldsymbol{B}^T,
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\frac{\partial \log{\vert\boldsymbol{A}\vert}}{\partial \boldsymbol{A}} = (\boldsymbol{A}^{-1})^T.
+$$
+<p>&nbsp;<br>
+</section>
+
+
+<section>
+<h2 id="interpretations-and-optimizing-our-parameters">Interpretations and optimizing our parameters  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+The residuals \( \boldsymbol{\epsilon} \) are in turn given by
+<p>&nbsp;<br>
+$$
+\boldsymbol{\epsilon} = \boldsymbol{y}-\boldsymbol{\tilde{y}} = \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta},
+$$
+<p>&nbsp;<br>
+
+and with 
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}^T\left( \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)= 0, 
+$$
+<p>&nbsp;<br>
+
+we have
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}^T\boldsymbol{\epsilon}=\boldsymbol{X}^T\left( \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)= 0, 
+$$
+<p>&nbsp;<br>
+
+meaning that the solution for \( \boldsymbol{\beta} \) is the one which minimizes the residuals.  Later we will link this with the maximum likelihood approach.
+
+
+</div>
+
+<p>
+Let us now return to our nuclear binding energies and simply code the above equations.
+</section>
+
+
+<section>
+<h2 id="own-code-for-ordinary-least-squares">Own code for Ordinary Least Squares </h2>
+
+<p>
+It is rather straightforward to implement the matrix inversion and obtain the parameters \( \boldsymbol{\beta} \). After having defined the matrix \( \boldsymbol{X} \) we simply need to 
+write
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># matrix inversion to find beta</span>
+beta = np.linalg.inv(X.T @ X) @ X.T @ Energies
+<span style="color: #228B22"># or in a more old-fashioned way</span>
+<span style="color: #228B22"># beta = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(Energies)</span>
+<span style="color: #228B22"># and then make the prediction</span>
+ytilde = X @ beta
+</pre></div>
+<p>
+Alternatively, you can use the least squares functionality in <b>Numpy</b> as
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span>fit = np.linalg.lstsq(X, Energies, rcond =<span style="color: #8B008B; font-weight: bold">None</span>)[<span style="color: #B452CD">0</span>]
+ytildenp = np.dot(fit,X.T)
+</pre></div>
+<p>
+And finally we plot our fit with and compare with data
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span>Masses[<span style="color: #CD5555">&#39;Eapprox&#39;</span>]  = ytilde
+<span style="color: #228B22"># Generate a plot comparing the experimental with the fitted values values.</span>
+fig, ax = plt.subplots()
+ax.set_xlabel(<span style="color: #CD5555">r&#39;$A = N + Z$&#39;</span>)
+ax.set_ylabel(<span style="color: #CD5555">r&#39;$E_\mathrm{bind}\,/\mathrm{MeV}$&#39;</span>)
+ax.plot(Masses[<span style="color: #CD5555">&#39;A&#39;</span>], Masses[<span style="color: #CD5555">&#39;Ebinding&#39;</span>], alpha=<span style="color: #B452CD">0.7</span>, lw=<span style="color: #B452CD">2</span>,
+            label=<span style="color: #CD5555">&#39;Ame2016&#39;</span>)
+ax.plot(Masses[<span style="color: #CD5555">&#39;A&#39;</span>], Masses[<span style="color: #CD5555">&#39;Eapprox&#39;</span>], alpha=<span style="color: #B452CD">0.7</span>, lw=<span style="color: #B452CD">2</span>, c=<span style="color: #CD5555">&#39;m&#39;</span>,
+            label=<span style="color: #CD5555">&#39;Fit&#39;</span>)
+ax.legend()
+save_fig(<span style="color: #CD5555">&quot;Masses2016OLS&quot;</span>)
+plt.show()
+</pre></div>
+</section>
+
+
+<section>
+<h2 id="adding-error-analysis-and-training-set-up">Adding error analysis and training set up </h2>
+
+<p>
+We can easily test our fit by computing the \( R2 \) score that we discussed in connection with the functionality of <b>Scikit-Learn</b> in the introductory slides.
+Since we are not using <b>Scikit-Learn</b> here we can define our own \( R2 \) function as
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">R2</span>(y_data, y_model):
+    <span style="color: #8B008B; font-weight: bold">return</span> <span style="color: #B452CD">1</span> - np.sum((y_data - y_model) ** <span style="color: #B452CD">2</span>) / np.sum((y_data - np.mean(y_data)) ** <span style="color: #B452CD">2</span>)
+</pre></div>
+<p>
+and we would be using it as 
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #658b00">print</span>(R2(Energies,ytilde))
+</pre></div>
+<p>
+We can also add our <b>MSE</b> score as
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">MSE</span>(y_data,y_model):
+    n = np.size(y_model)
+    <span style="color: #8B008B; font-weight: bold">return</span> np.sum((y_data-y_model)**<span style="color: #B452CD">2</span>)/n
+
+<span style="color: #658b00">print</span>(MSE(Energies,ytilde))
+</pre></div>
+<p>
+and finally the relative error as
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">RelativeError</span>(y_data,y_model):
+    <span style="color: #8B008B; font-weight: bold">return</span> <span style="color: #658b00">abs</span>((y_data-y_model)/y_data)
+<span style="color: #658b00">print</span>(RelativeError(Energies, ytilde))
+</pre></div>
+</section>
+
+
+<section>
+<h2 id="the-chi-2-function">The \( \chi^2 \) function  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+Normally, the response (dependent or outcome) variable \( y_i \) is the
+outcome of a numerical experiment or another type of experiment and is
+thus only an approximation to the true value. It is then always
+accompanied by an error estimate, often limited to a statistical error
+estimate given by the standard deviation discussed earlier. In the
+discussion here we will treat \( y_i \) as our exact value for the
+response variable.
+
+<p>
+Introducing the standard deviation \( \sigma_i \) for each measurement
+\( y_i \), we define now the \( \chi^2 \) function (omitting the \( 1/n \) term)
+as
+
+<p>&nbsp;<br>
+$$
+\chi^2(\boldsymbol{\beta})=\frac{1}{n}\sum_{i=0}^{n-1}\frac{\left(y_i-\tilde{y}_i\right)^2}{\sigma_i^2}=\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{\tilde{y}}\right)^T\frac{1}{\boldsymbol{\Sigma^2}}\left(\boldsymbol{y}-\boldsymbol{\tilde{y}}\right)\right\},
+$$
+<p>&nbsp;<br>
+
+where the matrix \( \boldsymbol{\Sigma} \) is a diagonal matrix with \( \sigma_i \) as matrix elements.
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="the-chi-2-function">The \( \chi^2 \) function  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+In order to find the parameters \( \beta_i \) we will then minimize the spread of \( \chi^2(\boldsymbol{\beta}) \) by requiring
+<p>&nbsp;<br>
+$$
+\frac{\partial \chi^2(\boldsymbol{\beta})}{\partial \beta_j} = \frac{\partial }{\partial \beta_j}\left[ \frac{1}{n}\sum_{i=0}^{n-1}\left(\frac{y_i-\beta_0x_{i,0}-\beta_1x_{i,1}-\beta_2x_{i,2}-\dots-\beta_{n-1}x_{i,n-1}}{\sigma_i}\right)^2\right]=0, 
+$$
+<p>&nbsp;<br>
+
+which results in
+<p>&nbsp;<br>
+$$
+\frac{\partial \chi^2(\boldsymbol{\beta})}{\partial \beta_j} = -\frac{2}{n}\left[ \sum_{i=0}^{n-1}\frac{x_{ij}}{\sigma_i}\left(\frac{y_i-\beta_0x_{i,0}-\beta_1x_{i,1}-\beta_2x_{i,2}-\dots-\beta_{n-1}x_{i,n-1}}{\sigma_i}\right)\right]=0, 
+$$
+<p>&nbsp;<br>
+
+or in a matrix-vector form as
+<p>&nbsp;<br>
+$$
+\frac{\partial \chi^2(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 0 = \boldsymbol{A}^T\left( \boldsymbol{b}-\boldsymbol{A}\boldsymbol{\beta}\right).  
+$$
+<p>&nbsp;<br>
+
+where we have defined the matrix \( \boldsymbol{A} =\boldsymbol{X}/\boldsymbol{\Sigma} \) with matrix elements \( a_{ij} = x_{ij}/\sigma_i \) and the vector \( \boldsymbol{b} \) with elements \( b_i = y_i/\sigma_i \).
+</div>
+</section>
+
+
+<section>
+<h2 id="the-chi-2-function">The \( \chi^2 \) function  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+We can rewrite
+<p>&nbsp;<br>
+$$
+\frac{\partial \chi^2(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 0 = \boldsymbol{A}^T\left( \boldsymbol{b}-\boldsymbol{A}\boldsymbol{\beta}\right),  
+$$
+<p>&nbsp;<br>
+
+as
+<p>&nbsp;<br>
+$$
+\boldsymbol{A}^T\boldsymbol{b} = \boldsymbol{A}^T\boldsymbol{A}\boldsymbol{\beta},  
+$$
+<p>&nbsp;<br>
+
+and if the matrix \( \boldsymbol{A}^T\boldsymbol{A} \) is invertible we have the solution
+<p>&nbsp;<br>
+$$
+\boldsymbol{\beta} =\left(\boldsymbol{A}^T\boldsymbol{A}\right)^{-1}\boldsymbol{A}^T\boldsymbol{b}.
+$$
+<p>&nbsp;<br>
+</div>
+</section>
+
+
+<section>
+<h2 id="the-chi-2-function">The \( \chi^2 \) function  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+If we then introduce the matrix
+<p>&nbsp;<br>
+$$
+\boldsymbol{H} =  \left(\boldsymbol{A}^T\boldsymbol{A}\right)^{-1},
+$$
+<p>&nbsp;<br>
+
+we have then the following expression for the parameters \( \beta_j \) (the matrix elements of \( \boldsymbol{H} \) are \( h_{ij} \))
+<p>&nbsp;<br>
+$$
+\beta_j = \sum_{k=0}^{p-1}h_{jk}\sum_{i=0}^{n-1}\frac{y_i}{\sigma_i}\frac{x_{ik}}{\sigma_i} = \sum_{k=0}^{p-1}h_{jk}\sum_{i=0}^{n-1}b_ia_{ik}
+$$
+<p>&nbsp;<br>
+
+We state without proof the expression for the uncertainty  in the parameters \( \beta_j \) as (we leave this as an exercise)
+<p>&nbsp;<br>
+$$
+\sigma^2(\beta_j) = \sum_{i=0}^{n-1}\sigma_i^2\left( \frac{\partial \beta_j}{\partial y_i}\right)^2, 
+$$
+<p>&nbsp;<br>
+
+resulting in 
+<p>&nbsp;<br>
+$$
+\sigma^2(\beta_j) = \left(\sum_{k=0}^{p-1}h_{jk}\sum_{i=0}^{n-1}a_{ik}\right)\left(\sum_{l=0}^{p-1}h_{jl}\sum_{m=0}^{n-1}a_{ml}\right) = h_{jj}!
+$$
+<p>&nbsp;<br>
+</div>
+</section>
+
+
+<section>
+<h2 id="the-chi-2-function">The \( \chi^2 \) function  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+The first step here is to approximate the function \( y \) with a first-order polynomial, that is we write
+<p>&nbsp;<br>
+$$
+y=y(x) \rightarrow y(x_i) \approx \beta_0+\beta_1 x_i.
+$$
+<p>&nbsp;<br>
+
+By computing the derivatives of \( \chi^2 \) with respect to \( \beta_0 \) and \( \beta_1 \) show that these are given by
+<p>&nbsp;<br>
+$$
+\frac{\partial \chi^2(\boldsymbol{\beta})}{\partial \beta_0} = -2\left[ \frac{1}{n}\sum_{i=0}^{n-1}\left(\frac{y_i-\beta_0-\beta_1x_{i}}{\sigma_i^2}\right)\right]=0,
+$$
+<p>&nbsp;<br>
+
+and
+<p>&nbsp;<br>
+$$
+\frac{\partial \chi^2(\boldsymbol{\beta})}{\partial \beta_1} = -\frac{2}{n}\left[ \sum_{i=0}^{n-1}x_i\left(\frac{y_i-\beta_0-\beta_1x_{i}}{\sigma_i^2}\right)\right]=0.
+$$
+<p>&nbsp;<br>
+</div>
+</section>
+
+
+<section>
+<h2 id="the-chi-2-function">The \( \chi^2 \) function  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+For a linear fit (a first-order polynomial) we don't need to invert a matrix!!  
+Defining
+<p>&nbsp;<br>
+$$
+\gamma =  \sum_{i=0}^{n-1}\frac{1}{\sigma_i^2},
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\gamma_x =  \sum_{i=0}^{n-1}\frac{x_{i}}{\sigma_i^2},
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\gamma_y = \sum_{i=0}^{n-1}\left(\frac{y_i}{\sigma_i^2}\right),
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\gamma_{xx} =  \sum_{i=0}^{n-1}\frac{x_ix_{i}}{\sigma_i^2},
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\gamma_{xy} = \sum_{i=0}^{n-1}\frac{y_ix_{i}}{\sigma_i^2},
+$$
+<p>&nbsp;<br>
+
+<p>
+we obtain
+
+<p>&nbsp;<br>
+$$
+\beta_0 = \frac{\gamma_{xx}\gamma_y-\gamma_x\gamma_y}{\gamma\gamma_{xx}-\gamma_x^2},
+$$
+<p>&nbsp;<br>
+
+<p>&nbsp;<br>
+$$
+\beta_1 = \frac{\gamma_{xy}\gamma-\gamma_x\gamma_y}{\gamma\gamma_{xx}-\gamma_x^2}.
+$$
+<p>&nbsp;<br>
+
+<p>
+This approach (different linear and non-linear regression) suffers
+often from both being underdetermined and overdetermined in the
+unknown coefficients \( \beta_i \).  A better approach is to use the
+Singular Value Decomposition (SVD) method discussed below. Or using
+Lasso and Ridge regression. See below.
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="regression-examples">Regression Examples </h2>
+</section>
+
+
+<section>
+<h2 id="fitting-an-equation-of-state-for-dense-nuclear-matter">Fitting an Equation of State for Dense Nuclear Matter </h2>
+
+<p>
+Before we continue, let us introduce yet another example. We are going to fit the
+nuclear equation of state using results from many-body calculations.
+The equation of state we have made available here, as function of
+density, has been derived using modern nucleon-nucleon potentials with
+<a href="https://www.sciencedirect.com/science/article/pii/S0370157399001106" target="_blank">the addition of three-body
+interactions</a>. This
+time the file is presented as a standard <b>csv</b> file.
+
+<p>
+The beginning of the Python code here is similar to what you have seen
+before, with the same initializations and declarations. We use also
+<b>pandas</b> again, rather extensively in order to organize our data.
+
+<p>
+The difference now is that we use <b>Scikit-Learn's</b> regression tools
+instead of our own matrix inversion implementation. Furthermore, we
+sneak in <b>Ridge</b> regression (to be discussed below) which includes a
+hyperparameter \( \lambda \), also to be explained below.
+</section>
+
+
+<section>
+<h2 id="the-code">The code </h2>
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># Common imports</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">os</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">sklearn.linear_model</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">skl</span>
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.metrics</span> <span style="color: #8B008B; font-weight: bold">import</span> mean_squared_error, r2_score, mean_absolute_error
+
+<span style="color: #228B22"># Where to save the figures and data files</span>
+PROJECT_ROOT_DIR = <span style="color: #CD5555">&quot;Results&quot;</span>
+FIGURE_ID = <span style="color: #CD5555">&quot;Results/FigureFiles&quot;</span>
+DATA_ID = <span style="color: #CD5555">&quot;DataFiles/&quot;</span>
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(PROJECT_ROOT_DIR):
+    os.mkdir(PROJECT_ROOT_DIR)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(FIGURE_ID):
+    os.makedirs(FIGURE_ID)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(DATA_ID):
+    os.makedirs(DATA_ID)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">image_path</span>(fig_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(FIGURE_ID, fig_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">data_path</span>(dat_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(DATA_ID, dat_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">save_fig</span>(fig_id):
+    plt.savefig(image_path(fig_id) + <span style="color: #CD5555">&quot;.png&quot;</span>, <span style="color: #658b00">format</span>=<span style="color: #CD5555">&#39;png&#39;</span>)
+
+infile = <span style="color: #658b00">open</span>(data_path(<span style="color: #CD5555">&quot;EoS.csv&quot;</span>),<span style="color: #CD5555">&#39;r&#39;</span>)
+
+<span style="color: #228B22"># Read the EoS data as  csv file and organize the data into two arrays with density and energies</span>
+EoS = pd.read_csv(infile, names=(<span style="color: #CD5555">&#39;Density&#39;</span>, <span style="color: #CD5555">&#39;Energy&#39;</span>))
+EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>] = pd.to_numeric(EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>], errors=<span style="color: #CD5555">&#39;coerce&#39;</span>)
+EoS = EoS.dropna()
+Energies = EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>]
+Density = EoS[<span style="color: #CD5555">&#39;Density&#39;</span>]
+<span style="color: #228B22">#  The design matrix now as function of various polytrops</span>
+X = np.zeros((<span style="color: #658b00">len</span>(Density),<span style="color: #B452CD">4</span>))
+X[:,<span style="color: #B452CD">3</span>] = Density**(<span style="color: #B452CD">4.0</span>/<span style="color: #B452CD">3.0</span>)
+X[:,<span style="color: #B452CD">2</span>] = Density
+X[:,<span style="color: #B452CD">1</span>] = Density**(<span style="color: #B452CD">2.0</span>/<span style="color: #B452CD">3.0</span>)
+X[:,<span style="color: #B452CD">0</span>] = <span style="color: #B452CD">1</span>
+
+<span style="color: #228B22"># We use now Scikit-Learn&#39;s linear regressor and ridge regressor</span>
+<span style="color: #228B22"># OLS part</span>
+clf = skl.LinearRegression().fit(X, Energies)
+ytilde = clf.predict(X)
+EoS[<span style="color: #CD5555">&#39;Eols&#39;</span>]  = ytilde
+<span style="color: #228B22"># The mean squared error                               </span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Mean squared error: %.2f&quot;</span> % mean_squared_error(Energies, ytilde))
+<span style="color: #228B22"># Explained variance score: 1 is perfect prediction                                 </span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Variance score: %.2f&#39;</span> % r2_score(Energies, ytilde))
+<span style="color: #228B22"># Mean absolute error                                                           </span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Mean absolute error: %.2f&#39;</span> % mean_absolute_error(Energies, ytilde))
+<span style="color: #658b00">print</span>(clf.coef_, clf.intercept_)
+
+<span style="color: #228B22"># The Ridge regression with a hyperparameter lambda = 0.1</span>
+_lambda = <span style="color: #B452CD">0.1</span>
+clf_ridge = skl.Ridge(alpha=_lambda).fit(X, Energies)
+yridge = clf_ridge.predict(X)
+EoS[<span style="color: #CD5555">&#39;Eridge&#39;</span>]  = yridge
+<span style="color: #228B22"># The mean squared error                               </span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Mean squared error: %.2f&quot;</span> % mean_squared_error(Energies, yridge))
+<span style="color: #228B22"># Explained variance score: 1 is perfect prediction                                 </span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Variance score: %.2f&#39;</span> % r2_score(Energies, yridge))
+<span style="color: #228B22"># Mean absolute error                                                           </span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Mean absolute error: %.2f&#39;</span> % mean_absolute_error(Energies, yridge))
+<span style="color: #658b00">print</span>(clf_ridge.coef_, clf_ridge.intercept_)
+
+fig, ax = plt.subplots()
+ax.set_xlabel(<span style="color: #CD5555">r&#39;$\rho[\mathrm{fm}^{-3}]$&#39;</span>)
+ax.set_ylabel(<span style="color: #CD5555">r&#39;Energy per particle&#39;</span>)
+ax.plot(EoS[<span style="color: #CD5555">&#39;Density&#39;</span>], EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>], alpha=<span style="color: #B452CD">0.7</span>, lw=<span style="color: #B452CD">2</span>,
+            label=<span style="color: #CD5555">&#39;Theoretical data&#39;</span>)
+ax.plot(EoS[<span style="color: #CD5555">&#39;Density&#39;</span>], EoS[<span style="color: #CD5555">&#39;Eols&#39;</span>], alpha=<span style="color: #B452CD">0.7</span>, lw=<span style="color: #B452CD">2</span>, c=<span style="color: #CD5555">&#39;m&#39;</span>,
+            label=<span style="color: #CD5555">&#39;OLS&#39;</span>)
+ax.plot(EoS[<span style="color: #CD5555">&#39;Density&#39;</span>], EoS[<span style="color: #CD5555">&#39;Eridge&#39;</span>], alpha=<span style="color: #B452CD">0.7</span>, lw=<span style="color: #B452CD">2</span>, c=<span style="color: #CD5555">&#39;g&#39;</span>,
+            label=<span style="color: #CD5555">&#39;Ridge $\lambda = 0.1$&#39;</span>)
+ax.legend()
+save_fig(<span style="color: #CD5555">&quot;EoSfitting&quot;</span>)
+plt.show()
+</pre></div>
+<p>
+The above simple polynomial in density \( \rho \) gives an excellent fit
+to the data.
+
+<p>
+We note also that there is a small deviation between the
+standard OLS and the Ridge regression at higher densities. We discuss this in more detail
+below.
+</section>
+
+
+<section>
+<h2 id="splitting-our-data-in-training-and-test-data">Splitting our Data in Training and Test data </h2>
+
+<p>
+It is normal in essentially all Machine Learning studies to split the
+data in a training set and a test set (sometimes also an additional
+validation set).  <b>Scikit-Learn</b> has an own function for this. There
+is no explicit recipe for how much data should be included as training
+data and say test data.  An accepted rule of thumb is to use
+approximately \( 2/3 \) to \( 4/5 \) of the data as training data. We will
+postpone a discussion of this splitting to the end of these notes and
+our discussion of the so-called <b>bias-variance</b> tradeoff. Here we
+limit ourselves to repeat the above equation of state fitting example
+but now splitting the data into a training set and a test set.
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">os</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span>
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.model_selection</span> <span style="color: #8B008B; font-weight: bold">import</span> train_test_split
+<span style="color: #228B22"># Where to save the figures and data files</span>
+PROJECT_ROOT_DIR = <span style="color: #CD5555">&quot;Results&quot;</span>
+FIGURE_ID = <span style="color: #CD5555">&quot;Results/FigureFiles&quot;</span>
+DATA_ID = <span style="color: #CD5555">&quot;DataFiles/&quot;</span>
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(PROJECT_ROOT_DIR):
+    os.mkdir(PROJECT_ROOT_DIR)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(FIGURE_ID):
+    os.makedirs(FIGURE_ID)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(DATA_ID):
+    os.makedirs(DATA_ID)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">image_path</span>(fig_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(FIGURE_ID, fig_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">data_path</span>(dat_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(DATA_ID, dat_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">save_fig</span>(fig_id):
+    plt.savefig(image_path(fig_id) + <span style="color: #CD5555">&quot;.png&quot;</span>, <span style="color: #658b00">format</span>=<span style="color: #CD5555">&#39;png&#39;</span>)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">R2</span>(y_data, y_model):
+    <span style="color: #8B008B; font-weight: bold">return</span> <span style="color: #B452CD">1</span> - np.sum((y_data - y_model) ** <span style="color: #B452CD">2</span>) / np.sum((y_data - np.mean(y_data)) ** <span style="color: #B452CD">2</span>)
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">MSE</span>(y_data,y_model):
+    n = np.size(y_model)
+    <span style="color: #8B008B; font-weight: bold">return</span> np.sum((y_data-y_model)**<span style="color: #B452CD">2</span>)/n
+
+infile = <span style="color: #658b00">open</span>(data_path(<span style="color: #CD5555">&quot;EoS.csv&quot;</span>),<span style="color: #CD5555">&#39;r&#39;</span>)
+
+<span style="color: #228B22"># Read the EoS data as  csv file and organized into two arrays with density and energies</span>
+EoS = pd.read_csv(infile, names=(<span style="color: #CD5555">&#39;Density&#39;</span>, <span style="color: #CD5555">&#39;Energy&#39;</span>))
+EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>] = pd.to_numeric(EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>], errors=<span style="color: #CD5555">&#39;coerce&#39;</span>)
+EoS = EoS.dropna()
+Energies = EoS[<span style="color: #CD5555">&#39;Energy&#39;</span>]
+Density = EoS[<span style="color: #CD5555">&#39;Density&#39;</span>]
+<span style="color: #228B22">#  The design matrix now as function of various polytrops</span>
+X = np.zeros((<span style="color: #658b00">len</span>(Density),<span style="color: #B452CD">5</span>))
+X[:,<span style="color: #B452CD">0</span>] = <span style="color: #B452CD">1</span>
+X[:,<span style="color: #B452CD">1</span>] = Density**(<span style="color: #B452CD">2.0</span>/<span style="color: #B452CD">3.0</span>)
+X[:,<span style="color: #B452CD">2</span>] = Density
+X[:,<span style="color: #B452CD">3</span>] = Density**(<span style="color: #B452CD">4.0</span>/<span style="color: #B452CD">3.0</span>)
+X[:,<span style="color: #B452CD">4</span>] = Density**(<span style="color: #B452CD">5.0</span>/<span style="color: #B452CD">3.0</span>)
+<span style="color: #228B22"># We split the data in test and training data</span>
+X_train, X_test, y_train, y_test = train_test_split(X, Energies, test_size=<span style="color: #B452CD">0.2</span>)
+<span style="color: #228B22"># matrix inversion to find beta</span>
+beta = np.linalg.inv(X_train.T @ X_train) @ X_train.T @ y_train
+<span style="color: #228B22"># and then make the prediction</span>
+ytilde = X_train @ beta
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Training R2&quot;</span>)
+<span style="color: #658b00">print</span>(R2(y_train,ytilde))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Training MSE&quot;</span>)
+<span style="color: #658b00">print</span>(MSE(y_train,ytilde))
+ypredict = X_test @ beta
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Test R2&quot;</span>)
+<span style="color: #658b00">print</span>(R2(y_test,ypredict))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Test MSE&quot;</span>)
+<span style="color: #658b00">print</span>(MSE(y_test,ypredict))
+</pre></div>
+</section>
+
+
+<section>
+<h2 id="the-boston-housing-data-example">The Boston housing data example </h2>
+
+<p>
+The Boston housing  
+data set was originally a part of UCI Machine Learning Repository
+and has been removed now. The data set is now included in <b>Scikit-Learn</b>'s 
+library.  There are 506 samples and 13 feature (predictor) variables
+in this data set. The objective is to predict the value of prices of
+the house using the features (predictors) listed here.
+
+<p>
+The features/predictors are
+
+<ol>
+<p><li> CRIM: Per capita crime rate by town</li>
+<p><li> ZN: Proportion of residential land zoned for lots over 25000 square feet</li>
+<p><li> INDUS: Proportion of non-retail business acres per town</li>
+<p><li> CHAS: Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)</li>
+<p><li> NOX: Nitric oxide concentration (parts per 10 million)</li>
+<p><li> RM: Average number of rooms per dwelling</li>
+<p><li> AGE: Proportion of owner-occupied units built prior to 1940</li>
+<p><li> DIS: Weighted distances to five Boston employment centers</li>
+<p><li> RAD: Index of accessibility to radial highways</li>
+<p><li> TAX: Full-value property tax rate per USD10000</li>
+<p><li> B: \( 1000(Bk - 0.63)^2 \), where \( Bk \) is the proportion of [people of African American descent] by town</li>
+<p><li> LSTAT: Percentage of lower status of the population</li>
+<p><li> MEDV: Median value of owner-occupied homes in USD 1000s</li>
+</ol>
+</section>
+
+
+<section>
+<h2 id="housing-data-the-code">Housing data, the code </h2>
+We start by importing the libraries
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span> 
+
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>  
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">seaborn</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">sns</span> 
+</pre></div>
+<p>
+and load the Boston Housing DataSet from <b>Scikit-Learn</b>
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.datasets</span> <span style="color: #8B008B; font-weight: bold">import</span> load_boston
+
+boston_dataset = load_boston()
+
+<span style="color: #228B22"># boston_dataset is a dictionary</span>
+<span style="color: #228B22"># let&#39;s check what it contains</span>
+boston_dataset.keys()
+</pre></div>
+<p>
+Then we invoke Pandas
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span>boston = pd.DataFrame(boston_dataset.data, columns=boston_dataset.feature_names)
+boston.head()
+boston[<span style="color: #CD5555">&#39;MEDV&#39;</span>] = boston_dataset.target
+</pre></div>
+<p>
+and preprocess the data
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># check for missing values in all the columns</span>
+boston.isnull().sum()
+</pre></div>
+<p>
+We can then visualize the data
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># set the size of the figure</span>
+sns.set(rc={<span style="color: #CD5555">&#39;figure.figsize&#39;</span>:(<span style="color: #B452CD">11.7</span>,<span style="color: #B452CD">8.27</span>)})
+
+<span style="color: #228B22"># plot a histogram showing the distribution of the target values</span>
+sns.distplot(boston[<span style="color: #CD5555">&#39;MEDV&#39;</span>], bins=<span style="color: #B452CD">30</span>)
+plt.show()
+</pre></div>
+<p>
+It is now useful to look at the correlation matrix
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># compute the pair wise correlation for all columns  </span>
+correlation_matrix = boston.corr().round(<span style="color: #B452CD">2</span>)
+<span style="color: #228B22"># use the heatmap function from seaborn to plot the correlation matrix</span>
+<span style="color: #228B22"># annot = True to print the values inside the square</span>
+sns.heatmap(data=correlation_matrix, annot=<span style="color: #8B008B; font-weight: bold">True</span>)
+</pre></div>
+<p>
+From the above coorelation plot we can see that <b>MEDV</b> is strongly correlated to <b>LSTAT</b> and  <b>RM</b>. We see also that <b>RAD</b> and <b>TAX</b> are stronly correlated, but we don't include this in our features together to avoid multi-colinearity
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span>plt.figure(figsize=(<span style="color: #B452CD">20</span>, <span style="color: #B452CD">5</span>))
+
+features = [<span style="color: #CD5555">&#39;LSTAT&#39;</span>, <span style="color: #CD5555">&#39;RM&#39;</span>]
+target = boston[<span style="color: #CD5555">&#39;MEDV&#39;</span>]
+
+<span style="color: #8B008B; font-weight: bold">for</span> i, col <span style="color: #8B008B">in</span> <span style="color: #658b00">enumerate</span>(features):
+    plt.subplot(<span style="color: #B452CD">1</span>, <span style="color: #658b00">len</span>(features) , i+<span style="color: #B452CD">1</span>)
+    x = boston[col]
+    y = target
+    plt.scatter(x, y, marker=<span style="color: #CD5555">&#39;o&#39;</span>)
+    plt.title(col)
+    plt.xlabel(col)
+    plt.ylabel(<span style="color: #CD5555">&#39;MEDV&#39;</span>)
+</pre></div>
+<p>
+Now we start training our model
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span>X = pd.DataFrame(np.c_[boston[<span style="color: #CD5555">&#39;LSTAT&#39;</span>], boston[<span style="color: #CD5555">&#39;RM&#39;</span>]], columns = [<span style="color: #CD5555">&#39;LSTAT&#39;</span>,<span style="color: #CD5555">&#39;RM&#39;</span>])
+Y = boston[<span style="color: #CD5555">&#39;MEDV&#39;</span>]
+</pre></div>
+<p>
+We split the data into training and test sets
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.model_selection</span> <span style="color: #8B008B; font-weight: bold">import</span> train_test_split
+
+<span style="color: #228B22"># splits the training and test data set in 80% : 20%</span>
+<span style="color: #228B22"># assign random_state to any value.This ensures consistency.</span>
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = <span style="color: #B452CD">0.2</span>, random_state=<span style="color: #B452CD">5</span>)
+<span style="color: #658b00">print</span>(X_train.shape)
+<span style="color: #658b00">print</span>(X_test.shape)
+<span style="color: #658b00">print</span>(Y_train.shape)
+<span style="color: #658b00">print</span>(Y_test.shape)
+</pre></div>
+<p>
+Then we use the linear regression functionality from <b>Scikit-Learn</b>
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.linear_model</span> <span style="color: #8B008B; font-weight: bold">import</span> LinearRegression
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.metrics</span> <span style="color: #8B008B; font-weight: bold">import</span> mean_squared_error, r2_score
+
+lin_model = LinearRegression()
+lin_model.fit(X_train, Y_train)
+
+<span style="color: #228B22"># model evaluation for training set</span>
+
+y_train_predict = lin_model.predict(X_train)
+rmse = (np.sqrt(mean_squared_error(Y_train, y_train_predict)))
+r2 = r2_score(Y_train, y_train_predict)
+
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;The model performance for training set&quot;</span>)
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;--------------------------------------&quot;</span>)
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;RMSE is {}&#39;</span>.format(rmse))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;R2 score is {}&#39;</span>.format(r2))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;\n&quot;</span>)
+
+<span style="color: #228B22"># model evaluation for testing set</span>
+
+y_test_predict = lin_model.predict(X_test)
+<span style="color: #228B22"># root mean square error of the model</span>
+rmse = (np.sqrt(mean_squared_error(Y_test, y_test_predict)))
+
+<span style="color: #228B22"># r-squared score of the model</span>
+r2 = r2_score(Y_test, y_test_predict)
+
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;The model performance for testing set&quot;</span>)
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;--------------------------------------&quot;</span>)
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;RMSE is {}&#39;</span>.format(rmse))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;R2 score is {}&#39;</span>.format(r2))
+</pre></div>
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># plotting the y_test vs y_pred</span>
+<span style="color: #228B22"># ideally should have been a straight line</span>
+plt.scatter(Y_test, y_test_predict)
+plt.show()
+</pre></div>
+</section>
+
+
+<section>
+<h2 id="reducing-the-number-of-degrees-of-freedom-overarching-view">Reducing the number of degrees of freedom, overarching view  </h2>
+<div class="alert alert-block alert-block alert-text-normal">
+<b></b>
+<p>
+Many Machine Learning problems involve thousands or even millions of
+features for each training instance. Not only does this make training
+extremely slow, it can also make it much harder to find a good
+solution, as we will see. This problem is often referred to as the
+curse of dimensionality.  Fortunately, in real-world problems, it is
+often possible to reduce the number of features considerably, turning
+an intractable problem into a tractable one.
+
+<p>
+Later  we will discuss some of the most popular dimensionality reduction
+techniques: the principal component analysis (PCA), Kernel PCA, and
+Locally Linear Embedding (LLE).
+
+<p>
+Principal component analysis and its various variants deal with the
+problem of fitting a low-dimensional <a href="https://en.wikipedia.org/wiki/Affine_space" target="_blank">affine
+subspace</a> to a set of of
+data points in a high-dimensional space. With its family of methods it
+is one of the most used tools in data modeling, compression and
+visualization.
+
+
+</div>
+</section>
+
+
+<section>
+<h2 id="preprocessing-our-data">Preprocessing our data  </h2>
+
+<p>
+Before we proceed however, we will discuss how to preprocess our
+data. Till now and in connection with our previous examples we have
+not met so many cases where we are too sensitive to the scaling of our
+data. Normally the data may need a rescaling and/or may be sensitive
+to extreme values. Scaling the data renders our inputs much more
+suitable for the algorithms we want to employ.
+
+<p>
+<b>Scikit-Learn</b> has several functions which allow us to rescale the
+data, normally resulting in much better results in terms of various
+accuracy scores.  The <b>StandardScaler</b> function in <b>Scikit-Learn</b>
+ensures that for each feature/predictor we study the mean value is
+zero and the variance is one (every column in the design/feature
+matrix).  This scaling has the drawback that it does not ensure that
+we have a particular maximum or minimum in our data set. Another
+function included in <b>Scikit-Learn</b> is the <b>MinMaxScaler</b> which
+ensures that all features are exactly between \( 0 \) and \( 1 \). The
+</section>
+
+
+<section>
+<h2 id="more-preprocessing">More preprocessing </h2>
+
+<p>
+The <b>Normalizer</b> scales each data
+point such that the feature vector has a euclidean length of one. In other words, it
+projects a data point on the circle (or sphere in the case of higher dimensions) with a
+radius of 1. This means every data point is scaled by a different number (by the
+inverse of it&#8217;s length).
+This normalization is often used when only the direction (or angle) of the data matters,
+not the length of the feature vector.
+
+<p>
+The <b>RobustScaler</b> works similarly to the StandardScaler in that it
+ensures statistical properties for each feature that guarantee that
+they are on the same scale. However, the RobustScaler uses the median
+and quartiles, instead of mean and variance. This makes the
+RobustScaler ignore data points that are very different from the rest
+(like measurement errors). These odd data points are also called
+outliers, and might often lead to trouble for other scaling
+techniques.
+</section>
+
+
+<section>
+<h2 id="simple-preprocessing-examples-franke-function-and-regression">Simple preprocessing examples, Franke function and regression </h2>
+
+<p>
+
+<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
+<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #228B22"># Common imports</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">os</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">sklearn.linear_model</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">skl</span>
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.metrics</span> <span style="color: #8B008B; font-weight: bold">import</span> mean_squared_error
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.model_selection</span> <span style="color: #8B008B; font-weight: bold">import</span>  train_test_split
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.preprocessing</span> <span style="color: #8B008B; font-weight: bold">import</span> MinMaxScaler, StandardScaler, Normalizer
+
+<span style="color: #228B22"># Where to save the figures and data files</span>
+PROJECT_ROOT_DIR = <span style="color: #CD5555">&quot;Results&quot;</span>
+FIGURE_ID = <span style="color: #CD5555">&quot;Results/FigureFiles&quot;</span>
+DATA_ID = <span style="color: #CD5555">&quot;DataFiles/&quot;</span>
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(PROJECT_ROOT_DIR):
+    os.mkdir(PROJECT_ROOT_DIR)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(FIGURE_ID):
+    os.makedirs(FIGURE_ID)
+
+<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #8B008B">not</span> os.path.exists(DATA_ID):
+    os.makedirs(DATA_ID)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">image_path</span>(fig_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(FIGURE_ID, fig_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">data_path</span>(dat_id):
+    <span style="color: #8B008B; font-weight: bold">return</span> os.path.join(DATA_ID, dat_id)
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">save_fig</span>(fig_id):
+    plt.savefig(image_path(fig_id) + <span style="color: #CD5555">&quot;.png&quot;</span>, <span style="color: #658b00">format</span>=<span style="color: #CD5555">&#39;png&#39;</span>)
+
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">FrankeFunction</span>(x,y):
+	term1 = <span style="color: #B452CD">0.75</span>*np.exp(-(<span style="color: #B452CD">0.25</span>*(<span style="color: #B452CD">9</span>*x-<span style="color: #B452CD">2</span>)**<span style="color: #B452CD">2</span>) - <span style="color: #B452CD">0.25</span>*((<span style="color: #B452CD">9</span>*y-<span style="color: #B452CD">2</span>)**<span style="color: #B452CD">2</span>))
+	term2 = <span style="color: #B452CD">0.75</span>*np.exp(-((<span style="color: #B452CD">9</span>*x+<span style="color: #B452CD">1</span>)**<span style="color: #B452CD">2</span>)/<span style="color: #B452CD">49.0</span> - <span style="color: #B452CD">0.1</span>*(<span style="color: #B452CD">9</span>*y+<span style="color: #B452CD">1</span>))
+	term3 = <span style="color: #B452CD">0.5</span>*np.exp(-(<span style="color: #B452CD">9</span>*x-<span style="color: #B452CD">7</span>)**<span style="color: #B452CD">2</span>/<span style="color: #B452CD">4.0</span> - <span style="color: #B452CD">0.25</span>*((<span style="color: #B452CD">9</span>*y-<span style="color: #B452CD">3</span>)**<span style="color: #B452CD">2</span>))
+	term4 = -<span style="color: #B452CD">0.2</span>*np.exp(-(<span style="color: #B452CD">9</span>*x-<span style="color: #B452CD">4</span>)**<span style="color: #B452CD">2</span> - (<span style="color: #B452CD">9</span>*y-<span style="color: #B452CD">7</span>)**<span style="color: #B452CD">2</span>)
+	<span style="color: #8B008B; font-weight: bold">return</span> term1 + term2 + term3 + term4
+
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">create_X</span>(x, y, n ):
+	<span style="color: #8B008B; font-weight: bold">if</span> <span style="color: #658b00">len</span>(x.shape) &gt; <span style="color: #B452CD">1</span>:
+		x = np.ravel(x)
+		y = np.ravel(y)
+
+	N = <span style="color: #658b00">len</span>(x)
+	l = <span style="color: #658b00">int</span>((n+<span style="color: #B452CD">1</span>)*(n+<span style="color: #B452CD">2</span>)/<span style="color: #B452CD">2</span>)		<span style="color: #228B22"># Number of elements in beta</span>
+	X = np.ones((N,l))
+
+	<span style="color: #8B008B; font-weight: bold">for</span> i <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(<span style="color: #B452CD">1</span>,n+<span style="color: #B452CD">1</span>):
+		q = <span style="color: #658b00">int</span>((i)*(i+<span style="color: #B452CD">1</span>)/<span style="color: #B452CD">2</span>)
+		<span style="color: #8B008B; font-weight: bold">for</span> k <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(i+<span style="color: #B452CD">1</span>):
+			X[:,q+k] = (x**(i-k))*(y**k)
+
+	<span style="color: #8B008B; font-weight: bold">return</span> X
+
+
+<span style="color: #228B22"># Making meshgrid of datapoints and compute Franke&#39;s function</span>
+n = <span style="color: #B452CD">5</span>
+N = <span style="color: #B452CD">1000</span>
+x = np.sort(np.random.uniform(<span style="color: #B452CD">0</span>, <span style="color: #B452CD">1</span>, N))
+y = np.sort(np.random.uniform(<span style="color: #B452CD">0</span>, <span style="color: #B452CD">1</span>, N))
+z = FrankeFunction(x, y)
+X = create_X(x, y, n=n)    
+<span style="color: #228B22"># split in training and test data</span>
+X_train, X_test, y_train, y_test = train_test_split(X,z,test_size=<span style="color: #B452CD">0.2</span>)
+
+
+clf = skl.LinearRegression().fit(X_train, y_train)
+
+<span style="color: #228B22"># The mean squared error and R2 score</span>
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;MSE before scaling: {:.2f}&quot;</span>.format(mean_squared_error(clf.predict(X_test), y_test)))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;R2 score before scaling {:.2f}&quot;</span>.format(clf.score(X_test,y_test)))
+
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train_scaled = scaler.transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Feature min values before scaling:\n {}&quot;</span>.format(X_train.min(axis=<span style="color: #B452CD">0</span>)))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Feature max values before scaling:\n {}&quot;</span>.format(X_train.max(axis=<span style="color: #B452CD">0</span>)))
+
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Feature min values after scaling:\n {}&quot;</span>.format(X_train_scaled.min(axis=<span style="color: #B452CD">0</span>)))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;Feature max values after scaling:\n {}&quot;</span>.format(X_train_scaled.max(axis=<span style="color: #B452CD">0</span>)))
+
+clf = skl.LinearRegression().fit(X_train_scaled, y_train)
+
+
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;MSE after  scaling: {:.2f}&quot;</span>.format(mean_squared_error(clf.predict(X_test_scaled), y_test)))
+<span style="color: #658b00">print</span>(<span style="color: #CD5555">&quot;R2 score for  scaled data: {:.2f}&quot;</span>.format(clf.score(X_test_scaled,y_test)))
+</pre></div>
+</section>
+
+
+<section>
+<h2 id="beyond-ordinary-least-squares">Beyond Ordinary Least Squares </h2>
+</section>
+
+
+<section>
+<h2 id="ridge-and-lasso-regression">Ridge and LASSO Regression </h2>
+
+<p>
+Let us remind ourselves about the expression for the standard Mean Squared Error (MSE) which we used to define our cost function and the equations for the ordinary least squares (OLS) method, that is 
+our optimization problem is
+<p>&nbsp;<br>
+$$
+{\displaystyle \min_{\boldsymbol{\beta}\in {\mathbb{R}}^{p}}}\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)^T\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)\right\}.
+$$
+<p>&nbsp;<br>
+
+or we can state it as
+<p>&nbsp;<br>
+$$
+{\displaystyle \min_{\boldsymbol{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
+$$
+<p>&nbsp;<br>
+
+where we have used the definition of  a norm-2 vector, that is
+<p>&nbsp;<br>
+$$
+\vert\vert \boldsymbol{x}\vert\vert_2 = \sqrt{\sum_i x_i^2}. 
+$$
+<p>&nbsp;<br>
+
+<p>
+By minimizing the above equation with respect to the parameters
+\( \boldsymbol{\beta} \) we could then obtain an analytical expression for the
+parameters \( \boldsymbol{\beta} \).  We can add a regularization parameter \( \lambda \) by
+defining a new cost function to be optimized, that is
+
+<p>&nbsp;<br>
+$$
+{\displaystyle \min_{\boldsymbol{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2
+$$
+<p>&nbsp;<br>
+
+<p>
+which leads to the Ridge regression minimization problem where we
+require that \( \vert\vert \boldsymbol{\beta}\vert\vert_2^2\le t \), where \( t \) is
+a finite number larger than zero. By defining
+
+<p>&nbsp;<br>
+$$
+C(\boldsymbol{X},\boldsymbol{\beta})=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_1,
+$$
+<p>&nbsp;<br>
+
+<p>
+we have a new optimization equation
+<p>&nbsp;<br>
+$$
+{\displaystyle \min_{\boldsymbol{\beta}\in
+{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_1
+$$
+<p>&nbsp;<br>
+
+which leads to Lasso regression. Lasso stands for least absolute shrinkage and selection operator.
+
+<p>
+Here we have defined the norm-1 as 
+<p>&nbsp;<br>
+$$
+\vert\vert \boldsymbol{x}\vert\vert_1 = \sum_i \vert x_i\vert. 
+$$
+<p>&nbsp;<br>
+</section>
+
+
+<section>
+<h2 id="more-on-ridge-regression">More on Ridge Regression </h2>
+
+<p>
+Using the matrix-vector expression for Ridge regression (we drop the \( 1/n \) factor),
+
+<p>&nbsp;<br>
+$$
+C(\boldsymbol{X},\boldsymbol{\beta})=\left\{(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^T(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})\right\}+\lambda\boldsymbol{\beta}^T\boldsymbol{\beta},
+$$
+<p>&nbsp;<br>
+
+<p>
+by taking the derivatives with respect to \( \boldsymbol{\beta} \) we obtain
+<p>&nbsp;<br>
+$$
+\frac{\partial C(\boldsymbol{\beta})}{\partial \boldsymbol{\beta}} = 0 = 2\boldsymbol{X}^T\left( \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)-2\lambda\boldsymbol{\beta}.
+$$
+<p>&nbsp;<br>
+
+<p>
+We obtain 
+a slightly modified matrix inversion problem which for finite values
+of \( \lambda \) does not suffer from singularity problems, that is
+
+<p>&nbsp;<br>
+$$
+\boldsymbol{\beta}^{\mathrm{Ridge}} = \left(\boldsymbol{X}^T\boldsymbol{X}+\lambda\boldsymbol{I}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y},
+$$
+<p>&nbsp;<br>
+
+<p>
+with \( \boldsymbol{I} \) being a \( p\times p \) identity matrix with the constraint that
+
+<p>&nbsp;<br>
+$$
+\sum_{i=0}^{p-1} \beta_i^2 \leq t,
+$$
+<p>&nbsp;<br>
+
+<p>
+with \( t \) a finite positive number.
+
+<p>
+We see that Ridge regression is nothing but the standard
+OLS with a modified diagonal term added to \( \boldsymbol{X}^T\boldsymbol{X} \). The
+consequences, in particular for our discussion of the bias-variance tradeoff 
+are rather interesting.
+
+<p>
+Furthermore, if we use the result above in terms of the SVD decomposition (our analysis was done for the OLS method), we get
+<p>&nbsp;<br>
+$$
+(\boldsymbol{X}\boldsymbol{X}^T)\boldsymbol{U} = \boldsymbol{U}\boldsymbol{D}.
+$$
+<p>&nbsp;<br>
+
+<p>
+We can  analyse the OLS solutions in terms of the eigenvectors (the columns) of the right singular value matrix \( \boldsymbol{U} \) as
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}\boldsymbol{\beta} = \boldsymbol{X}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T \right)^{-1}\boldsymbol{X}^T\boldsymbol{y}=\boldsymbol{U\Sigma V^T}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T \right)^{-1}(\boldsymbol{U\Sigma V^T})^T\boldsymbol{y}=\boldsymbol{U}\boldsymbol{U}^T\boldsymbol{y}
+$$
+<p>&nbsp;<br>
+
+<p>
+For Ridge regression this becomes
+
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}\boldsymbol{\beta}^{\mathrm{Ridge}} = \boldsymbol{U\Sigma V^T}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T+\lambda\boldsymbol{I} \right)^{-1}(\boldsymbol{U\Sigma V^T})^T\boldsymbol{y}=\sum_{j=0}^{p-1}\boldsymbol{u}_j\boldsymbol{u}_j^T\frac{\sigma_j^2}{\sigma_j^2+\lambda}\boldsymbol{y},
+$$
+<p>&nbsp;<br>
+
+<p>
+with the vectors \( \boldsymbol{u}_j \) being the columns of \( \boldsymbol{U} \).
+</section>
+
+
+<section>
+<h2 id="interpreting-the-ridge-results">Interpreting the Ridge results </h2>
+
+<p>
+Since \( \lambda \geq 0 \), it means that compared to OLS, we have
+
+<p>&nbsp;<br>
+$$
+\frac{\sigma_j^2}{\sigma_j^2+\lambda} \leq 1. 
+$$
+<p>&nbsp;<br>
+
+<p>
+Ridge regression finds the coordinates of \( \boldsymbol{y} \) with respect to the
+orthonormal basis \( \boldsymbol{U} \), it then shrinks the coordinates by
+\( \frac{\sigma_j^2}{\sigma_j^2+\lambda} \). Recall that the SVD has
+eigenvalues ordered in a descending way, that is \( \sigma_i \geq
+\sigma_{i+1} \).
+
+<p>
+For small eigenvalues \( \sigma_i \) it means that their contributions become less important, a fact which can be used to reduce the number of degrees of freedom.
+Actually, calculating the variance of \( \boldsymbol{X}\boldsymbol{v}_j \) shows that this quantity is equal to \( \sigma_j^2/n \).
+With a parameter \( \lambda \) we can thus shrink the role of specific parameters.
+</section>
+
+
+<section>
+<h2 id="more-interpretations">More interpretations </h2>
+
+<p>
+For the sake of simplicity, let us assume that the design matrix is orthonormal, that is
+
+<p>&nbsp;<br>
+$$
+\boldsymbol{X}^T\boldsymbol{X}=(\boldsymbol{X}^T\boldsymbol{X})^{-1} =\boldsymbol{I}. 
+$$
+<p>&nbsp;<br>
+
+<p>
+In this case the standard OLS results in 
+<p>&nbsp;<br>
+$$
+\boldsymbol{\beta}^{\mathrm{OLS}} = \boldsymbol{X}^T\boldsymbol{y}=\sum_{i=0}^{p-1}\boldsymbol{u}_j\boldsymbol{u}_j^T\boldsymbol{y},
+$$
+<p>&nbsp;<br>
+
+<p>
+and
+
+<p>&nbsp;<br>
+$$
+\boldsymbol{\beta}^{\mathrm{Ridge}} = \left(\boldsymbol{I}+\lambda\boldsymbol{I}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y}=\left(1+\lambda\right)^{-1}\boldsymbol{\beta}^{\mathrm{OLS}},
+$$
+<p>&nbsp;<br>
+
+<p>
+that is the Ridge estimator scales the OLS estimator by the inverse of a factor \( 1+\lambda \), and
+the Ridge estimator converges to zero when the hyperparameter goes to
+infinity.
+
+<p>
+For more discussions of Ridge and Lasso regression, <a href="https://arxiv.org/abs/1509.09169" target="_blank">Wessel van Wieringen's</a> article is highly recommended.
+Similarly, <a href="https://arxiv.org/abs/1803.08823" target="_blank">Mehta et al's article</a> is also recommended.
+</section>
+
+
+<section>
+<h2 id="statistics">Statistics  </h2>
+</section>
+
+
+<section>
+<h2 id="where-are-we-going">Where are we going? </h2>
+
+<p>
+Before we proceed, we need to rethink what we have been doing. In our
+eager to fit the data, we have omitted several important elements in
+our regression analysis. In what follows we will
+
+<ol>
+<p><li> remind ourselves about some statistical properties, including a discussion of mean values, variance and the so-called bias-variance tradeoff</li>
+<p><li> introduce resampling techniques like cross-validation, bootstrapping and jackknife and more</li>
+</ol>
+<p>
+
+This will allow us to link the standard linear algebra methods we have discussed above to a statistical interpretation of the methods.
+</section>
+
+
+<section>
+<h2 id="linking-the-regression-analysis-with-a-statistical-interpretation">Linking the regression analysis with a statistical interpretation </h2>
+
+<p>
+We are going to discuss several statistical properties which can be obtained in terms of analytical expressions. 
+The
+advantage of doing linear regression is that we actually end up with
+analytical expressions for several statistical quantities.  
+Standard least squares and Ridge regression  allow us to
+derive quantities like the variance and other expectation values in a
+rather straightforward way.
+
+<p>
+It is assumed that \( \varepsilon_i
+\sim \mathcal{N}(0, \sigma^2) \) and the \( \varepsilon_{i} \) are
+independent, i.e.: 
+<p>&nbsp;<br>
+$$
+\begin{align*} 
+\mbox{Cov}(\varepsilon_{i_1},
+\varepsilon_{i_2}) & = \left\{ \begin{array}{lcc} \sigma^2 & \mbox{if}
+& i_1 = i_2, \\ 0 & \mbox{if} & i_1 \not= i_2.  \end{array} \right.
+\end{align*} 
+$$
+<p>&nbsp;<br>
+
+The randomness of \( \varepsilon_i \) implies that
+\( \mathbf{y}_i \) is also a random variable. In particular,
+\( \mathbf{y}_i \) is normally distributed, because \( \varepsilon_i \sim
+\mathcal{N}(0, \sigma^2) \) and \( \mathbf{X}_{i,\ast} \, \boldsymbol{\beta} \) is a
+non-random scalar. To specify the parameters of the distribution of
+\( \mathbf{y}_i \) we need to calculate its first two moments.
+
+<p>
+Recall that \( \boldsymbol{X} \) is a matrix of dimensionality \( n\times p \). The
+notation above \( \mathbf{X}_{i,\ast} \) means that we are looking at the
+row number \( i \) and perform a sum over all values \( p \).
+</section>
+
+
+<section>
+<h2 id="assumptions-made">Assumptions made </h2>
+
+<p>
+The assumption we have made here can be summarized as (and this is going to be useful when we discuss the bias-variance trade off)
+that there exists a function \( f(\boldsymbol{x}) \) and  a normal distributed error \( \boldsymbol{\varepsilon}\sim \mathcal{N}(0, \sigma^2) \)
+which describe our data
+<p>&nbsp;<br>
+$$
+\boldsymbol{y} = f(\boldsymbol{x})+\boldsymbol{\varepsilon}
+$$
+<p>&nbsp;<br>
+
+<p>
+We approximate this function with our model from the solution of the linear regression equations, that is our
+function \( f \) is approximated by \( \boldsymbol{\tilde{y}} \) where we want to minimize \( (\boldsymbol{y}-\boldsymbol{\tilde{y}})^2 \), our MSE, with
+<p>&nbsp;<br>
+$$
+\boldsymbol{\tilde{y}} = \boldsymbol{X}\boldsymbol{\beta}\approx f(\boldsymbol{x}).
+$$
+<p>&nbsp;<br>
+
+<p>
+Note that we reserve the design matrix \( \boldsymbol{X} \) to represent our specific rewrite of the input variables \( \boldsymbol{x} \).
+</section>
+
+
+<section>
+<h2 id="expectation-value-and-variance">Expectation value and variance </h2>
+
+<p>
+We can calculate the expectation value of \( \boldsymbol{y} \) for a given element \( i \) 
+<p>&nbsp;<br>
+$$
+\begin{align*} 
+\mathbb{E}(y_i) & =
+\mathbb{E}(\mathbf{X}_{i, \ast} \, \boldsymbol{\beta}) + \mathbb{E}(\varepsilon_i)
+\, \, \, = \, \, \, \mathbf{X}_{i, \ast} \, \beta, 
+\end{align*} 
+$$
+<p>&nbsp;<br>
+
+while
+its variance is 
+<p>&nbsp;<br>
+$$
+\begin{align*} \mbox{Var}(y_i) & = \mathbb{E} \{ [y_i
+- \mathbb{E}(y_i)]^2 \} \, \, \, = \, \, \, \mathbb{E} ( y_i^2 ) -
+[\mathbb{E}(y_i)]^2  \\  & = \mathbb{E} [ ( \mathbf{X}_{i, \ast} \,
+\beta + \varepsilon_i )^2] - ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 \\ &
+= \mathbb{E} [ ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 + 2 \varepsilon_i
+\mathbf{X}_{i, \ast} \, \boldsymbol{\beta} + \varepsilon_i^2 ] - ( \mathbf{X}_{i,
+\ast} \, \beta)^2 \\  & = ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 + 2
+\mathbb{E}(\varepsilon_i) \mathbf{X}_{i, \ast} \, \boldsymbol{\beta} +
+\mathbb{E}(\varepsilon_i^2 ) - ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 
+\\ & = \mathbb{E}(\varepsilon_i^2 ) \, \, \, = \, \, \,
+\mbox{Var}(\varepsilon_i) \, \, \, = \, \, \, \sigma^2.  
+\end{align*}
+$$
+<p>&nbsp;<br>
+
+Hence, \( y_i \sim \mathcal{N}( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta}, \sigma^2) \), that is \( \boldsymbol{y} \) follows a normal distribution with 
+mean value \( \boldsymbol{X}\boldsymbol{\beta} \) and variance \( \sigma^2 \) (not be confused with the singular values of the SVD).
+</section>
+
+
+<section>
+<h2 id="expectation-value-and-variance-for-boldsymbol-beta">Expectation value and variance for \( \boldsymbol{\beta} \) </h2>
+
+<p>
+With the OLS expressions for the parameters \( \boldsymbol{\beta} \) we can evaluate the expectation value
+<p>&nbsp;<br>
+$$
+\mathbb{E}(\boldsymbol{\beta}) = \mathbb{E}[ (\mathbf{X}^{\top} \mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{Y}]=(\mathbf{X}^{T} \mathbf{X})^{-1}\mathbf{X}^{T} \mathbb{E}[ \mathbf{Y}]=(\mathbf{X}^{T} \mathbf{X})^{-1} \mathbf{X}^{T}\mathbf{X}\boldsymbol{\beta}=\boldsymbol{\beta}.
+$$
+<p>&nbsp;<br>
+
+This means that the estimator of the regression parameters is unbiased.
+
+<p>
+We can also calculate the variance
+
+<p>
+The variance of \( \boldsymbol{\beta} \) is
+<p>&nbsp;<br>
+$$
+\begin{eqnarray*}
+\mbox{Var}(\boldsymbol{\beta}) & = & \mathbb{E} \{ [\boldsymbol{\beta} - \mathbb{E}(\boldsymbol{\beta})] [\boldsymbol{\beta} - \mathbb{E}(\boldsymbol{\beta})]^{T} \}
+\\
+& = & \mathbb{E} \{ [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y} - \boldsymbol{\beta}] \, [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y} - \boldsymbol{\beta}]^{T} \}
+\\
+% & = & \mathbb{E} \{ [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y}] \, [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y}]^{T} \} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
+% \\
+% & = & \mathbb{E} \{ (\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y} \, \mathbf{Y}^{T} \, \mathbf{X} \, (\mathbf{X}^{T} \mathbf{X})^{-1}  \} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
+% \\
+& = & (\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \, \mathbb{E} \{ \mathbf{Y} \, \mathbf{Y}^{T} \} \, \mathbf{X} \, (\mathbf{X}^{T} \mathbf{X})^{-1} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
+\\
+& = & (\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \, \{ \mathbf{X} \, \boldsymbol{\beta} \, \boldsymbol{\beta}^{T} \,  \mathbf{X}^{T} + \sigma^2 \} \, \mathbf{X} \, (\mathbf{X}^{T} \mathbf{X})^{-1} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
+% \\
+% & = & (\mathbf{X}^T \mathbf{X})^{-1} \, \mathbf{X}^T \, \mathbf{X} \, \boldsymbol{\beta} \, \boldsymbol{\beta}^T \,  \mathbf{X}^T \, \mathbf{X} \, (\mathbf{X}^T % \mathbf{X})^{-1}
+% \\
+% & & + \, \, \sigma^2 \, (\mathbf{X}^T \mathbf{X})^{-1} \, \mathbf{X}^T  \, \mathbf{X} \, (\mathbf{X}^T \mathbf{X})^{-1} - \boldsymbol{\beta} \boldsymbol{\beta}^T
+\\
+& = & \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}  + \sigma^2 \, (\mathbf{X}^{T} \mathbf{X})^{-1} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
+\, \, \, = \, \, \, \sigma^2 \, (\mathbf{X}^{T} \mathbf{X})^{-1},
+\end{eqnarray*}
+$$
+<p>&nbsp;<br>
+
+<p>
+where we have used  that \( \mathbb{E} (\mathbf{Y} \mathbf{Y}^{T}) =
+\mathbf{X} \, \boldsymbol{\beta} \, \boldsymbol{\beta}^{T} \, \mathbf{X}^{T} +
+\sigma^2 \, \mathbf{I}_{nn} \). From \( \mbox{Var}(\boldsymbol{\beta}) = \sigma^2
+\, (\mathbf{X}^{T} \mathbf{X})^{-1} \), one obtains an estimate of the
+variance of the estimate of the \( j \)-th regression coefficient:
+\( \boldsymbol{\sigma}^2 (\hat{\beta}_j ) = \boldsymbol{\sigma}^2 \sqrt{
+[(\mathbf{X}^{T} \mathbf{X})^{-1}]_{jj} } \). This may be used to
+construct a confidence interval for the estimates.
+
+<p>
+In a similar way, we can obtain analytical expressions for say the
+expectation values of the parameters \( \boldsymbol{\beta} \) and their variance
+when we employ Ridge regression, allowing us again to define a confidence interval.
+
+<p>
+It is rather straightforward to show that
+<p>&nbsp;<br>
+$$
+\mathbb{E} \big[ \boldsymbol{\beta}^{\mathrm{Ridge}} \big]=(\mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I}_{pp})^{-1} (\mathbf{X}^{\top} \mathbf{X})\boldsymbol{\beta}^{\mathrm{OLS}}.
+$$
+<p>&nbsp;<br>
+
+We see clearly that 
+\( \mathbb{E} \big[ \boldsymbol{\beta}^{\mathrm{Ridge}} \big] \not= \boldsymbol{\beta}^{\mathrm{OLS}} \) for any \( \lambda > 0 \). We say then that the ridge estimator is biased.
+
+<p>
+We can also compute the variance as
+
+<p>&nbsp;<br>
+$$
+\mbox{Var}[\boldsymbol{\beta}^{\mathrm{Ridge}}]=\sigma^2[  \mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I} ]^{-1}  \mathbf{X}^{T} \mathbf{X} \{ [  \mathbf{X}^{\top} \mathbf{X} + \lambda \mathbf{I} ]^{-1}\}^{T},
+$$
+<p>&nbsp;<br>
+
+and it is easy to see that if the parameter \( \lambda \) goes to infinity then the variance of Ridge parameters \( \boldsymbol{\beta} \) goes to zero.
+
+<p>
+With this, we can compute the difference
+
+<p>&nbsp;<br>
+$$
+\mbox{Var}[\boldsymbol{\beta}^{\mathrm{OLS}}]-\mbox{Var}(\boldsymbol{\beta}^{\mathrm{Ridge}})=\sigma^2 [  \mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I} ]^{-1}[ 2\lambda\mathbf{I} + \lambda^2 (\mathbf{X}^{T} \mathbf{X})^{-1} ] \{ [  \mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I} ]^{-1}\}^{T}.
+$$
+<p>&nbsp;<br>
+
+The difference is non-negative definite since each component of the
+matrix product is non-negative definite. 
+This means the variance we obtain with the standard OLS will always for \( \lambda > 0 \) be larger than the variance of \( \boldsymbol{\beta} \) obtained with the Ridge estimator. This has interesting consequences when we discuss the so-called bias-variance trade-off tomorrow.
 </section>
 
 
@@ -275,232 +2268,6 @@ bootstrap is widely used.
 <p><li> Systematical errors are method specific and must be treated differently from case to case.</li> 
 </ul>
 </div>
-</section>
-
-
-<section>
-<h2 id="linking-the-regression-analysis-with-a-statistical-interpretation">Linking the regression analysis with a statistical interpretation </h2>
-
-<p>
-The
-advantage of doing linear regression is that we actually end up with
-analytical expressions for several statistical quantities.  
-Standard least squares and Ridge regression  allow us to
-derive quantities like the variance and other expectation values in a
-rather straightforward way.
-
-<p>
-It is assumed that \( \varepsilon_i
-\sim \mathcal{N}(0, \sigma^2) \) and the \( \varepsilon_{i} \) are
-independent, i.e.: 
-<p>&nbsp;<br>
-$$
-\begin{align*} 
-\mbox{Cov}(\varepsilon_{i_1},
-\varepsilon_{i_2}) & = \left\{ \begin{array}{lcc} \sigma^2 & \mbox{if}
-& i_1 = i_2, \\ 0 & \mbox{if} & i_1 \not= i_2.  \end{array} \right.
-\end{align*} 
-$$
-<p>&nbsp;<br>
-
-The randomness of \( \varepsilon_i \) implies that
-\( \mathbf{y}_i \) is also a random variable. In particular,
-\( \mathbf{y}_i \) is normally distributed, because \( \varepsilon_i \sim
-\mathcal{N}(0, \sigma^2) \) and \( \mathbf{X}_{i,\ast} \, \boldsymbol{\beta} \) is a
-non-random scalar. To specify the parameters of the distribution of
-\( \mathbf{y}_i \) we need to calculate its first two moments.
-
-<p>
-Recall that \( \boldsymbol{X} \) is a matrix of dimensionality \( n\times p \). The
-notation above \( \mathbf{X}_{i,\ast} \) means that we are looking at the
-row number \( i \) and perform a sum over all values \( p \).
-</section>
-
-
-<section>
-<h2 id="assumptions-made">Assumptions made </h2>
-
-<p>
-The assumption we have made here can be summarized as (and this is going to be useful when we discuss the bias-variance trade off)
-that there exists a function \( f(\boldsymbol{x}) \) and  a normal distributed error \( \boldsymbol{\varepsilon}\sim \mathcal{N}(0, \sigma^2) \)
-which describe our data
-<p>&nbsp;<br>
-$$
-\boldsymbol{y} = f(\boldsymbol{x})+\boldsymbol{\varepsilon}
-$$
-<p>&nbsp;<br>
-
-<p>
-We approximate this function with our model from the solution of the linear regression equations, that is our
-function \( f \) is approximated by \( \boldsymbol{\tilde{y}} \) where we want to minimize \( (\boldsymbol{y}-\boldsymbol{\tilde{y}})^2 \), our MSE, with
-<p>&nbsp;<br>
-$$
-\boldsymbol{\tilde{y}} = \boldsymbol{X}\boldsymbol{\beta}.
-$$
-<p>&nbsp;<br>
-</section>
-
-
-<section>
-<h2 id="expectation-value-and-variance">Expectation value and variance </h2>
-
-<p>
-We can calculate the expectation value of \( \boldsymbol{y} \) for a given element \( i \) 
-<p>&nbsp;<br>
-$$
-\begin{align*} 
-\mathbb{E}(y_i) & =
-\mathbb{E}(\mathbf{X}_{i, \ast} \, \boldsymbol{\beta}) + \mathbb{E}(\varepsilon_i)
-\, \, \, = \, \, \, \mathbf{X}_{i, \ast} \, \beta, 
-\end{align*} 
-$$
-<p>&nbsp;<br>
-
-while
-its variance is 
-<p>&nbsp;<br>
-$$
-\begin{align*} \mbox{Var}(y_i) & = \mathbb{E} \{ [y_i
-- \mathbb{E}(y_i)]^2 \} \, \, \, = \, \, \, \mathbb{E} ( y_i^2 ) -
-[\mathbb{E}(y_i)]^2  \\  & = \mathbb{E} [ ( \mathbf{X}_{i, \ast} \,
-\beta + \varepsilon_i )^2] - ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 \\ &
-= \mathbb{E} [ ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 + 2 \varepsilon_i
-\mathbf{X}_{i, \ast} \, \boldsymbol{\beta} + \varepsilon_i^2 ] - ( \mathbf{X}_{i,
-\ast} \, \beta)^2 \\  & = ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 + 2
-\mathbb{E}(\varepsilon_i) \mathbf{X}_{i, \ast} \, \boldsymbol{\beta} +
-\mathbb{E}(\varepsilon_i^2 ) - ( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta})^2 
-\\ & = \mathbb{E}(\varepsilon_i^2 ) \, \, \, = \, \, \,
-\mbox{Var}(\varepsilon_i) \, \, \, = \, \, \, \sigma^2.  
-\end{align*}
-$$
-<p>&nbsp;<br>
-
-Hence, \( y_i \sim \mathcal{N}( \mathbf{X}_{i, \ast} \, \boldsymbol{\beta}, \sigma^2) \), that is \( \boldsymbol{y} \) follows a normal distribution with 
-mean value \( \boldsymbol{X}\boldsymbol{\beta} \) and variance \( \sigma^2 \) (not be confused with the singular values of the SVD).
-</section>
-
-
-<section>
-<h2 id="expectation-value-and-variance-for-boldsymbol-beta">Expectation value and variance for \( \boldsymbol{\beta} \) </h2>
-
-<p>
-With the OLS expressions for the parameters \( \boldsymbol{\beta} \) we can evaluate the expectation value
-<p>&nbsp;<br>
-$$
-\mathbb{E}(\boldsymbol{\beta}) = \mathbb{E}[ (\mathbf{X}^{\top} \mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{Y}]=(\mathbf{X}^{T} \mathbf{X})^{-1}\mathbf{X}^{T} \mathbb{E}[ \mathbf{Y}]=(\mathbf{X}^{T} \mathbf{X})^{-1} \mathbf{X}^{T}\mathbf{X}\boldsymbol{\beta}=\boldsymbol{\beta}.
-$$
-<p>&nbsp;<br>
-
-This means that the estimator of the regression parameters is unbiased.
-
-<p>
-We can also calculate the variance
-
-<p>
-The variance of \( \boldsymbol{\beta} \) is
-<p>&nbsp;<br>
-$$
-\begin{eqnarray*}
-\mbox{Var}(\boldsymbol{\beta}) & = & \mathbb{E} \{ [\boldsymbol{\beta} - \mathbb{E}(\boldsymbol{\beta})] [\boldsymbol{\beta} - \mathbb{E}(\boldsymbol{\beta})]^{T} \}
-\\
-& = & \mathbb{E} \{ [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y} - \boldsymbol{\beta}] \, [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y} - \boldsymbol{\beta}]^{T} \}
-\\
-% & = & \mathbb{E} \{ [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y}] \, [(\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y}]^{T} \} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
-% \\
-% & = & \mathbb{E} \{ (\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \mathbf{Y} \, \mathbf{Y}^{T} \, \mathbf{X} \, (\mathbf{X}^{T} \mathbf{X})^{-1}  \} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
-% \\
-& = & (\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \, \mathbb{E} \{ \mathbf{Y} \, \mathbf{Y}^{T} \} \, \mathbf{X} \, (\mathbf{X}^{T} \mathbf{X})^{-1} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
-\\
-& = & (\mathbf{X}^{T} \mathbf{X})^{-1} \, \mathbf{X}^{T} \, \{ \mathbf{X} \, \boldsymbol{\beta} \, \boldsymbol{\beta}^{T} \,  \mathbf{X}^{T} + \sigma^2 \} \, \mathbf{X} \, (\mathbf{X}^{T} \mathbf{X})^{-1} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
-% \\
-% & = & (\mathbf{X}^T \mathbf{X})^{-1} \, \mathbf{X}^T \, \mathbf{X} \, \boldsymbol{\beta} \, \boldsymbol{\beta}^T \,  \mathbf{X}^T \, \mathbf{X} \, (\mathbf{X}^T % \mathbf{X})^{-1}
-% \\
-% & & + \, \, \sigma^2 \, (\mathbf{X}^T \mathbf{X})^{-1} \, \mathbf{X}^T  \, \mathbf{X} \, (\mathbf{X}^T \mathbf{X})^{-1} - \boldsymbol{\beta} \boldsymbol{\beta}^T
-\\
-& = & \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}  + \sigma^2 \, (\mathbf{X}^{T} \mathbf{X})^{-1} - \boldsymbol{\beta} \, \boldsymbol{\beta}^{T}
-\, \, \, = \, \, \, \sigma^2 \, (\mathbf{X}^{T} \mathbf{X})^{-1},
-\end{eqnarray*}
-$$
-<p>&nbsp;<br>
-
-<p>
-where we have used  that \( \mathbb{E} (\mathbf{Y} \mathbf{Y}^{T}) =
-\mathbf{X} \, \boldsymbol{\beta} \, \boldsymbol{\beta}^{T} \, \mathbf{X}^{T} +
-\sigma^2 \, \mathbf{I}_{nn} \). From \( \mbox{Var}(\boldsymbol{\beta}) = \sigma^2
-\, (\mathbf{X}^{T} \mathbf{X})^{-1} \), one obtains an estimate of the
-variance of the estimate of the \( j \)-th regression coefficient:
-\( \boldsymbol{\sigma}^2 (\boldsymbol{\beta}_j ) = \boldsymbol{\sigma}^2 [(\mathbf{X}^{T} \mathbf{X})^{-1}]_{jj} \). This may be used to
-construct a confidence interval for the estimates.
-
-<p>
-In a similar way, we can obtain analytical expressions for say the
-expectation values of the parameters \( \boldsymbol{\beta} \) and their variance
-when we employ Ridge regression, allowing us again to define a confidence interval.
-
-<p>
-It is rather straightforward to show that
-<p>&nbsp;<br>
-$$
-\mathbb{E} \big[ \boldsymbol{\beta}^{\mathrm{Ridge}} \big]=(\mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I}_{pp})^{-1} (\mathbf{X}^{\top} \mathbf{X})\boldsymbol{\beta}^{\mathrm{OLS}}.
-$$
-<p>&nbsp;<br>
-
-We see clearly that 
-\( \mathbb{E} \big[ \boldsymbol{\beta}^{\mathrm{Ridge}} \big] \not= \boldsymbol{\beta}^{\mathrm{OLS}} \) for any \( \lambda > 0 \). We say then that the ridge estimator is biased.
-
-<p>
-We can also compute the variance as
-
-<p>&nbsp;<br>
-$$
-\mbox{Var}[\boldsymbol{\beta}^{\mathrm{Ridge}}]=\sigma^2[  \mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I} ]^{-1}  \mathbf{X}^{T} \mathbf{X} \{ [  \mathbf{X}^{\top} \mathbf{X} + \lambda \mathbf{I} ]^{-1}\}^{T},
-$$
-<p>&nbsp;<br>
-
-and it is easy to see that if the parameter \( \lambda \) goes to infinity then the variance of Ridge parameters \( \boldsymbol{\beta} \) goes to zero.
-
-<p>
-With this, we can compute the difference
-
-<p>&nbsp;<br>
-$$
-\mbox{Var}[\boldsymbol{\beta}^{\mathrm{OLS}}]-\mbox{Var}(\boldsymbol{\beta}^{\mathrm{Ridge}})=\sigma^2 [  \mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I} ]^{-1}[ 2\lambda\mathbf{I} + \lambda^2 (\mathbf{X}^{T} \mathbf{X})^{-1} ] \{ [  \mathbf{X}^{T} \mathbf{X} + \lambda \mathbf{I} ]^{-1}\}^{T}.
-$$
-<p>&nbsp;<br>
-
-The difference is non-negative definite since each component of the
-matrix product is non-negative definite. 
-This means the variance we obtain with the standard OLS will always for \( \lambda > 0 \) be larger than the variance of \( \boldsymbol{\beta} \) obtained with the Ridge estimator. This has interesting consequences when we discuss the so-called bias-variance trade-off below.
-</section>
-
-
-<section>
-<h2 id="resampling-methods">Resampling methods </h2>
-
-<p>
-With all these analytical equations for both the OLS and Ridge
-regression, we will now outline how to assess a given model. This will
-lead us to a discussion of the so-called bias-variance tradeoff (see
-below) and so-called resampling methods.
-
-<p>
-One of the quantities we have discussed as a way to measure errors is
-the mean-squared error (MSE), mainly used for fitting of continuous
-functions. Another choice is the absolute error.
-
-<p>
-In the discussions below we will focus on the MSE and in particular since we will split the data into test and training data,
-we discuss the
-
-<ol>
-<p><li> prediction error or simply the <b>test error</b> \( \mathrm{Err_{Test}} \), where we have a fixed training set and the test error is the MSE arising from the data reserved for testing. We discuss also the</li> 
-<p><li> training error \( \mathrm{Err_{Train}} \), which is the average loss over the training data.</li>
-</ol>
-<p>
-
-As our model becomes more and more complex, more of the training data tends to  used. The training may thence adapt to more complicated structures in the data. This may lead to a decrease in the bias (see below for code example) and a slight increase of the variance for the test error.
-For a certain level of complexity the test error will reach minimum, before starting to increase again. The
-training error reaches a saturation.
 </section>
 
 
@@ -981,62 +2748,51 @@ that is the rewriting in terms of the so-called bias, the variance of the model 
 
 
 <section>
-<h2 id="example-code-for-bias-variance-tradeoff">Example code for Bias-Variance tradeoff </h2>
+<h2 id="overfitting-training-and-test-data-before-bias-variance-trade-off-analysis">Overfitting, Training and Test data before bias-variance trade-off analysis </h2>
+
+<p>
+Let us just analyze the means-squared error as function of model complexity by comparing the training data against the test data. The first example does also not contain any resampling.
+
 <p>
 
 <!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
 <div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">matplotlib.pyplot</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">plt</span>
 <span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
-<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.linear_model</span> <span style="color: #8B008B; font-weight: bold">import</span> LinearRegression, Ridge, Lasso
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.linear_model</span> <span style="color: #8B008B; font-weight: bold">import</span> LinearRegression
 <span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.preprocessing</span> <span style="color: #8B008B; font-weight: bold">import</span> PolynomialFeatures
 <span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.model_selection</span> <span style="color: #8B008B; font-weight: bold">import</span> train_test_split
 <span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.pipeline</span> <span style="color: #8B008B; font-weight: bold">import</span> make_pipeline
-<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.utils</span> <span style="color: #8B008B; font-weight: bold">import</span> resample
 
 np.random.seed(<span style="color: #B452CD">2018</span>)
 
-n = <span style="color: #B452CD">500</span>
-n_boostraps = <span style="color: #B452CD">100</span>
-degree = <span style="color: #B452CD">18</span>  <span style="color: #228B22"># A quite high value, just to show.</span>
-noise = <span style="color: #B452CD">0.1</span>
+n = <span style="color: #B452CD">40</span>
+maxdegree = <span style="color: #B452CD">14</span>
+
 
 <span style="color: #228B22"># Make data set.</span>
-x = np.linspace(-<span style="color: #B452CD">1</span>, <span style="color: #B452CD">3</span>, n).reshape(-<span style="color: #B452CD">1</span>, <span style="color: #B452CD">1</span>)
-y = np.exp(-x**<span style="color: #B452CD">2</span>) + <span style="color: #B452CD">1.5</span> * np.exp(-(x-<span style="color: #B452CD">2</span>)**<span style="color: #B452CD">2</span>) + np.random.normal(<span style="color: #B452CD">0</span>, <span style="color: #B452CD">0.1</span>, x.shape)
-
-<span style="color: #228B22"># Hold out some test data that is never used in training.</span>
+x = np.linspace(-<span style="color: #B452CD">3</span>, <span style="color: #B452CD">3</span>, n).reshape(-<span style="color: #B452CD">1</span>, <span style="color: #B452CD">1</span>)
+y = np.exp(-x**<span style="color: #B452CD">2</span>) + <span style="color: #B452CD">1.5</span> * np.exp(-(x-<span style="color: #B452CD">2</span>)**<span style="color: #B452CD">2</span>)+ np.random.normal(<span style="color: #B452CD">0</span>, <span style="color: #B452CD">0.1</span>, x.shape)
+TrainMSE = np.zeros(maxdegree)
+TestMSE = np.zeros(maxdegree)
+polydegree = np.zeros(maxdegree)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=<span style="color: #B452CD">0.2</span>)
 
-<span style="color: #228B22"># Combine x transformation and model into one operation.</span>
-<span style="color: #228B22"># Not neccesary, but convenient.</span>
-model = make_pipeline(PolynomialFeatures(degree=degree), LinearRegression(fit_intercept=<span style="color: #8B008B; font-weight: bold">False</span>))
+<span style="color: #8B008B; font-weight: bold">for</span> degree <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(maxdegree):
+    model = make_pipeline(PolynomialFeatures(degree=degree), LinearRegression(fit_intercept=<span style="color: #8B008B; font-weight: bold">False</span>))
+    y_TrainPred = np.empty((y_test.shape[<span style="color: #B452CD">0</span>], n_boostraps))
+    y_TestPred = np.empty((y_test.shape[<span style="color: #B452CD">0</span>], n_boostraps))
+    y_TrainPred[:, i] = model.fit(x_train, y_train).predict(x_train).ravel()
+    y_TestPred[:, i] = model.predict(x_test).ravel()
 
-<span style="color: #228B22"># The following (m x n_bootstraps) matrix holds the column vectors y_pred</span>
-<span style="color: #228B22"># for each bootstrap iteration.</span>
-y_pred = np.empty((y_test.shape[<span style="color: #B452CD">0</span>], n_boostraps))
-<span style="color: #8B008B; font-weight: bold">for</span> i <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(n_boostraps):
-    x_, y_ = resample(x_train, y_train)
+    polydegree[degree] = degree
+    TestMSE[degree] = np.mean( np.mean((y_test - y_TestPred)**<span style="color: #B452CD">2</span>, axis=<span style="color: #B452CD">1</span>, keepdims=<span style="color: #8B008B; font-weight: bold">True</span>) )
+    TrainMSE[degree] = np.mean( np.mean((y_train - y_TrainPred)**<span style="color: #B452CD">2</span>, axis=<span style="color: #B452CD">1</span>, keepdims=<span style="color: #8B008B; font-weight: bold">True</span>) )
+    <span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Polynomial degree:&#39;</span>, degree)
+    <span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Training MSE:&#39;</span>, TrainMSE[degree])
+    <span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Test MSE:&#39;</span>, TestMSE[degree])
 
-    <span style="color: #228B22"># Evaluate the new model on the same test data each time.</span>
-    y_pred[:, i] = model.fit(x_, y_).predict(x_test).ravel()
-
-<span style="color: #228B22"># Note: Expectations and variances taken w.r.t. different training</span>
-<span style="color: #228B22"># data sets, hence the axis=1. Subsequent means are taken across the test data</span>
-<span style="color: #228B22"># set in order to obtain a total value, but before this we have error/bias/variance</span>
-<span style="color: #228B22"># calculated per data point in the test set.</span>
-<span style="color: #228B22"># Note 2: The use of keepdims=True is important in the calculation of bias as this </span>
-<span style="color: #228B22"># maintains the column vector form. Dropping this yields very unexpected results.</span>
-error = np.mean( np.mean((y_test - y_pred)**<span style="color: #B452CD">2</span>, axis=<span style="color: #B452CD">1</span>, keepdims=<span style="color: #8B008B; font-weight: bold">True</span>) )
-bias = np.mean( (y_test - np.mean(y_pred, axis=<span style="color: #B452CD">1</span>, keepdims=<span style="color: #8B008B; font-weight: bold">True</span>))**<span style="color: #B452CD">2</span> )
-variance = np.mean( np.var(y_pred, axis=<span style="color: #B452CD">1</span>, keepdims=<span style="color: #8B008B; font-weight: bold">True</span>) )
-<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Error:&#39;</span>, error)
-<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Bias^2:&#39;</span>, bias)
-<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;Var:&#39;</span>, variance)
-<span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;{} &gt;= {} + {} = {}&#39;</span>.format(error, bias, variance, bias+variance))
-
-plt.plot(x[::<span style="color: #B452CD">5</span>, :], y[::<span style="color: #B452CD">5</span>, :], label=<span style="color: #CD5555">&#39;f(x)&#39;</span>)
-plt.scatter(x_test, y_test, label=<span style="color: #CD5555">&#39;Data points&#39;</span>)
-plt.scatter(x_test, np.mean(y_pred, axis=<span style="color: #B452CD">1</span>), label=<span style="color: #CD5555">&#39;Pred&#39;</span>)
+plt.plot(polydegree, TrainMSE, label=<span style="color: #CD5555">&#39;Train MSE&#39;</span>)
+plt.plot(polydegree, TestMSE, label=<span style="color: #CD5555">&#39;Test MSE&#39;</span>)
 plt.legend()
 plt.show()
 </pre></div>
@@ -1421,650 +3177,6 @@ plt.ylabel(<span style="color: #CD5555">&#39;MSE&#39;</span>)
 plt.legend()
 plt.show()
 </pre></div>
-</section>
-
-
-<section>
-<h2 id="ridge-and-lasso-regression">Ridge and LASSO Regression </h2>
-
-<p>
-Let us remind ourselves about the expression for the standard Mean Squared Error (MSE) which we used to define our cost function and the equations for the ordinary least squares (OLS) method, that is 
-our optimization problem is
-<p>&nbsp;<br>
-$$
-{\displaystyle \min_{\boldsymbol{\beta}\in {\mathbb{R}}^{p}}}\frac{1}{n}\left\{\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)^T\left(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\right)\right\}.
-$$
-<p>&nbsp;<br>
-
-or we can state it as
-<p>&nbsp;<br>
-$$
-{\displaystyle \min_{\boldsymbol{\beta}\in
-{\mathbb{R}}^{p}}}\frac{1}{n}\sum_{i=0}^{n-1}\left(y_i-\tilde{y}_i\right)^2=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2,
-$$
-<p>&nbsp;<br>
-
-where we have used the definition of  a norm-2 vector, that is
-<p>&nbsp;<br>
-$$
-\vert\vert \boldsymbol{x}\vert\vert_2 = \sqrt{\sum_i x_i^2}. 
-$$
-<p>&nbsp;<br>
-
-<p>
-By minimizing the above equation with respect to the parameters
-\( \boldsymbol{\beta} \) we could then obtain an analytical expression for the
-parameters \( \boldsymbol{\beta} \).  We can add a regularization parameter \( \lambda \) by
-defining a new cost function to be optimized, that is
-
-<p>&nbsp;<br>
-$$
-{\displaystyle \min_{\boldsymbol{\beta}\in
-{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_2^2
-$$
-<p>&nbsp;<br>
-
-<p>
-which leads to the Ridge regression minimization problem where we
-require that \( \vert\vert \boldsymbol{\beta}\vert\vert_2^2\le t \), where \( t \) is
-a finite number larger than zero. By defining
-
-<p>&nbsp;<br>
-$$
-C(\boldsymbol{X},\boldsymbol{\beta})=\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_1,
-$$
-<p>&nbsp;<br>
-
-<p>
-we have a new optimization equation
-<p>&nbsp;<br>
-$$
-{\displaystyle \min_{\boldsymbol{\beta}\in
-{\mathbb{R}}^{p}}}\frac{1}{n}\vert\vert \boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta}\vert\vert_2^2+\lambda\vert\vert \boldsymbol{\beta}\vert\vert_1
-$$
-<p>&nbsp;<br>
-
-which leads to Lasso regression. Lasso stands for least absolute shrinkage and selection operator.
-
-<p>
-Here we have defined the norm-1 as 
-<p>&nbsp;<br>
-$$
-\vert\vert \boldsymbol{x}\vert\vert_1 = \sum_i \vert x_i\vert. 
-$$
-<p>&nbsp;<br>
-</section>
-
-
-<section>
-<h2 id="more-on-ridge-regression">More on Ridge Regression </h2>
-
-<p>
-Using the matrix-vector expression for Ridge regression,
-
-<p>&nbsp;<br>
-$$
-C(\boldsymbol{X},\boldsymbol{\beta})=\frac{1}{n}\left\{(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})^T(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{\beta})\right\}+\lambda\boldsymbol{\beta}^T\boldsymbol{\beta},
-$$
-<p>&nbsp;<br>
-
-<p>
-by taking the derivatives with respect to \( \boldsymbol{\beta} \) we obtain then
-a slightly modified matrix inversion problem which for finite values
-of \( \lambda \) does not suffer from singularity problems. We obtain
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{\beta}^{\mathrm{Ridge}} = \left(\boldsymbol{X}^T\boldsymbol{X}+\lambda\boldsymbol{I}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y},
-$$
-<p>&nbsp;<br>
-
-<p>
-with \( \boldsymbol{I} \) being a \( p\times p \) identity matrix with the constraint that
-
-<p>&nbsp;<br>
-$$
-\sum_{i=0}^{p-1} \beta_i^2 \leq t,
-$$
-<p>&nbsp;<br>
-
-<p>
-with \( t \) a finite positive number.
-</section>
-
-
-<section>
-<h2 id="a-better-understanding-of-regularization">A better understanding of regularization </h2>
-
-<p>
-The parameter \( \lambda \) that we have introduced in the Ridge (and
-Lasso as well) regression is often called a regularization parameter
-or shrinkage parameter. It is common to call it a hyperparameter. What does it mean mathemtically?
-
-<p>
-Here we will first look at how to analyze the difference between the
-standard OLS equations and the Ridge expressions in terms of a linear
-algebra analysis using the SVD algorithm. Thereafter, we will link
-(see the material on the bias-variance tradeoff below) these
-observation to the statisical analysis of the results. In particular
-we consider how the variance of the parameters \( \boldsymbol{\beta} \) is
-affected by changing the parameter \( \lambda \).
-</section>
-
-
-<section>
-<h2 id="decomposing-the-ols-and-ridge-expressions">Decomposing the OLS and Ridge expressions </h2>
-
-<p>
-We have our design matrix
- \( \boldsymbol{X}\in {\mathbb{R}}^{n\times p} \). With the SVD we decompose it as
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{X} = \boldsymbol{U\Sigma V^T},
-$$
-<p>&nbsp;<br>
-
-<p>
-with \( \boldsymbol{U}\in {\mathbb{R}}^{n\times n} \), \( \boldsymbol{\Sigma}\in {\mathbb{R}}^{n\times p} \)
-and \( \boldsymbol{V}\in {\mathbb{R}}^{p\times p} \).
-
-<p>
-The matrices \( \boldsymbol{U} \) and \( \boldsymbol{V} \) are unitary/orthonormal matrices, that is in case the matrices are real we have \( \boldsymbol{U}^T\boldsymbol{U}=\boldsymbol{U}\boldsymbol{U}^T=\boldsymbol{I} \) and \( \boldsymbol{V}^T\boldsymbol{V}=\boldsymbol{V}\boldsymbol{V}^T=\boldsymbol{I} \).
-
-<p>
-Below we discuss some of the mathematics of the SVD decompostion.
-</section>
-
-
-<section>
-<h2 id="the-singular-value-decomposition">The singular value decomposition  </h2>
-
-<p>
-<div class="alert alert-block alert-block alert-text-normal">
-<b></b>
-<p>
-The examples we have looked at so far are cases where we normally can
-invert the matrix \( \boldsymbol{X}^T\boldsymbol{X} \). Using a polynomial expansion as we
-did both for the masses and the fitting of the equation of state,
-leads to row vectors of the design matrix which are essentially
-orthogonal due to the polynomial character of our model. Obtaining the inverse of the design matrix is then often done via a so-called LU, QR or Cholesky decomposition.
-
-<p>
-This may
-however not the be case in general and a standard matrix inversion
-algorithm based on say LU, QR or Cholesky decomposition may lead to singularities. We will see examples of this below.
-
-<p>
-There is however a way to partially circumvent this problem and also gain some insights about the ordinary least squares approach, and later shrinkage methods like Ridge and Lasso regressions.
-
-<p>
-This is given by the <b>Singular Value Decomposition</b> algorithm, perhaps
-the most powerful linear algebra algorithm.  Let us look at a
-different example where we may have problems with the standard matrix
-inversion algorithm. Thereafter we dive into the math of the SVD.
-
-
-</div>
-</section>
-
-
-<section>
-<h2 id="linear-regression-problems">Linear Regression Problems </h2>
-
-<p>
-One of the typical problems we encounter with linear regression, in particular 
-when the matrix \( \boldsymbol{X} \) (our so-called design matrix) is high-dimensional, 
-are problems with near singular or singular matrices. The column vectors of \( \boldsymbol{X} \) 
-may be linearly dependent, normally referred to as super-collinearity.  
-This means that the matrix may be rank deficient and it is basically impossible to 
-to model the data using linear regression. As an example, consider the matrix
-<p>&nbsp;<br>
-$$
-\begin{align*}
-\mathbf{X} & =  \left[
-\begin{array}{rrr}
-1 & -1 & 2
-\\
-1 & 0 & 1
-\\
-1 & 2  & -1
-\\
-1 & 1  & 0
-\end{array} \right]
-\end{align*}
-$$
-<p>&nbsp;<br>
-
-<p>
-The columns of \( \boldsymbol{X} \) are linearly dependent. We see this easily since the 
-the first column is the row-wise sum of the other two columns. The rank (more correct,
-the column rank) of a matrix is the dimension of the space spanned by the
-column vectors. Hence, the rank of \( \mathbf{X} \) is equal to the number
-of linearly independent columns. In this particular case the matrix has rank 2.
-
-<p>
-Super-collinearity of an \( (n \times p) \)-dimensional design matrix \( \mathbf{X} \) implies
-that the inverse of the matrix \( \boldsymbol{X}^T\boldsymbol{X} \) (the matrix we need to invert to solve the linear regression equations) is non-invertible. If we have a square matrix that does not have an inverse, we say this matrix singular. The example here demonstrates this
-<p>&nbsp;<br>
-$$
-\begin{align*}
-\boldsymbol{X} & =  \left[
-\begin{array}{rr}
-1 & -1
-\\
-1 & -1
-\end{array} \right].
-\end{align*}
-$$
-<p>&nbsp;<br>
-
-We see easily that  \( \mbox{det}(\boldsymbol{X}) = x_{11} x_{22} - x_{12} x_{21} = 1 \times (-1) - 1 \times (-1) = 0 \). Hence, \( \mathbf{X} \) is singular and its inverse is undefined.
-This is equivalent to saying that the matrix \( \boldsymbol{X} \) has at least an eigenvalue which is zero.
-</section>
-
-
-<section>
-<h2 id="fixing-the-singularity">Fixing the singularity </h2>
-
-<p>
-If our design matrix \( \boldsymbol{X} \) which enters the linear regression problem
-<p>&nbsp;<br>
-$$
-\begin{align}
-\boldsymbol{\beta} & =  (\boldsymbol{X}^{T} \boldsymbol{X})^{-1} \boldsymbol{X}^{T} \boldsymbol{y},
-\tag{1}
-\end{align}
-$$
-<p>&nbsp;<br>
-
-has linearly dependent column vectors, we will not be able to compute the inverse
-of \( \boldsymbol{X}^T\boldsymbol{X} \) and we cannot find the parameters (estimators) \( \beta_i \). 
-The estimators are only well-defined if \( (\boldsymbol{X}^{T}\boldsymbol{X})^{-1} \) exits. 
-This is more likely to happen when the matrix \( \boldsymbol{X} \) is high-dimensional. In this case it is likely to encounter a situation where 
-the regression parameters \( \beta_i \) cannot be estimated.
-
-<p>
-A cheap  <em>ad hoc</em> approach is  simply to add a small diagonal component to the matrix to invert, that is we change
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}^{T} \boldsymbol{X} \rightarrow \boldsymbol{X}^{T} \boldsymbol{X}+\lambda \boldsymbol{I},
-$$
-<p>&nbsp;<br>
-
-where \( \boldsymbol{I} \) is the identity matrix.  When we discuss <b>Ridge</b> regression this is actually what we end up evaluating. The parameter \( \lambda \) is called a hyperparameter. More about this later.
-</section>
-
-
-<section>
-<h2 id="basic-math-of-the-svd">Basic math of the SVD </h2>
-
-<p>
-From standard linear algebra we know that a square matrix \( \boldsymbol{X} \) can be diagonalized if and only it is 
-a so-called <a href="https://en.wikipedia.org/wiki/Normal_matrix" target="_blank">normal matrix</a>, that is if \( \boldsymbol{X}\in {\mathbb{R}}^{n\times n} \)
-we have \( \boldsymbol{X}\boldsymbol{X}^T=\boldsymbol{X}^T\boldsymbol{X} \) or if \( \boldsymbol{X}\in {\mathbb{C}}^{n\times n} \) we have \( \boldsymbol{X}\boldsymbol{X}^{\dagger}=\boldsymbol{X}^{\dagger}\boldsymbol{X} \).
-The matrix has then a set of eigenpairs
-
-<p>&nbsp;<br>
-$$
-(\lambda_1,\boldsymbol{u}_1),\dots, (\lambda_n,\boldsymbol{u}_n),
-$$
-<p>&nbsp;<br>
-
-and the eigenvalues are given by the diagonal matrix
-<p>&nbsp;<br>
-$$
-\boldsymbol{\Sigma}=\mathrm{Diag}(\lambda_1, \dots,\lambda_n).
-$$
-<p>&nbsp;<br>
-
-The matrix \( \boldsymbol{X} \) can be written in terms of an orthogonal/unitary transformation \( \boldsymbol{U} \)
-<p>&nbsp;<br>
-$$
-\boldsymbol{X} = \boldsymbol{U}\boldsymbol{\Sigma}\boldsymbol{V}^T,
-$$
-<p>&nbsp;<br>
-
-with \( \boldsymbol{U}\boldsymbol{U}^T=\boldsymbol{I} \) or \( \boldsymbol{U}\boldsymbol{U}^{\dagger}=\boldsymbol{I} \).
-
-<p>
-Not all square matrices are diagonalizable. A matrix like the one discussed above
-<p>&nbsp;<br>
-$$
-\boldsymbol{X} = \begin{bmatrix} 
-1&  -1 \\
-1& -1\\
-\end{bmatrix} 
-$$
-<p>&nbsp;<br>
-
-is not diagonalizable, it is a so-called <a href="https://en.wikipedia.org/wiki/Defective_matrix" target="_blank">defective matrix</a>. It is easy to see that the condition
-\( \boldsymbol{X}\boldsymbol{X}^T=\boldsymbol{X}^T\boldsymbol{X} \) is not fulfilled.
-</section>
-
-
-<section>
-<h2 id="the-svd-a-fantastic-algorithm">The SVD, a Fantastic Algorithm </h2>
-
-<p>
-However, and this is the strength of the SVD algorithm, any general
-matrix \( \boldsymbol{X} \) can be decomposed in terms of a diagonal matrix and
-two orthogonal/unitary matrices.  The <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition" target="_blank">Singular Value Decompostion
-(SVD) theorem</a>
-states that a general \( m\times n \) matrix \( \boldsymbol{X} \) can be written in
-terms of a diagonal matrix \( \boldsymbol{\Sigma} \) of dimensionality \( m\times n \)
-and two orthognal matrices \( \boldsymbol{U} \) and \( \boldsymbol{V} \), where the first has
-dimensionality \( m \times m \) and the last dimensionality \( n\times n \).
-We have then
-
-<p>&nbsp;<br>
-$$ 
-\boldsymbol{X} = \boldsymbol{U}\boldsymbol{\Sigma}\boldsymbol{V}^T 
-$$
-<p>&nbsp;<br>
-
-<p>
-As an example, the above defective matrix can be decomposed as
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{X} = \frac{1}{\sqrt{2}}\begin{bmatrix}  1&  1 \\ 1& -1\\ \end{bmatrix} \begin{bmatrix}  2&  0 \\ 0& 0\\ \end{bmatrix}    \frac{1}{\sqrt{2}}\begin{bmatrix}  1&  -1 \\ 1& 1\\ \end{bmatrix}=\boldsymbol{U}\boldsymbol{\Sigma}\boldsymbol{V}^T, 
-$$
-<p>&nbsp;<br>
-
-<p>
-with eigenvalues \( \sigma_1=2 \) and \( \sigma_2=0 \). 
-The SVD exits always!
-
-<p>
-The SVD
-decomposition (singular values) gives eigenvalues 
-\( \sigma_i\geq\sigma_{i+1} \) for all \( i \) and for dimensions larger than \( i=p \), the
-eigenvalues (singular values) are zero.
-
-<p>
-In the general case, where our design matrix \( \boldsymbol{X} \) has dimension
-\( n\times p \), the matrix is thus decomposed into an \( n\times n \)
-orthogonal matrix \( \boldsymbol{U} \), a \( p\times p \) orthogonal matrix \( \boldsymbol{V} \)
-and a diagonal matrix \( \boldsymbol{\Sigma} \) with \( r=\mathrm{min}(n,p) \)
-singular values \( \sigma_i\geq 0 \) on the main diagonal and zeros filling
-the rest of the matrix.  There are at most \( p \) singular values
-assuming that \( n > p \). In our regression examples for the nuclear
-masses and the equation of state this is indeed the case, while for
-the Ising model we have \( p > n \). These are often cases that lead to
-near singular or singular matrices.
-
-<p>
-The columns of \( \boldsymbol{U} \) are called the left singular vectors while the columns of \( \boldsymbol{V} \) are the right singular vectors.
-</section>
-
-
-<section>
-<h2 id="economy-size-svd">Economy-size SVD </h2>
-
-<p>
-If we assume that \( n > p \), then our matrix \( \boldsymbol{U} \) has dimension \( n
-\times n \). The last \( n-p \) columns of \( \boldsymbol{U} \) become however
-irrelevant in our calculations since they are multiplied with the
-zeros in \( \boldsymbol{\Sigma} \).
-
-<p>
-The economy-size decomposition removes extra rows or columns of zeros
-from the diagonal matrix of singular values, \( \boldsymbol{\Sigma} \), along with the columns
-in either \( \boldsymbol{U} \) or \( \boldsymbol{V} \) that multiply those zeros in the expression. 
-Removing these zeros and columns can improve execution time
-and reduce storage requirements without compromising the accuracy of
-the decomposition.
-
-<p>
-If \( n > p \), we keep only the first \( p \) columns of \( \boldsymbol{U} \) and \( \boldsymbol{\Sigma} \) has dimension \( p\times p \). 
-If \( p > n \), then only the first \( n \) columns of \( \boldsymbol{V} \) are computed and \( \boldsymbol{\Sigma} \) has dimension \( n\times n \).
-The \( n=p \) case is obvious, we retain the full SVD. 
-In general the economy-size SVD leads to less FLOPS and still conserving the desired accuracy.
-</section>
-
-
-<section>
-<h2 id="codes-for-the-svd">Codes for the SVD </h2>
-
-<p>
-
-<!-- code=python (!bc pycod) typeset with pygments style "perldoc" -->
-<div class="highlight" style="background: #eeeedd"><pre style="font-size: 80%; line-height: 125%;"><span></span><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
-<span style="color: #228B22"># SVD inversion</span>
-<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">SVDinv</span>(A):
-    <span style="color: #CD5555">&#39;&#39;&#39; Takes as input a numpy matrix A and returns inv(A) based on singular value decomposition (SVD).</span>
-<span style="color: #CD5555">    SVD is numerically more stable than the inversion algorithms provided by</span>
-<span style="color: #CD5555">    numpy and scipy.linalg at the cost of being slower.</span>
-<span style="color: #CD5555">    &#39;&#39;&#39;</span>
-    U, s, VT = np.linalg.svd(A)
-<span style="color: #228B22">#    print(&#39;test U&#39;)</span>
-<span style="color: #228B22">#    print( (np.transpose(U) @ U - U @np.transpose(U)))</span>
-<span style="color: #228B22">#    print(&#39;test VT&#39;)</span>
-<span style="color: #228B22">#    print( (np.transpose(VT) @ VT - VT @np.transpose(VT)))</span>
-    <span style="color: #658b00">print</span>(U)
-    <span style="color: #658b00">print</span>(s)
-    <span style="color: #658b00">print</span>(VT)
-
-    D = np.zeros((<span style="color: #658b00">len</span>(U),<span style="color: #658b00">len</span>(VT)))
-    <span style="color: #8B008B; font-weight: bold">for</span> i <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(<span style="color: #B452CD">0</span>,<span style="color: #658b00">len</span>(VT)):
-        D[i,i]=s[i]
-    UT = np.transpose(U); V = np.transpose(VT); invD = np.linalg.inv(D)
-    <span style="color: #8B008B; font-weight: bold">return</span> np.matmul(V,np.matmul(invD,UT))
-
-
-X = np.array([ [<span style="color: #B452CD">1.0</span>, -<span style="color: #B452CD">1.0</span>, <span style="color: #B452CD">2.0</span>], [<span style="color: #B452CD">1.0</span>, <span style="color: #B452CD">0.0</span>, <span style="color: #B452CD">1.0</span>], [<span style="color: #B452CD">1.0</span>, <span style="color: #B452CD">2.0</span>, -<span style="color: #B452CD">1.0</span>], [<span style="color: #B452CD">1.0</span>, <span style="color: #B452CD">1.0</span>, <span style="color: #B452CD">0.0</span>] ])
-<span style="color: #658b00">print</span>(X)
-A = np.transpose(X) @ X
-<span style="color: #658b00">print</span>(A)
-<span style="color: #228B22"># Brute force inversion of super-collinear matrix</span>
-<span style="color: #228B22">#B = np.linalg.inv(A)</span>
-<span style="color: #228B22">#print(B)</span>
-C = SVDinv(A)
-<span style="color: #658b00">print</span>(C)
-</pre></div>
-<p>
-The matrix \( \boldsymbol{X} \) has columns that are linearly dependent. The first
-column is the row-wise sum of the other two columns. The rank of a
-matrix (the column rank) is the dimension of space spanned by the
-column vectors. The rank of the matrix is the number of linearly
-independent columns, in this case just \( 2 \). We see this from the
-singular values when running the above code. Running the standard
-inversion algorithm for matrix inversion with \( \boldsymbol{X}^T\boldsymbol{X} \) results
-in the program terminating due to a singular matrix.
-</section>
-
-
-<section>
-<h2 id="mathematical-properties">Mathematical Properties </h2>
-
-<p>
-There are several interesting mathematical properties which will be
-relevant when we are going to discuss the differences between say
-ordinary least squares (OLS) and <b>Ridge</b> regression.
-
-<p>
-We have from OLS that the parameters of the linear approximation are given by
-<p>&nbsp;<br>
-$$
-\boldsymbol{\tilde{y}} = \boldsymbol{X}\boldsymbol{\beta} = \boldsymbol{X}\left(\boldsymbol{X}^T\boldsymbol{X}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y}. 
-$$
-<p>&nbsp;<br>
-
-<p>
-The matrix to invert can be rewritten in terms of our SVD decomposition as
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}^T\boldsymbol{X} = \boldsymbol{V}\boldsymbol{\Sigma}^T\boldsymbol{U}^T\boldsymbol{U}\boldsymbol{\Sigma}\boldsymbol{V}^T.
-$$
-<p>&nbsp;<br>
-
-Using the orthogonality properties of \( \boldsymbol{U} \) we have
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}^T\boldsymbol{X} = \boldsymbol{V}\boldsymbol{\Sigma}^T\boldsymbol{\Sigma}\boldsymbol{V}^T =  \boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T,
-$$
-<p>&nbsp;<br>
-
-with \( \boldsymbol{D} \) being a diagonal matrix with values along the diagonal given by the singular values squared.
-
-<p>
-This means that
-<p>&nbsp;<br>
-$$
-(\boldsymbol{X}^T\boldsymbol{X})\boldsymbol{V} = \boldsymbol{V}\boldsymbol{D},
-$$
-<p>&nbsp;<br>
-
-that is the eigenvectors of \( (\boldsymbol{X}^T\boldsymbol{X}) \) are given by the columns of the right singular matrix of \( \boldsymbol{X} \) and the eigenvalues are the squared singular values.  It is easy to show (show this) that
-<p>&nbsp;<br>
-$$
-(\boldsymbol{X}\boldsymbol{X}^T)\boldsymbol{U} = \boldsymbol{U}\boldsymbol{D},
-$$
-<p>&nbsp;<br>
-
-that is, the eigenvectors of \( (\boldsymbol{X}\boldsymbol{X})^T \) are the columns of the left singular matrix and the eigenvalues are the same.
-
-<p>
-Going back to our OLS equation we have
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}\boldsymbol{\beta} = \boldsymbol{X}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T \right)^{-1}\boldsymbol{X}^T\boldsymbol{y}=\boldsymbol{U\Sigma V^T}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T \right)^{-1}(\boldsymbol{U\Sigma V^T})^T\boldsymbol{y}=\boldsymbol{U}\boldsymbol{U}^T\boldsymbol{y}.
-$$
-<p>&nbsp;<br>
-</section>
-
-
-<section>
-<h2 id="ols-and-ridge-in-terms-of-an-svd-decomposition">OLS and Ridge in terms of an SVD Decomposition </h2>
-
-<p>
-We have then
-<p>&nbsp;<br>
-$$
-\tilde{y}^{OLS}={\bf X}\hat{\beta}^{OLS}=\sum_{j=1}^p {\bf u}_j{\bf u}_j^T{\bf y},
-$$
-<p>&nbsp;<br>
-
-for ordinary least squares (OLS) 
-and for Ridge we have
-<p>&nbsp;<br>
-$$
-\tilde{y}^{Ridge}={\bf X}\hat{\beta}^{Ridge}=\sum_{j=1}^p {\bf u}_j\frac{\sigma_j^2}{\sigma_j^2+\lambda}{\bf u}_j^T{\bf y}.
-$$
-<p>&nbsp;<br>
-
-<p>
-Note that the summation runs up tp \( p \) only and not \( n \).
-
-<p>
-Here we have that \( {\bf X} = {\bf U}{\bf \Sigma}{\bf V}^T \), with \( \Sigma \) being an \( n\times p \) matrix and
-\( {\bf V} \) being a \( p\times p \) matrix. We also have assumed here that $ n > p$.
-</section>
-
-
-<section>
-<h2 id="ridge-and-svd">Ridge and SVD </h2>
-We see that Ridge regression is nothing but the standard
-OLS with a modified diagonal term added to \( \boldsymbol{X}^T\boldsymbol{X} \). The
-consequences, in particular for our discussion of the bias-variance tradeoff 
-are rather interesting.
-
-<p>
-Furthermore, if we use the result below in terms of the SVD decomposition, we have
-<p>&nbsp;<br>
-$$
-(\boldsymbol{X}\boldsymbol{X}^T)\boldsymbol{U} = \boldsymbol{U}\boldsymbol{D}.
-$$
-<p>&nbsp;<br>
-
-<p>
-We can  analyse the OLS solutions in terms of the eigenvectors (the columns) of the right singular value matrix \( \boldsymbol{U} \) as
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}\boldsymbol{\beta} = \boldsymbol{X}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T \right)^{-1}\boldsymbol{X}^T\boldsymbol{y}=\boldsymbol{U\Sigma V^T}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T \right)^{-1}(\boldsymbol{U\Sigma V^T})^T\boldsymbol{y}=\boldsymbol{U}\boldsymbol{U}^T\boldsymbol{y}
-$$
-<p>&nbsp;<br>
-
-<p>
-For Ridge regression this becomes
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}\boldsymbol{\beta}^{\mathrm{Ridge}} = \boldsymbol{U\Sigma V^T}\left(\boldsymbol{V}\boldsymbol{D}\boldsymbol{V}^T+\lambda\boldsymbol{I} \right)^{-1}(\boldsymbol{U\Sigma V^T})^T\boldsymbol{y}=\sum_{j=0}^{p-1}\boldsymbol{u}_j\boldsymbol{u}_j^T\frac{\sigma_j^2}{\sigma_j^2+\lambda}\boldsymbol{y},
-$$
-<p>&nbsp;<br>
-
-<p>
-with the vectors \( \boldsymbol{u}_j \) being the columns of \( \boldsymbol{U} \).
-</section>
-
-
-<section>
-<h2 id="interpreting-the-ridge-results">Interpreting the Ridge results </h2>
-
-<p>
-Since \( \lambda \geq 0 \), it means that compared to OLS, we have
-
-<p>&nbsp;<br>
-$$
-\frac{\sigma_j^2}{\sigma_j^2+\lambda} \leq 1. 
-$$
-<p>&nbsp;<br>
-
-<p>
-Ridge regression finds the coordinates of \( \boldsymbol{y} \) with respect to the
-orthonormal basis \( \boldsymbol{U} \), it then shrinks the coordinates by
-\( \frac{\sigma_j^2}{\sigma_j^2+\lambda} \). Recall that the SVD has
-eigenvalues ordered in a descending way, that is \( \sigma_i \geq
-\sigma_{i+1} \).
-
-<p>
-For small eigenvalues \( \sigma_i \) it means that their contributions become less important, a fact which can be used to reduce the number of degrees of freedom.
-Actually, calculating the variance of \( \boldsymbol{X}\boldsymbol{v}_j \) shows that this quantity is equal to \( \sigma_j^2/n \).
-With a parameter \( \lambda \) we can thus shrink the role of specific parameters.
-</section>
-
-
-<section>
-<h2 id="more-interpretations">More interpretations </h2>
-
-<p>
-For the sake of simplicity, let us assume that the design matrix is orthonormal, that is
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{X}^T\boldsymbol{X}=(\boldsymbol{X}^T\boldsymbol{X})^{-1} =\boldsymbol{I}. 
-$$
-<p>&nbsp;<br>
-
-<p>
-In this case the standard OLS results in 
-<p>&nbsp;<br>
-$$
-\boldsymbol{\beta}^{\mathrm{OLS}} = \boldsymbol{X}^T\boldsymbol{y}=\sum_{i=0}^{p-1}\boldsymbol{u}_j\boldsymbol{u}_j^T\boldsymbol{y},
-$$
-<p>&nbsp;<br>
-
-<p>
-and
-
-<p>&nbsp;<br>
-$$
-\boldsymbol{\beta}^{\mathrm{Ridge}} = \left(\boldsymbol{I}+\lambda\boldsymbol{I}\right)^{-1}\boldsymbol{X}^T\boldsymbol{y}=\left(1+\lambda\right)^{-1}\boldsymbol{\beta}^{\mathrm{OLS}},
-$$
-<p>&nbsp;<br>
-
-<p>
-that is the Ridge estimator scales the OLS estimator by the inverse of a factor \( 1+\lambda \), and
-the Ridge estimator converges to zero when the hyperparameter goes to
-infinity.
-
-<p>
-For more discussions of Ridge and Lasso regression, <a href="https://arxiv.org/abs/1509.09169" target="_blank">Wessel van Wieringen's</a> article is highly recommended.
-Similarly, <a href="https://arxiv.org/abs/1803.08823" target="_blank">Mehta et al's article</a> is also recommended.
 </section>
 
 
