@@ -2201,6 +2201,7 @@ that is the rewriting in terms of the so-called bias, the variance of the model 
 Let us just analyze the means-squared error as function of model complexity by comparing the training data against the test data. The first example does also not contain any resampling.
 
 !bc pycod
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -2212,8 +2213,6 @@ np.random.seed(2018)
 
 n = 80
 maxdegree = 18
-# preparing for the next example
-n_boostraps = 1
 
 # Make data set.
 x = np.linspace(-3, 3, n).reshape(-1, 1)
@@ -2225,10 +2224,10 @@ polydegree = np.zeros(maxdegree)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 for degree in range(maxdegree):
     model = make_pipeline(PolynomialFeatures(degree=degree), LinearRegression(fit_intercept=False))
-    y_TrainPred = np.empty((y_train.shape[0], n_boostraps))
-    y_TestPred = np.empty((y_test.shape[0], n_boostraps))
-    y_TrainPred[:, i] = model.fit(x_train, y_train).predict(x_train).ravel()
-    y_TestPred[:, i] = model.predict(x_test).ravel()
+    y_TrainPred = np.empty(y_train.shape[0])
+    y_TestPred = np.empty(y_test.shape[0])
+    y_TrainPred = model.fit(x_train, y_train).predict(x_train)
+    y_TestPred = model.predict(x_test)
 
     polydegree[degree] = degree
     TestMSE[degree] = np.mean( np.mean((y_test - y_TestPred)**2, axis=1, keepdims=True) )
@@ -2241,6 +2240,7 @@ plt.plot(polydegree, TrainMSE, label='Train MSE')
 plt.plot(polydegree, TestMSE, label='Test MSE')
 plt.legend()
 plt.show()
+
 !ec
 
 

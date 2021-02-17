@@ -2812,8 +2812,6 @@ np.random.seed(<span style="color: #B452CD">2018</span>)
 
 n = <span style="color: #B452CD">80</span>
 maxdegree = <span style="color: #B452CD">18</span>
-<span style="color: #228B22"># preparing for the next example</span>
-n_boostraps = <span style="color: #B452CD">1</span>
 
 <span style="color: #228B22"># Make data set.</span>
 x = np.linspace(-<span style="color: #B452CD">3</span>, <span style="color: #B452CD">3</span>, n).reshape(-<span style="color: #B452CD">1</span>, <span style="color: #B452CD">1</span>)
@@ -2825,10 +2823,10 @@ polydegree = np.zeros(maxdegree)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=<span style="color: #B452CD">0.2</span>)
 <span style="color: #8B008B; font-weight: bold">for</span> degree <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(maxdegree):
     model = make_pipeline(PolynomialFeatures(degree=degree), LinearRegression(fit_intercept=<span style="color: #8B008B; font-weight: bold">False</span>))
-    y_TrainPred = np.empty((y_train.shape[<span style="color: #B452CD">0</span>], n_boostraps))
-    y_TestPred = np.empty((y_test.shape[<span style="color: #B452CD">0</span>], n_boostraps))
-    y_TrainPred[:, i] = model.fit(x_train, y_train).predict(x_train).ravel()
-    y_TestPred[:, i] = model.predict(x_test).ravel()
+    y_TrainPred = np.empty(y_train.shape[<span style="color: #B452CD">0</span>])
+    y_TestPred = np.empty(y_test.shape[<span style="color: #B452CD">0</span>])
+    y_TrainPred = model.fit(x_train, y_train).predict(x_train)
+    y_TestPred = model.predict(x_test)
 
     polydegree[degree] = degree
     TestMSE[degree] = np.mean( np.mean((y_test - y_TestPred)**<span style="color: #B452CD">2</span>, axis=<span style="color: #B452CD">1</span>, keepdims=<span style="color: #8B008B; font-weight: bold">True</span>) )
