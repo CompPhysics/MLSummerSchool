@@ -80,7 +80,7 @@ is recommended.
 
 
 ## Lecture material
-_The link_ https://compphysics.github.io/MLSummerSchool/doc/web/course.html gives you direct access to the learning material with lectures slides and jupyter notebooks. Videos of the lectures will be added. 
+_The link_ https://compphysics.github.io/MLSummerSchool/doc/web/course.html gives you direct access to the learning material with lectures slides and jupyter notebooks. Videos of the lectures will be uploaded. Also, if you are interested in Git and GitHub the following video could be useful https://mediaspace.msu.edu/media/t/1_8mgx3cyf
 
 
 ##  Teaching schedule,
